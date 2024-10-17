@@ -1,0 +1,358 @@
+/* 設置整體樣式 */
+
+:root {
+  --main-color: #ff4081;
+  --bg-color: #f3f4f6;
+  --text-color: #555;
+}
+
+body {
+  background-color: var(--bg-color);
+}
+
+.digit-value {
+  color: var(--main-color);
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f3f4f6;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+/* 倒數計時區域 */
+#countdown {
+  margin: 50px auto;
+}
+
+/* 時間顯示區塊樣式 */
+.digit {
+  display: inline-block;
+  margin: 10px;
+  font-size: 2rem;
+}
+
+.digit-label {
+  display: block;
+  font-size: 1rem;
+  color: #555;
+}
+
+.digit-value {
+  font-size: 3rem;
+  color: #ff4081;
+}
+
+/* 日曆圖片樣式，置中 */
+.calendar-container {
+  position: relative; /* 為了使用絕對定位 */
+  display: inline-block; /* 讓圖片和圓圈共用同一容器 */
+}
+
+.calendar-image {
+  display: block;
+  margin: 20px auto;  /* 自動水平置中 */
+  width: 600px;       /* 將寬度增大為600px */
+  height: auto;       /* 自動調整高度 */
+}
+
+/* 紅色圈圈樣式 */
+.date-circle {
+  position: absolute;
+  top: 56.5%; /* 調整圈圈的垂直位置 */
+  left: 17%; /* 調整圈圈的水平位置 */
+  transform: translate(-50%, -50%); /* 使圓圈居中於圖片 */
+  width: 40px; /* 圈圈的寬度 */
+  height: 40px; /* 圈圈的高度 */
+  border: 4px solid red; /* 圈圈的顏色和寬度 */
+  border-radius: 50%; /* 使邊角圓滑，形成圓形 */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* 添加陰影 */
+}
+
+/* 麵包圖片樣式，左下角 */
+.causon_bread {
+  position: fixed;    /* 固定在視窗中的一個位置 */
+  bottom: 10px;       /* 距離視窗底部10px */
+  left: 10px;         /* 距離視窗左側10px */
+  width: 80px;        /* 調整為較小尺寸 */
+  height: auto;       /* 自動調整高度 */
+  cursor: pointer;    /* 添加點擊效果 */
+  transition: transform 0.3s ease; /* 添加過渡效果 */
+}
+
+.causon_bread:hover {
+  transform: scale(1.1); /* 懸停時放大 */
+}
+
+/* causon圖片樣式 */
+.causon {
+  width: 100px;
+  height: auto;
+}
+
+/* CSS 動畫效果 */
+@keyframes slide-in-out {
+  0% {
+    transform: translateX(100%); /* 從右側開始 */
+    opacity: 0; /* 初始不透明度 */
+  }
+  50% {
+    transform: translateX(0); /* 到達中間 */
+    opacity: 1; /* 中間時全不透明 */
+  }
+  100% {
+    transform: translateX(100%); /* 再次移動到右側，消失 */
+    opacity: 0; /* 最後不透明度為0 */
+  }
+}
+
+#causonImage.animate {
+  position: fixed; /* 固定在螢幕上 */
+  top: 50%;  /* 垂直居中 */
+  left: 100%; /* 一開始隱藏在右側螢幕外 */
+  width: 150px; /* 設定圖片大小 */
+  height: auto;
+  animation: slide-in-out 3s ease-in-out forwards; /* 3秒的滑動動畫 */
+}
+
+/* 生日圖片隱藏 */
+#birthday-image {
+  display: none;
+  margin-top: 20px;
+}
+
+/* 警告按鈕樣式 */
+.warning-btn {
+  background-color: #f44336;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 添加陰影以增加立體感 */
+  transition: transform 0.1s ease, box-shadow 0.1s ease; /* 添加過渡效果 */
+}
+
+.warning-btn:hover {
+  background-color: #d32f2f;
+}
+
+.warning-btn:active {
+  transform: translateY(2px); /* 按下時向下移動 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 調整陰影，讓按鈕看起來更凹陷 */
+}
+
+/* 貓咪動畫的Keyframe */
+@keyframes run-animation {
+  0% { left: -100px; }
+  100% { left: 100%; }
+}
+
+h1 {
+  font-size: 2.5rem; /* 增加字體大小 */
+  color: #fff; /* 白色字體 */
+  text-align: center; /* 置中 */
+  font-family: 'Georgia', serif; /* 使用優雅的字體 */
+  padding: 15px; /* 增加內邊距 */
+  border: 5px dashed #ff4081; /* 使用虛線邊框 */
+  border-radius: 15px; /* 增加圓角 */
+  background-color: rgba(255, 64, 129, 0.7); /* 半透明背景 */
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.5); /* 添加陰影 */
+  animation: bounce 1s ease-in-out infinite; /* 設置彈跳動畫 */
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+  .calendar-image {
+    width: 90%; /* 在小屏幕上使日曆圖片寬度變小 */
+  }
+  .date-circle {
+    width: 30px; /* 在小屏幕上圓圈寬度變小 */
+    height: 30px; /* 在小屏幕上圓圈高度變小 */
+  }
+  h1 {
+    font-size: 2rem; /* 在小屏幕上字體大小變小 */
+  }
+}
+
+
+.game-title-modern {
+    font-size: 3.5rem; /* 字體大小 */
+    color: #ffffff; /* 文字顏色 */
+    text-align: center; /* 文字置中 */
+    font-family: 'Arial', sans-serif; /* 字體 */
+    margin: 20px 0; /* 上下邊距 */
+    padding: 15px 20px; /* 內邊距 */
+    background: linear-gradient(135deg, #6a5acd, #ff6347); /* 漸層背景 */
+    border-radius: 15px; /* 圓角 */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5); /* 增加陰影 */
+    text-transform: uppercase; /* 大寫字母 */
+    letter-spacing: 3px; /* 增加字母間距 */
+    position: relative; /* 相對定位 */
+    overflow: hidden; /* 隱藏溢出 */
+}
+
+/* 突出顯示的文字樣式 */
+.game-title-modern span {
+    color: #ffeb3b; /* 突出顯示的顏色 */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* 文字陰影 */
+    font-size: 4rem; /* 更大的字體 */
+}
+
+/* 加入粒子效果 */
+.game-title-modern::after {
+    content: '';
+    position: absolute;
+    width: 300%;
+    height: 300%;
+    top: 50%;
+    left: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 20%, transparent 50%);
+    transform: translate(-50%, -50%);
+    animation: pulse 2s infinite; /* 粒子動畫 */
+    z-index: 0; /* 放在背景 */
+}
+
+@keyframes pulse {
+    0% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.2); }
+    100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+/* 增加閃爍效果 */
+@keyframes flicker {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+.game-title-modern {
+    animation: flicker 1.5s infinite; /* 加入閃爍動畫 */
+}
+
+
+
+/* 倒數計時器和翻牌遊戲的相關樣式 */
+#countdown {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+/* 翻牌消消樂遊戲的樣式 */
+.memory-game {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* 確保卡片均勻分佈 */
+  width: 640px;
+  margin: 20px auto;
+  perspective: 1000px; /* 添加視角效果 */
+}
+
+/* 設定卡片的初始狀態 */
+.memory-card {
+  width: 150px; /* 設定卡片寬度 */
+  height: 200px; /* 設定卡片高度 */
+  margin: 15px; /* 增加邊距，確保卡片之間不會重疊 */
+  position: relative; /* 設定為相對定位 */
+  transform-style: preserve-3d; /* 確保3D效果 */
+  transition: transform 0.5s; /* 翻轉過渡效果 */
+  cursor: pointer; /* 游標變為手型 */
+  border: 1px solid #ccc; /* 可視化邊框 */
+}
+
+
+/* 翻轉後的卡片放在最前面 */
+.memory-card.flipped {
+  transform: rotateY(180deg);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* 增加陰影 */
+  border: 2px solid var(--main-color); /* 增加邊框 */
+}
+
+/* 確保卡片的兩個面不會同時顯示 */
+.memory-card .front-face,
+.memory-card .back-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden; /* 確保翻轉後的背面不可見 */
+  border-radius: 10px;
+}
+
+/* 正面樣式 */
+.memory-card .front-face {
+  transform: rotateY(180deg); /* 正面應該旋轉到180度，初始不可見 */
+}
+
+/* 背面樣式 */
+.memory-card .back-face {
+  background-color: #333; /* 設定背面顏色 */
+  width: 100%; /* 確保寬度100% */
+  height: 100%; /* 確保高度100% */
+  background-image: url('IMG/cardback.png'); /* 使用卡背圖片 */
+  background-size: 150%; /* 調整放大比例，例如150% */
+  background-position: center; /* 使圖片居中顯示 */
+  background-repeat: no-repeat; /* 防止圖片重複 */
+  border-radius: 10px; /* 增加圓角 */
+}
+
+.restart-btn {
+    background-color: #4CAF50; /* 按鈕背景色：綠色 */
+    color: #fff; /* 字體顏色：白色 */
+    font-size: 22px; /* 字體大小 */
+    font-weight: bold; /* 字體加粗 */
+    padding: 12px 24px; /* 上下和左右內邊距 */
+    border: none; /* 移除邊框 */
+    border-radius: 30px; /* 圓角 */
+    cursor: pointer; /* 游標變為手形 */
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s; /* 加入陰影變化的過渡效果 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* 陰影效果 */
+    outline: none; /* 移除按鈕焦點 */
+    display: block; /* 讓按鈕居中 */
+    margin: 20px auto; /* 自動上下邊距，居中 */
+    text-transform: uppercase; /* 字母全部大寫 */
+    letter-spacing: 1px; /* 增加字母間距 */
+}
+
+.restart-btn:hover {
+    background-color: #45a049; /* 懸停時顏色變化：稍微深一點的綠色 */
+    transform: scale(1.05); /* 懸停時放大效果 */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* 懸停時增加陰影 */
+}
+
+.restart-btn:active {
+    transform: scale(0.95); /* 按下時縮小效果 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* 按下時減少陰影 */
+}
+
+
+
+.score-display {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+    margin: 20px 0;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+#score {
+    color: #ffcc00;
+    font-size: 28px;
+    transition: color 0.3s;
+}
+
+#score:hover {
+    color: #ff9900;
+}

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>靖彤生日倒數計時器</title>
+  <link rel="stylesheet" href="styles.css">  
+</head>
+<body>
+
+<section id="countdown">
+  <h1>靖彤 정동 Avery 生日倒數計時器</h1>
+  <div id="digital-clock">
+    <div class="digit">
+      <span class="digit-label">天</span>
+      <span id="days" class="digit-value">00</span>
+    </div>
+    <div class="digit">
+      <span class="digit-label">時</span>
+      <span id="hours" class="digit-value">00</span>
+    </div>
+    <div class="digit">
+      <span class="digit-label">分</span>
+      <span id="minutes" class="digit-value">00</span>
+    </div>
+    <div class="digit">
+      <span class="digit-label">秒</span>
+      <span id="seconds" class="digit-value">00</span>
+    </div>
+  </div>
+
+  <div id="warning-button">
+    <button id="count-button" class="warning-btn">沒用按鈕次數: <span id="click-count">0</span></button>    
+  </div>
+  
+  <div class="calendar-container">
+    <img src="C:\Users\User\Desktop\HB\docs\December.png" alt="Calendar" class="calendar-image">
+    <div class="date-circle"></div> <!-- 紅色圓圈 -->
+  </div>
+  
+  <img src="causon_bread.png" alt="causon_bread" class="causon_bread" onclick="playSound()">
+  <audio id="clickSound">
+    <source src="causon.mp3" type="audio/mpeg">
+  </audio>
+  
+  <img src="causon.png" alt="causon" class="causon" id="causonImage" style="display: none;">  
+
+  <img id="birthday-image" src="https://static.wikia.nocookie.net/minecraft_zh_gamepedia/images/0/03/Nether_portal_%28animated%29.png/revision/latest/scale-to-width-down/250?cb=20200830042435" alt="Birthday Image" style="display: none;">
+</section>
+
+<section id="game-section">
+  <h2 class="game-title-modern"><span>翻牌</span> 消消樂</h2>
+
+  <p class="score-display">分數: <span id="score">0</span></p> <!-- 顯示分數 -->
+
+	<div id="memory-game" class="memory-game">
+		<div class="memory-card" data-framework="BETELGEUSE" id="music-card">
+			<img class="front-face" src="IMG/music_img.jpg" alt="BETELGEUSE" />
+			<div class="back-face"></div> <!-- 用 div 來代替 img -->
+		</div>
+		<div class="memory-card" data-framework="BETELGEUSE">
+			<img class="front-face" src="IMG/yurri_BETELGEUSE.jpg" alt="BETELGEUSE" />
+			<div class="back-face"></div> <!-- 用 div 來代替 img -->
+		</div>
+		<div class="memory-card" data-framework="Aimer_ShiroiroKagerou" id="music-card">
+			<img class="front-face" src="IMG/music_img.jpg" alt="Aimer_ShiroiroKagerou" />
+			<div class="back-face"></div> <!-- 用 div 來代替 img -->
+		</div>
+		<div class="memory-card" data-framework="Aimer_ShiroiroKagerou">
+			<img class="front-face" src="IMG/Aimer_ShiroiroKagerou.jpg" alt="Aimer_ShiroiroKagerou" />
+			<div class="back-face"></div> <!-- 用 div 來代替 img -->
+		</div>
+		<div class="memory-card" data-framework="Aimer_Kataomoi" id="music-card">
+			<img class="front-face" src="IMG/music_img.jpg" alt="Aimer_Kataomoi" />
+			<div class="back-face"></div> <!-- 用 div 來代替 img -->
+		</div>
+		<div class="memory-card" data-framework="Aimer_Kataomoi">
+			<img class="front-face" src="IMG/Aimer_Kataomoi.jpg" alt="Aimer_Kataomoi" />
+			<div class="back-face"></div> <!-- 用 div 來代替 img -->
+		</div>
+		<button id="restart-button" class="restart-btn" style="display: none;">重新開始遊戲</button>
+
+
+	</div>
+	
+
+
+
+</section>
+
+
+<script>
+// 當點擊 causon_bread 時執行的函數
+function playSound() {
+  var audio = document.getElementById("clickSound");
+  audio.play();
+
+  // 顯示 causon.png 圖片並啟動動畫
+  var causonImage = document.getElementById("causonImage");
+  causonImage.style.display = 'block';  // 顯示圖片
+  causonImage.classList.add('animate');  // 添加動畫效果
+
+  // 在動畫結束後將圖片隱藏
+  setTimeout(function() {
+    causonImage.style.display = 'none';  // 重新隱藏圖片
+    causonImage.classList.remove('animate');  // 移除動畫效果以便下一次重新執行
+  }, 3000); // 3秒後隱藏圖片
+}
+
+// 倒數日期
+var countdownDate = new Date('2024-12-08').getTime();
+var clickCount = 0; // 點擊計數器
+
+// 更新倒數計時器
+function updateCountdown() {
+  var now = new Date().getTime();
+  var distance = countdownDate - now;
+
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  document.getElementById('days').textContent = padZero(days);
+  document.getElementById('hours').textContent = padZero(hours);
+  document.getElementById('minutes').textContent = padZero(minutes);
+  document.getElementById('seconds').textContent = padZero(seconds);
+
+  if (distance <= 0) {
+    clearInterval(countdownInterval);
+    document.getElementById('birthday-image').style.display = 'block';
+  } else if (days < 2) {
+    showCatAnimation();
+  }
+}
+
+// 更新點擊計數並顯示對話框
+document.getElementById("count-button").addEventListener("click", function() {
+  clickCount++;
+  document.getElementById("click-count").textContent = clickCount;
+
+  if (clickCount >= 100) {
+    alert("恭喜你離生日又更近一點了!");
+    clickCount = 0; // 重新歸零
+    document.getElementById("click-count").textContent = clickCount; // 更新顯示
+  }
+});
+
+function showCatAnimation() {
+  var catImage = document.createElement('img');
+  catImage.src = 'https://img.cgmodel.com/image/2020/0627/big/38830-614463665.gif';
+  catImage.style.width = '150px';
+  catImage.style.position = 'fixed';
+  catImage.style.bottom = '20px';
+  catImage.style.left = '-100px';
+  catImage.style.animation = 'run-animation 5s linear forwards';
+  document.body.appendChild(catImage);
+  catImage.addEventListener('animationend', function() {
+    catImage.remove();
+  });
+}
+
+// 啟動倒數計時器
+var countdownInterval = setInterval(updateCountdown, 1000);
+
+// 補零函數
+function padZero(value) {
+  return value.toString().padStart(2, '0');
+}
+
+// 消消樂
+const cards = document.querySelectorAll('.memory-card');
+let hasFlippedCard = false;
+let lockBoard = false;
+let firstCard, secondCard;
+let score = 0; // 分數初始化
+let audio; // 聲音變數
+
+function flipCard() {
+    if (lockBoard) return;
+    if (this === firstCard) return;
+
+    this.classList.add('flipped');
+
+    // 檢查是否點擊的是有音樂的卡片
+    if (this.id === 'music-card') {
+        if (audio) {
+            audio.pause(); // 如果有正在播放的音樂，則停止
+        }
+
+        // 檢查是哪首歌曲
+        switch (this.dataset.framework) {
+            case 'BETELGEUSE':
+                audio = new Audio('voice/yurri_BETELGEUSE.MP3'); // 播放BETELGEUSE音樂
+                break;
+            case 'Aimer_ShiroiroKagerou':
+                audio = new Audio('voice/Aimer_ShiroiroKagerou.MP3'); // 播放Aimer_ShiroiroKagerou音樂
+                break;
+            case 'Aimer_Kataomoi':
+                audio = new Audio('voice/Aimer_Kataomoi.MP3'); // 播放Aimer_Kataomoi音樂
+                break;
+            default:
+                audio = null;
+                break;
+        }
+
+        if (audio) {
+            audio.play();
+        }
+    }
+
+    if (!hasFlippedCard) {
+        hasFlippedCard = true;
+        firstCard = this;
+        return;
+    }
+
+    secondCard = this;
+
+    // 短暫延遲後檢查是否匹配
+    setTimeout(checkForMatch, 300); // 增加延遲，讓翻開的卡片更明顯
+}
+
+function checkForMatch() {
+    let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
+
+    if (isMatch) {
+        disableCards();
+        updateScore();
+    } else {
+        unflipCards();
+    }
+}
+
+function disableCards() {
+    setTimeout(() => {
+        firstCard.style.visibility = 'hidden';
+        secondCard.style.visibility = 'hidden';
+        resetBoard();
+    }, 1000);
+}
+
+function unflipCards() {
+    lockBoard = true;
+
+    if (audio) {
+        audio.pause(); // 停止音樂
+        audio.currentTime = 0; // 重置音樂到起始位置
+    }
+
+    setTimeout(() => {
+        firstCard.classList.remove('flipped');
+        secondCard.classList.remove('flipped');
+        resetBoard();
+    }, 1500);
+}
+
+function resetBoard() {
+    [hasFlippedCard, lockBoard] = [false, false];
+    [firstCard, secondCard] = [null, null];
+}
+
+function updateScore() {
+    score++;
+    document.getElementById('score').textContent = score;
+}
+
+// 隨機打亂卡片
+(function shuffle() {
+    cards.forEach(card => {
+        let randomPos = Math.floor(Math.random() * 12);
+        card.style.order = randomPos;
+    });
+})();
+
+cards.forEach(card => card.addEventListener('click', flipCard));
+
+
+function disableCards() {
+    setTimeout(() => {
+        firstCard.style.visibility = 'hidden';
+        secondCard.style.visibility = 'hidden';
+        checkGameOver(); // 檢查是否所有牌都已消除
+        resetBoard();
+    }, 1000);
+}
+
+function checkGameOver() {
+    const remainingCards = document.querySelectorAll('.memory-card:not([style*="visibility: hidden"])');
+    if (remainingCards.length === 0) {
+        document.getElementById('restart-button').style.display = 'block'; // 顯示重新開始按鈕
+    }
+}
+
+document.getElementById('restart-button').addEventListener('click', () => {
+    resetGame(); // 重置遊戲
+});
+
+function resetGame() {
+    // 重新顯示所有卡片
+    cards.forEach(card => {
+        card.style.visibility = 'visible'; // 重新顯示所有卡片
+        card.classList.remove('flipped'); // 移除翻轉狀態
+    });  
+    
+
+    resetBoard(); // 重置其他遊戲狀態
+    document.getElementById('restart-button').style.display = 'none'; // 隱藏重新開始按鈕
+}
+
+
+
+
+</script>
+
+</body>
+</html>
