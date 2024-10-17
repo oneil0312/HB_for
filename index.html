@@ -151,35 +151,39 @@ const songs = [
     { song: 'voice/yuuri_DriedFlowers.MP3', framework: 'yuuri_DrideFlowers' }
 ];
 
-const selectedSongs = [];
+let selectedSongs = [];
 
 // 隨機選擇三組歌曲
 function selectSongs() {
     const shuffledSongs = songs.sort(() => 0.5 - Math.random());
-    selectedSongs.push(...shuffledSongs.slice(0, 3)); // 取前3組
+    selectedSongs = shuffledSongs.slice(0, 3); // 取前3組
 }
 
-// 呼叫選擇歌曲的函數
-selectSongs();
-
 // 動態生成卡片
-const memoryGame = document.getElementById('memory-game');
-const cardsHtml = selectedSongs.flatMap(song => [
-    `<div class="memory-card" data-framework="${song.framework}">
-        <img class="front-face" src="IMG/music_img.jpg" alt="${song.framework}" />
-        <div class="back-face"></div>
-    </div>`,
-    `<div class="memory-card" data-framework="${song.framework}">
-        <img class="front-face" src="IMG/${song.framework}.jpg" alt="${song.framework}" />
-        <div class="back-face"></div>
-    </div>`
-]).join('');
-</script>
-<script>
-memoryGame.innerHTML = cardsHtml;
+function generateCards() {
+    const memoryGame = document.getElementById('memory-game');
+    const cardsHtml = selectedSongs.flatMap(song => [
+        `<div class="memory-card" data-framework="${song.framework}">
+            <img class="front-face" src="IMG/music_img.jpg" alt="${song.framework}" />
+            <div class="back-face"></div>
+        </div>`,
+        `<div class="memory-card" data-framework="${song.framework}">
+            <img class="front-face" src="IMG/${song.framework}.jpg" alt="${song.framework}" />
+            <div class="back-face"></div>
+        </div>`
+    ]).join('');
+    memoryGame.innerHTML = cardsHtml;
+}
 
-// 消消樂
-const cards = document.querySelectorAll('.memory-card');
+// 初始化遊戲
+function initGame() {
+    selectSongs(); // 選擇新的三首歌曲
+    generateCards(); // 根據選擇的歌曲生成卡片
+    addCardListeners(); // 添加卡片點擊事件
+    shuffle(); // 隨機打亂卡片
+}
+
+// 消消樂邏輯
 let hasFlippedCard = false;
 let lockBoard = false;
 let firstCard, secondCard;
@@ -271,16 +275,20 @@ function updateScore() {
 
 // 隨機打亂卡片
 function shuffle() {
+    const cards = document.querySelectorAll('.memory-card');
     cards.forEach(card => {
         let randomPos = Math.floor(Math.random() * 12);
         card.style.order = randomPos;
     });
 }
 
-// 在添加事件監聽器後進行洗牌
-cards.forEach(card => card.addEventListener('click', flipCard));
-shuffle();
+// 為卡片添加點擊事件監聽器
+function addCardListeners() {
+    const cards = document.querySelectorAll('.memory-card');
+    cards.forEach(card => card.addEventListener('click', flipCard));
+}
 
+// 檢查遊戲是否結束
 function checkGameOver() {
     const remainingCards = document.querySelectorAll('.memory-card:not([style*="visibility: hidden"])');
     if (remainingCards.length === 0) {
@@ -288,16 +296,17 @@ function checkGameOver() {
     }
 }
 
-document.getElementById('restart-button').addEventListener('click', function() {
-    shuffle();
-    cards.forEach(card => {
-        card.classList.remove('flipped');
-        card.style.visibility = 'visible';
-    });
-
+// 重新開始遊戲邏輯
+document.getElementById('restart-button').addEventListener('click', function() {  
+    initGame(); // 重新初始化遊戲
     this.style.display = 'none'; // 隱藏重新開始按鈕
 });
+
+// 初始化第一次遊戲
+initGame();
+
 </script>
+
 
 
 
