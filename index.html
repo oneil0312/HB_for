@@ -177,7 +177,7 @@ let score = 0; // 分數初始化
 let audio; // 聲音變數
 
 function flipCard() {
-    if (lockBoard) return;
+    if (lockBoard) return; // 如果遊戲板被鎖定，則不允許點擊
     if (this === firstCard) return;
 
     this.classList.add('flipped');
@@ -233,16 +233,18 @@ function checkForMatch() {
 }
 
 function disableCards() {
+    lockBoard = true; // 鎖定遊戲板，禁止點擊其他卡片
     setTimeout(() => {
         firstCard.style.visibility = 'hidden';
         secondCard.style.visibility = 'hidden';
+        checkGameOver(); // 檢查是否所有牌都已消除
         resetBoard();
+        lockBoard = false; // 在配對後重新解鎖遊戲板
     }, 1000);
 }
 
 function unflipCards() {
-    lockBoard = true;
-
+    lockBoard = true; // 鎖定遊戲板
     if (audio) {
         audio.pause(); // 停止音樂
         audio.currentTime = 0; // 重置音樂到起始位置
@@ -252,8 +254,12 @@ function unflipCards() {
         firstCard.classList.remove('flipped');
         secondCard.classList.remove('flipped');
         resetBoard();
+        lockBoard = false; // 在翻轉後重新解鎖遊戲板
     }, 1500);
 }
+
+// 其餘程式碼不變...
+
 
 function resetBoard() {
     [hasFlippedCard, lockBoard] = [false, false];
