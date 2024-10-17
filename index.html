@@ -53,40 +53,13 @@
 
   <p class="score-display">分數: <span id="score">0</span></p> <!-- 顯示分數 -->
 
-	<div id="memory-game" class="memory-game">
-		<div class="memory-card" data-framework="BETELGEUSE" id="music-card">
-			<img class="front-face" src="IMG/music_img.jpg" alt="BETELGEUSE" />
-			<div class="back-face"></div> <!-- 用 div 來代替 img -->
-		</div>
-		<div class="memory-card" data-framework="BETELGEUSE">
-			<img class="front-face" src="IMG/yurri_BETELGEUSE.jpg" alt="BETELGEUSE" />
-			<div class="back-face"></div> <!-- 用 div 來代替 img -->
-		</div>
-		<div class="memory-card" data-framework="Aimer_ShiroiroKagerou" id="music-card">
-			<img class="front-face" src="IMG/music_img.jpg" alt="Aimer_ShiroiroKagerou" />
-			<div class="back-face"></div> <!-- 用 div 來代替 img -->
-		</div>
-		<div class="memory-card" data-framework="Aimer_ShiroiroKagerou">
-			<img class="front-face" src="IMG/Aimer_ShiroiroKagerou.jpg" alt="Aimer_ShiroiroKagerou" />
-			<div class="back-face"></div> <!-- 用 div 來代替 img -->
-		</div>
-		<div class="memory-card" data-framework="Aimer_Kataomoi" id="music-card">
-			<img class="front-face" src="IMG/music_img.jpg" alt="Aimer_Kataomoi" />
-			<div class="back-face"></div> <!-- 用 div 來代替 img -->
-		</div>
-		<div class="memory-card" data-framework="Aimer_Kataomoi">
-			<img class="front-face" src="IMG/Aimer_Kataomoi.jpg" alt="Aimer_Kataomoi" />
-			<div class="back-face"></div> <!-- 用 div 來代替 img -->
-		</div>
-		<button id="restart-button" class="restart-btn" style="display: none;">重新開始遊戲</button>
-
-
-	</div>
-	
-
-
-
+  <div id="memory-game" class="memory-game">
+    <!-- 這裡的卡片將通過 JavaScript 動態生成 -->
+  </div>
+  
+  <button id="restart-button" class="restart-btn" style="display: none;">重新開始遊戲</button>
 </section>
+
 
 
 <script>
@@ -168,6 +141,43 @@ function padZero(value) {
   return value.toString().padStart(2, '0');
 }
 
+// 消消樂歌曲和圖片的對應關係
+const songs = [
+    { song: 'voice/yuuri_BETELGEUSE.MP3', framework: 'yuuri_BETELGEUSE' },
+    { song: 'voice/Aimer_HoshikuzuVenus.MP3', framework: 'Aimer_HoshikuzuVenus' },
+    { song: 'voice/Aimer_Kataomoi.MP3', framework: 'Aimer_Kataomoi' },
+    { song: 'voice/Aimer_RokutouseinoYoru.MP3', framework: 'Ainer_RokutouseinoYoru' },
+    { song: 'voice/Aimer_ShiroiroKagerou.MP3', framework: 'Aimer_ShiroiroKagerou' },
+    { song: 'voice/yuuri_DriedFlowers.MP3', framework: 'yuuri_DrideFlowers' }
+];
+
+const selectedSongs = [];
+
+// 隨機選擇三組歌曲
+function selectSongs() {
+    const shuffledSongs = songs.sort(() => 0.5 - Math.random());
+    selectedSongs.push(...shuffledSongs.slice(0, 3)); // 取前3組
+}
+
+// 呼叫選擇歌曲的函數
+selectSongs();
+
+// 動態生成卡片
+const memoryGame = document.getElementById('memory-game');
+const cardsHtml = selectedSongs.flatMap(song => [
+    `<div class="memory-card" data-framework="${song.framework}">
+        <img class="front-face" src="IMG/music_img.jpg" alt="${song.framework}" />
+        <div class="back-face"></div>
+    </div>`,
+    `<div class="memory-card" data-framework="${song.framework}">
+        <img class="front-face" src="IMG/${song.framework}.jpg" alt="${song.framework}" />
+        <div class="back-face"></div>
+    </div>`
+]).join('');
+</script>
+<script>
+memoryGame.innerHTML = cardsHtml;
+
 // 消消樂
 const cards = document.querySelectorAll('.memory-card');
 let hasFlippedCard = false;
@@ -183,29 +193,20 @@ function flipCard() {
     this.classList.add('flipped');
 
     // 檢查是否點擊的是有音樂的卡片
-    if (this.id === 'music-card') {
+    const imgElement = this.querySelector('.front-face');
+    if (imgElement && imgElement.getAttribute('src').includes('music_img.jpg')) {
         if (audio) {
             audio.pause(); // 如果有正在播放的音樂，則停止
+            audio.currentTime = 0; // 重置時間
         }
 
-        // 檢查是哪首歌曲
-        switch (this.dataset.framework) {
-            case 'BETELGEUSE':
-                audio = new Audio('voice/yurri_BETELGEUSE.MP3'); // 播放BETELGEUSE音樂
-                break;
-            case 'Aimer_ShiroiroKagerou':
-                audio = new Audio('voice/Aimer_ShiroiroKagerou.MP3'); // 播放Aimer_ShiroiroKagerou音樂
-                break;
-            case 'Aimer_Kataomoi':
-                audio = new Audio('voice/Aimer_Kataomoi.MP3'); // 播放Aimer_Kataomoi音樂
-                break;
-            default:
-                audio = null;
-                break;
-        }
-
-        if (audio) {
-            audio.play();
+        // 根據框架名稱選擇對應的音樂
+        const selectedSong = selectedSongs.find(song => song.framework === this.dataset.framework);
+        if (selectedSong) {
+            audio = new Audio(selectedSong.song); // 播放對應音樂
+            audio.play().catch(err => {
+                console.error('音樂播放錯誤:', err);  // 捕獲播放錯誤
+            });
         }
     }
 
@@ -258,9 +259,6 @@ function unflipCards() {
     }, 1500);
 }
 
-// 其餘程式碼不變...
-
-
 function resetBoard() {
     [hasFlippedCard, lockBoard] = [false, false];
     [firstCard, secondCard] = [null, null];
@@ -272,24 +270,16 @@ function updateScore() {
 }
 
 // 隨機打亂卡片
-(function shuffle() {
+function shuffle() {
     cards.forEach(card => {
         let randomPos = Math.floor(Math.random() * 12);
         card.style.order = randomPos;
     });
-})();
-
-cards.forEach(card => card.addEventListener('click', flipCard));
-
-
-function disableCards() {
-    setTimeout(() => {
-        firstCard.style.visibility = 'hidden';
-        secondCard.style.visibility = 'hidden';
-        checkGameOver(); // 檢查是否所有牌都已消除
-        resetBoard();
-    }, 1000);
 }
+
+// 在添加事件監聽器後進行洗牌
+cards.forEach(card => card.addEventListener('click', flipCard));
+shuffle();
 
 function checkGameOver() {
     const remainingCards = document.querySelectorAll('.memory-card:not([style*="visibility: hidden"])');
@@ -298,26 +288,18 @@ function checkGameOver() {
     }
 }
 
-document.getElementById('restart-button').addEventListener('click', () => {
-    resetGame(); // 重置遊戲
-});
-
-function resetGame() {
-    // 重新顯示所有卡片
+document.getElementById('restart-button').addEventListener('click', function() {
+    shuffle();
     cards.forEach(card => {
-        card.style.visibility = 'visible'; // 重新顯示所有卡片
-        card.classList.remove('flipped'); // 移除翻轉狀態
-    });  
-    
+        card.classList.remove('flipped');
+        card.style.visibility = 'visible';
+    });
 
-    resetBoard(); // 重置其他遊戲狀態
-    document.getElementById('restart-button').style.display = 'none'; // 隱藏重新開始按鈕
-}
-
-
-
-
+    this.style.display = 'none'; // 隱藏重新開始按鈕
+});
 </script>
+
+
 
 </body>
 </html>
