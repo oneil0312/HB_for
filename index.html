@@ -63,7 +63,9 @@
   <button id="restart-button" class="restart-btn" style="display: none;">重新開始遊戲</button>
 </section>
 <div style="text-align: center;">
-    <img id="birthday-image" src="https://static.wikia.nocookie.net/minecraft_zh_gamepedia/images/0/03/Nether_portal_%28animated%29.png/revision/latest/scale-to-width-down/250?cb=20200830042435" alt="Birthday Image" style="display: none;">
+    <a href="HB_for_avery.html">
+        <img id="birthday-image" src="https://static.wikia.nocookie.net/minecraft_zh_gamepedia/images/0/03/Nether_portal_%28animated%29.png/revision/latest/scale-to-width-down/250?cb=20200830042435" alt="Birthday Image" style="display: none;">
+    </a>
 </div>
 
 
@@ -88,7 +90,7 @@ function playSound() {
 }
 
 // 倒數日期
-var countdownDate = new Date('2024-12-08').getTime();
+var countdownDate = new Date('2024-10-18').getTime();
 var clickCount = 0; // 點擊計數器
 
 // 更新倒數計時器
@@ -158,15 +160,18 @@ const songs = [
 	{ song: 'voice/Spyair_Orange.MP3', framework: 'Spyair_Orange' },
 	{ song: 'voice/yuuri_Leo.MP3', framework: 'yuuri_Leo' },
 	{ song: 'voice/yoasobi_blue.MP3', framework: 'yoasobi_blue' },
+	{ song: 'voice/yoasobi_monster.MP3', framework: 'yoasobi_monster' },
+	{ song: 'voice/yorushika_Algernon.MP3', framework: 'yorushika_Algernon' },
+	{ song: 'voice/yorushika_Tadakiminohare.MP3', framework: 'yorushika_Tadakiminohare' },
     { song: 'voice/yuuri_DriedFlowers.MP3', framework: 'yuuri_DrideFlowers' }
 ];
 
 let selectedSongs = [];
 
-// 隨機選擇三組歌曲
+// 隨機選擇四組歌曲
 function selectSongs() {
     const shuffledSongs = songs.sort(() => 0.5 - Math.random());
-    selectedSongs = shuffledSongs.slice(0, 3); // 取前3組
+    selectedSongs = shuffledSongs.slice(0, 4); // 取前4組
 }
 
 // 動態生成卡片

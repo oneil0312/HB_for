@@ -1,0 +1,231 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #ffe6f0; /* 淡粉色背景 */
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+}
+
+header h1 {
+    text-align: center; /* 中央對齊 */
+    margin: 20px 0; /* 上下外邊距 */
+    animation: fadeIn 1s ease-in-out; /* 整體動畫效果 */
+}
+
+.name {
+    font-family: 'Pacifico', cursive; /* 使用 Google Fonts 的字體 */
+    font-size: 3.5rem; /* 字體大小 */
+    color: #FF69B4; /* 粉紅色 */
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3); /* 文字陰影 */
+}
+
+.celebration {
+    font-family: 'Arial', sans-serif; /* 使用不同的字體 */
+    font-size: 2.5rem; /* 字體大小 */
+    color: #FF1493; /* 深粉色 */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* 文字陰影 */
+}
+
+/* 懸停效果 */
+.name:hover, .celebration:hover {
+    transform: scale(1.05); /* 當滑鼠懸停時放大 */
+}
+
+/* 動畫效果 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0); /* 初始位置 */
+    }
+    40% {
+        transform: translateY(-10px); /* 向上彈跳 */
+    }
+    60% {
+        transform: translateY(-5px); /* 向上彈跳 */
+    }
+}
+
+#input-section {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #fff; /* 白色背景 */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+label {
+    display: block;
+    margin: 0 auto 15px; /* 上邊距自動，底部外邊距為15px */
+    font-size: 1.3em; /* 增加字體大小 */
+    font-weight: bold; /* 字體加粗 */
+    color: #FF1493; /* 深粉色文字 */
+    background-color: #ffe6f0; /* 淡粉色背景 */
+    padding: 10px; /* 內邊距 */
+    border: 2px solid #ff66b3; /* 粉紅色邊框 */
+    border-radius: 8px; /* 邊角圓滑 */
+    text-align: center; /* 文字居中 */
+    width: 80%; /* 設定寬度為80% */
+    max-width: 400px; /* 最大寬度為400px */
+}
+
+input[type="text"] {
+    padding: 10px;
+    border: 2px solid #ff66b3; /* 粉紅色邊框 */
+    border-radius: 5px;
+    width: 80%;
+    max-width: 400px;
+    margin-bottom: 10px;
+    font-size: 1em;
+}
+
+button {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #ff66b3, #ff1493); /* 漸變顏色 */
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: transform 0.3s, background 0.3s; /* 加入背景顏色變化 */
+}
+
+button:hover {
+    transform: scale(1.05) rotate(2deg); /* 鼠標懸停時縮放和微旋轉 */
+}
+
+#result-message {
+    margin-top: 10px;
+    font-size: 1.2em;
+    animation: fadeIn 0.5s ease-in-out; /* 成功和錯誤消息的淡入效果 */
+}
+
+#cake-section {
+    position: relative; /* 使其成為定位參考 */
+    text-align: center; /* 使內容居中 */
+    margin: 20px 0; /* 上下外邊距 */
+}
+
+.cake {
+    width: 50%; /* 調整蛋糕的大小 */
+    max-width: 300px; /* 設定最大寬度 */
+    height: auto; /* 自動調整高度以保持比例 */
+    margin: 20px auto; /* 中央對齊 */
+}
+
+.candles {
+    display: flex; /* 使用 Flexbox */
+    justify-content: center; /* 水平居中 */
+    position: absolute; /* 絕對定位 */
+    top: 20%; /* 調整蠟燭的垂直位置 */
+    left: 50%; /* 使其在水平中心 */
+    transform: translateX(-50%); /* 中心化 */
+}
+
+.candle {
+    width: auto; /* 根據圖片的原始大小自動調整 */
+    height: 60px; /* 設定高度，根據需要調整 */
+    margin: 0 5px; /* 蠟燭之間的間距 */
+    position: relative; /* 使底部定位生效 */
+    bottom: 60px; /* 調整蠟燭向上移動的距離 */
+    transition: transform 0.3s; /* 蠟燭的過渡效果 */
+}
+
+.candle:hover {
+    transform: scale(1.1) rotate(2deg); /* 鼠標懸停時縮放和旋轉 */
+}
+
+.wish-container {
+    text-align: center; /* 中央對齊 */
+    margin-top: 20px; /* 上方外邊距 */
+    animation: bounce 1s ease-in-out; /* 願望消息的彈跳效果 */
+}
+
+#wish-message {
+    font-size: 1.2em; /* 字體大小 */
+    color: #fff; /* 白色文字 */
+    background: linear-gradient(135deg, #ff69b4, #ff1493); /* 漸變背景 */
+    padding: 10px 15px; /* 內邊距 */
+    border-radius: 10px; /* 圓角邊框 */
+    border: 2px solid #fff; /* 白色實線邊框 */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* 陰影效果 */
+    margin: 20px auto; /* 上邊距和自動左右邊距，讓其置中 */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* 文字陰影 */
+    width: fit-content; /* 根據內容自動調整寬度 */
+    max-width: 300px; /* 最大寬度 */
+}
+
+.hidden {
+    display: none;
+}
+
+.success {
+    color: #28a745; /* 綠色 */
+    font-size: 1.5em; /* 增大字體 */
+}
+
+#qr-code {
+    width: 150px; /* 調整為較小的寬度 */
+    height: auto; /* 自動調整高度以保持比例 */
+}
+
+.error {
+    color: #dc3545; /* 紅色 */
+}
+
+footer {
+    margin-top: 30px;
+    font-size: 0.8em;
+    color: #666;
+}
+
+/* 手機和平板 */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2rem; /* 調整標題字體大小 */
+    }
+
+    .cake {
+        width: 80%; /* 調整蛋糕的大小 */
+    }
+
+    .candle {
+        height: 40px; /* 調整蠟燭的高度 */
+    }
+
+    #input-section {
+        padding: 10px; /* 調整內邊距 */
+    }
+}
+
+/* 更小的螢幕 */
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.5rem; /* 進一步調整標題字體大小 */
+    }
+
+    input[type="text"], button {
+        width: 90%; /* 調整輸入框和按鈕寬度 */
+    }
+
+    #cake-section {
+        margin: 10px 0; /* 減少上下外邊距 */
+    }
+}
+
+/* 慶祝動畫效果 */
+@keyframes celebrate {
+    0% { transform: scale(1); }
+    25% { transform: scale(1.1); }
+    50% { transform: scale(1); }
+    75% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
