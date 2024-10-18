@@ -117,10 +117,10 @@ body {
   animation: slide-in-out 3s ease-in-out forwards; /* 3秒的滑動動畫 */
 }
 
-/* 生日圖片隱藏 */
 #birthday-image {
-  display: none;
-  margin-top: 20px;
+    display: block; /* 確保圖片以塊級元素顯示 */
+    margin: 0 auto; /* 自動左右邊距以實現居中 */
+    /* 如果你想讓圖片在某個容器中居中，可以給這個容器設置 text-align: center; */
 }
 
 /* 警告按鈕樣式 */
@@ -355,4 +355,68 @@ h1 {
 
 #score:hover {
     color: #ff9900;
+}
+
+/* 美化音量控制滑動條 */
+#volumeControl {
+    -webkit-appearance: none;  /* 移除預設樣式 */
+    width: 150px;              /* 設定滑動條的寬度 */
+    height: 10px;              /* 設定滑動條的高度 */
+    background: #ddd;          /* 背景顏色 */
+    border-radius: 5px;        /* 滑動條邊緣圓角化 */
+    outline: none;             /* 移除邊框 */
+    opacity: 0.7;              /* 透明度 */
+    transition: opacity 0.2s;  /* 當滑鼠移過時變更透明度 */
+}
+
+/* 滑動條的滑塊樣式 */
+#volumeControl::-webkit-slider-thumb {
+    -webkit-appearance: none;  /* 移除預設滑塊樣式 */
+    appearance: none;          /* 兼容其他瀏覽器 */
+    width: 20px;               /* 設定滑塊的寬度 */
+    height: 20px;              /* 設定滑塊的高度 */
+    background: #4CAF50;       /* 滑塊的顏色 */
+    border-radius: 50%;        /* 圓形滑塊 */
+    cursor: pointer;           /* 滑塊樣式改變為手形 */
+}
+
+/* 當滑鼠懸停或點擊滑塊時，改變透明度 */
+#volumeControl:hover {
+    opacity: 1;
+}
+
+#volumeControl:active::-webkit-slider-thumb {
+    background: #45a049;       /* 滑塊按下時的顏色變化 */
+}
+
+/* 美化音量標籤的字體 */
+label[for="volumeControl"] {
+    font-family: 'Arial', sans-serif;  /* 設定字體樣式 */
+    font-size: 18px;                   /* 調整字體大小 */
+    font-weight: bold;                 /* 設定字體粗細 */
+    color: #4CAF50;                    /* 設定字體顏色 */
+    margin-right: 10px;                /* 字體與滑動條的距離 */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* 添加淡淡的陰影 */
+}
+
+#hint-message {
+    position: fixed; /* 固定在視窗中 */
+    top: 50%; /* 垂直置中 */
+    left: 50%; /* 水平置中 */
+    transform: translate(-50%, -50%); /* 調整位置 */
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9); /* 半透明白色背景 */
+    border: 2px solid #ffcc00; /* 金色邊框 */
+    border-radius: 10px; /* 圓角 */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* 陰影效果 */
+    font-size: 24px; /* 字體大小 */
+    text-align: center; /* 文字置中 */
+    z-index: 1000; /* 確保在最上層 */
+    display: none; /* 初始隱藏 */
+}
+
+#hint-word {
+    font-weight: bold; /* 加粗提示字 */
+    color: #ffcc00; /* 金色字體 */
+    font-size: 28px; /* 調整提示字大小 */
 }
