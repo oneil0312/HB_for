@@ -420,3 +420,117 @@ label[for="volumeControl"] {
     color: #ffcc00; /* 金色字體 */
     font-size: 28px; /* 調整提示字大小 */
 }
+
+
+#match-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    z-index: 1000;
+}
+
+.match-message-content {
+    text-align: center;
+}
+
+#confirm-button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#confirm-button:hover {
+    background-color: #45a049;
+}
+
+
+.match-message-content {
+    background-color: rgba(255, 255, 255, 0.9); /* 白色背景，稍微透明 */
+    border-radius: 15px; /* 圓角 */
+    padding: 30px; /* 增加內邊距 */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* 陰影效果 */
+    text-align: center; /* 文字居中 */
+    position: fixed; /* 固定定位 */
+    top: 50%; /* 垂直居中 */
+    left: 50%; /* 水平居中 */
+    transform: translate(-50%, -50%); /* 調整位置 */
+    z-index: 1000; /* 確保在最上層 */
+    width: 400px; /* 設定固定寬度 */
+}
+
+.match-message-content p {
+    margin: 15px 0; /* 增加上下邊距 */
+}
+
+/* 設定「恭喜你答對了」的樣式 */
+.match-message-content p:first-child {
+    font-size: 24px; /* 字體大小 */
+    color: #FF5733; /* 使用明亮的顏色 */
+    font-weight: bold; /* 加粗字體 */
+}
+
+/* 歌名和歌手的樣式 */
+.match-message-content p:nth-child(2),
+.match-message-content p:nth-child(3) {
+    font-size: 20px; /* 維持相同的字體大小 */
+    color: #333; /* 文字顏色 */
+}
+
+/* 按鈕樣式 */
+#confirm-button {
+    background-color: #4CAF50; /* 按鈕顏色 */
+    color: white; /* 按鈕文字顏色 */
+    border: none; /* 無邊框 */
+    border-radius: 5px; /* 圓角 */
+    padding: 12px 25px; /* 增加按鈕內邊距 */
+    cursor: pointer; /* 游標變手型 */
+    font-size: 18px; /* 增加按鈕字體大小 */
+    transition: background-color 0.3s; /* 變化效果 */
+}
+
+#confirm-button:hover {
+    background-color: #45a049; /* 鼠標懸停時的顏色 */
+}
+.small-text {
+    font-size: 0.8em; /* 調整為你想要的大小 */
+    color: #fff; /* 如果需要的話，可以調整顏色 */
+}
+
+/* 提示彈窗樣式 */
+#hint-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff; /* 背景顏色 */
+    border-radius: 10px; /* 圓角 */
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    z-index: 1000; /* 確保在最上面 */
+}
+
+/* 按鈕樣式 */
+.hint-confirm-button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #ff4081; /* 按鈕顏色 */
+    color: #fff; /* 按鈕文字顏色 */
+    border: none; /* 去除邊框 */
+    border-radius: 5px; /* 按鈕圓角 */
+    cursor: pointer; /* 鼠標指針變成手指 */
+    transition: background-color 0.3s; /* 過渡效果 */
+}
+
+/* 按鈕懸停時的樣式 */
+.hint-confirm-button:hover {
+    background-color: #ff6f91; /* 懸停時顏色 */
+}

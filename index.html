@@ -58,10 +58,15 @@
     <!-- 這裡的卡片將通過 JavaScript 動態生成 -->
   </div>
 	  <label for="volumeControl">音量:</label>
-	  <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.5">
+	  <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.1">
   
   <button id="restart-button" class="restart-btn" style="display: none;">重新開始遊戲</button>
 </section>
+<div id="message-container" style="display: none;">
+    <p id="message-text"></p>
+    <button id="close-button">確認</button>
+</div>
+
 <div style="text-align: center;">
     <a href="HB_for_avery.html">
         <img id="birthday-image" src="https://static.wikia.nocookie.net/minecraft_zh_gamepedia/images/0/03/Nether_portal_%28animated%29.png/revision/latest/scale-to-width-down/250?cb=20200830042435" alt="Birthday Image" style="display: none;">
@@ -155,7 +160,7 @@ const songs = [
     { song: 'voice/yuuri_BETELGEUSE.MP3', framework: 'yuuri_BETELGEUSE' },
     { song: 'voice/Aimer_HoshikuzuVenus.MP3', framework: 'Aimer_HoshikuzuVenus' },
     { song: 'voice/Aimer_Kataomoi.MP3', framework: 'Aimer_Kataomoi' },
-    { song: 'voice/Aimer_RokutouseinoYoru.MP3', framework: 'Ainer_RokutouseinoYoru' },
+    { song: 'voice/Aimer_RokutouseinoYoru.MP3', framework: 'Aimer_RokutouseinoYoru' },
     { song: 'voice/Aimer_ShiroiroKagerou.MP3', framework: 'Aimer_ShiroiroKagerou' },
 	{ song: 'voice/Spyair_Orange.MP3', framework: 'Spyair_Orange' },
 	{ song: 'voice/yuuri_Leo.MP3', framework: 'yuuri_Leo' },
@@ -192,7 +197,7 @@ function generateCards() {
 
 // 初始化遊戲
 function initGame() {
-    selectSongs(); // 選擇新的三首歌曲
+    selectSongs(); // 選擇新的四首歌曲
     generateCards(); // 根據選擇的歌曲生成卡片
     addCardListeners(); // 添加卡片點擊事件
     shuffle(); // 隨機打亂卡片
@@ -225,7 +230,7 @@ function flipCard() {
         const selectedSong = selectedSongs.find(song => song.framework === this.dataset.framework);
         if (selectedSong) {
             audio = new Audio(selectedSong.song); // 播放對應音樂
-			audio.volume = 0.5; // 設定音量為 0.1
+			audio.volume = volumeControl.value; // 使用音量控制條當前值
             audio.play().catch(err => {
                 console.error('音樂播放錯誤:', err);  // 捕獲播放錯誤
             });
@@ -251,33 +256,99 @@ volumeControl.addEventListener('input', function() {
     }
 });
 
+
 function checkForMatch() {
     let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
 
     if (isMatch) {
-        disableCards();
-        updateScore();
+        disableCards(); // 鎖定卡片
+        // 取得歌曲名稱和歌手名稱
+        const selectedSong = selectedSongs.find(song => song.framework === firstCard.dataset.framework);
+        
+        // 提取歌名和歌手名
+        const songName = selectedSong.framework.split('_')[1]; // 提取下劃線後的部分
+        const singerName = selectedSong.song.split('/')[1].split('_')[0]; // 從文件名提取歌手名
+        
+        // 顯示匹配成功的消息
+        showMatchMessage(songName, singerName);
+        
     } else {
-        unflipCards();
+        unflipCards(); // 如果不匹配，則翻回去
     }
 }
+
+function showMatchMessage(songName, artist) {
+    // 鎖定遊戲板
+    lockBoard = true;
+
+    // 創建覆蓋層
+    const overlay = document.createElement('div');
+    overlay.id = 'overlay';
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'; // 半透明背景
+    overlay.style.zIndex = '999'; // 確保在最上面
+    document.body.appendChild(overlay);
+
+    const matchMessage = document.createElement('div');
+    matchMessage.id = 'match-message';
+    matchMessage.innerHTML = `
+        <div class="match-message-content">
+            <p>🎉 恭喜你答對了!! 🎉</p>
+            <p>歌名為: "${songName}"</p>
+            <p>歌手為: "${artist}"</p>
+            <button id="confirm-button">確認 <span class="small-text">(請等後方卡片消失再按)</span></button>
+        </div>
+    `;
+    document.body.appendChild(matchMessage);
+
+    // 點擊確認按鈕時，關閉提示視窗和覆蓋層
+    document.getElementById('confirm-button').addEventListener('click', () => {
+        document.body.removeChild(matchMessage); // 移除提示視窗
+        document.body.removeChild(overlay); // 移除覆蓋層
+        lockBoard = false; // 確認後解鎖遊戲板
+        resetBoard(); // 重置翻牌狀態
+
+        // 檢查分數是否達到10分，顯示提示訊息
+        if (score === 10) {
+            showHintPopup(); // 顯示提示字的彈窗
+        }
+    });
+}
+
+function showHintPopup() {
+    // 創建提示彈窗
+    const hintPopup = document.createElement('div');
+    hintPopup.id = 'hint-popup';
+    hintPopup.innerHTML = `
+        <div class="hint-popup-content">
+            <p> 今天的提示字是: <strong style="color: #ff4081;">RE</strong> </p>
+            <button class="hint-confirm-button">確認</button>
+        </div>
+    `;
+    
+    document.body.appendChild(hintPopup);
+
+    // 點擊確認按鈕時，關閉提示彈窗
+    const confirmButton = hintPopup.querySelector('.hint-confirm-button');
+    confirmButton.addEventListener('click', () => {
+        document.body.removeChild(hintPopup); // 移除提示彈窗
+    });
+}
+
+
+
+
 
 function disableCards() {
     score++; // 增加分數
     document.getElementById('score').textContent = score; // 更新分數顯示
 
-    // 檢查是否達到 10 分
-    if (score === 10) {
-        const hintMessage = document.getElementById('hint-message');
-        hintMessage.style.display = 'block'; // 顯示提示訊息
-
-        // 3 秒後自動隱藏提示訊息
-        setTimeout(() => {
-            hintMessage.style.display = 'none';
-        }, 4000);
-    }
-
     lockBoard = true; // 鎖定遊戲板，禁止點擊其他卡片
+
     setTimeout(() => {
         firstCard.style.visibility = 'hidden'; // 隱藏配對的第一張卡片
         secondCard.style.visibility = 'hidden'; // 隱藏配對的第二張卡片
@@ -286,6 +357,11 @@ function disableCards() {
         lockBoard = false; // 在配對後重新解鎖遊戲板
     }, 1000);
 }
+
+
+
+
+
 
 function unflipCards() {
     lockBoard = true; // 鎖定遊戲板
@@ -334,14 +410,24 @@ function checkGameOver() {
     }
 }
 
-// 重新開始遊戲邏輯
-document.getElementById('restart-button').addEventListener('click', function() {  
-    initGame(); // 重新初始化遊戲
-    this.style.display = 'none'; // 隱藏重新開始按鈕
+
+
+
+
+// 當用戶點擊確認按鈕時隱藏訊息
+document.getElementById('close-button').addEventListener('click', () => {
+    document.getElementById('message-container').style.display = 'none';
 });
 
-// 初始化第一次遊戲
-initGame();
+
+// 重新開始遊戲邏輯
+document.getElementById('restart-button').addEventListener('click', () => {    
+    initGame(); // 重新初始化遊戲
+    document.getElementById('restart-button').style.display = 'none'; // 隱藏重新開始按鈕
+});
+
+initGame(); // 初次加載遊戲
+
 
 </script>
 
