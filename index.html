@@ -44,35 +44,65 @@
   </audio>
   
   <img src="causon.png" alt="causon" class="causon" id="causonImage" style="display: none;">  
-
   
+  
+<section class="level-selector">
+  <div class="level-card" onclick="showGame(1)">
+    <h2>關卡 1</h2>
+    <img src="level1.png" alt="Level 1" />
+  </div>
+
+  <div class="level-card" id="level-2" onclick="checkLevel2Access()">
+    <h2>關卡 2</h2>
+    <img src="level2.png" alt="Level 2" />
+    <p id="level2-countdown">還剩 <span id="level2-days">3</span> 天 開啟</p> <!-- 倒數計時顯示 -->
+  </div>
+
+  <div class="level-card" onclick="showGame(3)">
+    <h2>關卡 3</h2>
+    <img src="level3.png" alt="Level 3" />
+  </div>
 </section>
+
 <div id="hint-message" style="display: none;">今天的提示字是: <span id="hint-word">Re</span>。</div>
 
-<section id="game-section">
-  <h2 class="game-title-modern"><span>翻牌</span> 消消樂</h2>
+<!-- 三個不同的遊戲區域 -->
+<section id="game1" class="game-area">
+  <section id="game-section">
+    <h2 class="game-title-modern"><span>音樂</span> 消消樂</h2>
 
-  <p class="score-display">分數: <span id="score">0</span></p> <!-- 顯示分數 -->
+    <p class="score-display">分數: <span id="score">0</span></p> <!-- 顯示分數 -->
 
-  <div id="memory-game" class="memory-game">
-    <!-- 這裡的卡片將通過 JavaScript 動態生成 -->
-  </div>
-	  <label for="volumeControl">音量:</label>
-	  <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.1">
-  
-  <button id="restart-button" class="restart-btn" style="display: none;">重新開始遊戲</button>
-</section>
-<div id="message-container" style="display: none;">
+    <div id="memory-game" class="memory-game">
+      <!-- 這裡的卡片將通過 JavaScript 動態生成 -->
+    </div>
+
+    <label for="volumeControl">音量:</label>
+    <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.1">
+    <button id="restart-button" class="restart-btn" style="display: none;">重新開始遊戲</button>
+  </section>
+
+  <div id="message-container" style="display: none;">
     <p id="message-text"></p>
     <button id="close-button">確認</button>
-</div>
+  </div>
+</section>
+
+<section id="game2" class="game-area" style="display: none;">
+  <h3>這是關卡 2 的遊戲區域</h3>
+  <!-- 加入關卡 2 的遊戲內容 -->
+</section>
+
+<section id="game3" class="game-area" style="display: none;">
+  <h3>這是關卡 3 的遊戲區域</h3>
+  <!-- 加入關卡 3 的遊戲內容 -->
+</section>
 
 <div style="text-align: center;">
-    <a href="HB_for_avery.html">
-        <img id="birthday-image" src="https://static.wikia.nocookie.net/minecraft_zh_gamepedia/images/0/03/Nether_portal_%28animated%29.png/revision/latest/scale-to-width-down/250?cb=20200830042435" alt="Birthday Image" style="display: none;">
-    </a>
+  <a href="HB_for_avery.html">
+    <img id="birthday-image" src="https://static.wikia.nocookie.net/minecraft_zh_gamepedia/images/0/03/Nether_portal_%28animated%29.png/revision/latest/scale-to-width-down/250?cb=20200830042435" alt="Birthday Image" style="display: none;">
+  </a>
 </div>
-
 
 
 <script>
@@ -94,9 +124,19 @@ function playSound() {
   }, 3000); // 3秒後隱藏圖片
 }
 
+function checkLevel2Access() {
+  var days = parseInt(document.getElementById('days').textContent);
+  if (days < 3) {
+    showGame(2); // 顯示第二關
+  } else {
+    alert("第二關尚未開啟，請稍後再試！");
+  }
+}
+
 // 倒數日期
-var countdownDate = new Date('2024-12-08').getTime();
+var countdownDate = new Date('2024-10-23').getTime();
 var clickCount = 0; // 點擊計數器
+var secondPhaseOpened = false; // 記錄第二關是否已開啟
 
 // 更新倒數計時器
 function updateCountdown() {
@@ -108,18 +148,40 @@ function updateCountdown() {
   var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
   var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
+  // 更新數字顯示
   document.getElementById('days').textContent = padZero(days);
   document.getElementById('hours').textContent = padZero(hours);
   document.getElementById('minutes').textContent = padZero(minutes);
   document.getElementById('seconds').textContent = padZero(seconds);
 
+  // 倒數結束時顯示生日圖片
   if (distance <= 0) {
     clearInterval(countdownInterval);
     document.getElementById('birthday-image').style.display = 'block';
   } else if (days < 2) {
     showCatAnimation();
   }
+// 更新關卡2中的倒數顯示，並將days減去2
+  var remainingDays = days - 2;
+  document.getElementById('level2-countdown').textContent = `還剩 ${remainingDays} 天 開啟`;
+  // 當剩餘時間小於三天時開啟第二關
+  console.log("Days until birthday: " + days); // 日誌輸出
+  if (days < 3 && !secondPhaseOpened) {
+    secondPhaseOpened = true; // 設置為已開啟
+    document.getElementById('level-2').style.display = 'block'; // 顯示第二關內容
+    // 隱藏關卡2中的倒數顯示
+    document.getElementById('level2-countdown').style.display = 'none';
+    console.log("Second phase opened!"); // 日誌輸出
+  }
 }
+
+// 輔助函數：補零
+function padZero(num) {
+  return num < 10 ? '0' + num : num;
+}
+
+// 開始倒數計時
+var countdownInterval = setInterval(updateCountdown, 1000);
 
 // 更新點擊計數並顯示對話框
 document.getElementById("count-button").addEventListener("click", function() {
@@ -147,13 +209,27 @@ function showCatAnimation() {
   });
 }
 
+// 顯示特定遊戲
+function showGame(gameNumber) {
+  // 隱藏所有遊戲區域
+  document.getElementById('game1').style.display = 'none';
+  document.getElementById('game2').style.display = 'none';
+  document.getElementById('game3').style.display = 'none';
+  
+  // 顯示對應的遊戲區域
+  document.getElementById('game' + gameNumber).style.display = 'block';
+}
+
 // 啟動倒數計時器
 var countdownInterval = setInterval(updateCountdown, 1000);
 
-// 補零函數
-function padZero(value) {
-  return value.toString().padStart(2, '0');
-}
+
+
+
+
+
+
+
 
 // 消消樂歌曲和圖片的對應關係
 const songs = [
