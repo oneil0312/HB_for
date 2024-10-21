@@ -576,3 +576,173 @@ label[for="volumeControl"] {
 .hint-confirm-button:hover {
     background-color: #ff6f91; /* 懸停時顏色 */
 }
+
+
+/* 問答遊戲區域樣式 */
+#game2 {
+  background-color: #fefefe; /* 白色背景 */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  text-align: center; /* 置中對齊 */
+  max-width: 500px; /* 限制最大寬度 */
+  margin: auto; /* 自動外邊距居中 */
+}
+
+/* 標題樣式 */
+#game2 h3 {
+  font-size: 28px;
+  color: #4A90E2; /* 藍色 */
+  margin-bottom: 20px;
+}
+
+/* 問題文本樣式 */
+#quiz-container #question {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #333;
+  font-weight: bold; /* 粗體字 */
+}
+
+/* 答案按鈕樣式 */
+.answer-button {
+  background-color: #e7e7e7; /* 淺灰色背景 */
+  color: #333; /* 深色文字 */
+  border: 2px solid #4A90E2; /* 藍色邊框 */
+  border-radius: 5px;
+  padding: 12px 20px;
+  margin: 10px; /* 每個按鈕之間的間距 */
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s, transform 0.2s; /* 動畫效果 */
+}
+
+/* 當滑鼠懸停在按鈕上時 */
+.answer-button:hover {
+  background-color: #4A90E2; /* 懸停變藍 */
+  color: white; /* 懸停文字變白 */
+  transform: scale(1.05); /* 懸停時稍微放大 */
+}
+
+/* 反饋文本樣式 */
+#feedback {
+  margin-top: 15px;
+  font-size: 20px;
+  color: #d9534f; /* 鮮紅色 */
+  font-weight: bold; /* 粗體字 */
+}
+
+/* 特殊樣式 */
+.answer-button:focus {
+  outline: none; /* 去掉按鈕焦點的邊框 */
+}
+/* 新增答案行樣式 */
+.answer-row {
+  display: flex; /* 使用 Flexbox */
+  justify-content: center; /* 水平置中 */
+  gap: 30px; /* 按鈕之間的間距 */
+  margin: 10px 0; /* 上下間距 */
+}
+
+/* 按鈕樣式 */
+.answer-button {
+  flex: 1; /* 使按鈕同樣大小 */
+  min-width: 120px; /* 設定最小寬度 */
+  padding: 15px; /* 增加內邊距 */
+  font-size: 16px; /* 字體大小 */
+  border: 2px solid #007bff; /* 邊框樣式 */
+  border-radius: 5px; /* 圓角 */
+  background-color: #f0f8ff; /* 背景顏色 */
+  color: #333; /* 字體顏色 */
+  cursor: pointer; /* 鼠標樣式 */
+  transition: background-color 0.3s; /* 過渡效果 */
+}
+
+/* 按鈕 hover 效果 */
+.answer-button:hover {
+  background-color: #e0f0ff; /* 鼠標懸停時變色 */
+}
+
+#question-number {
+    font-size: 1.5em; /* 增大字體 */
+    font-weight: bold; /* 使字體加粗 */
+    color: #333; /* 文字顏色 */
+    margin-bottom: 20px; /* 底部距離 */
+    text-align: center; /* 置中 */
+    background-color: #f0f8ff; /* 背景顏色 */
+    border: 2px solid #4caf50; /* 邊框 */
+    border-radius: 10px; /* 邊角圓滑 */
+    padding: 10px; /* 內距 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* 陰影效果 */
+}
+
+button#restartButton {
+  background: linear-gradient(45deg, #ff6f61, #ffcccb);
+  border: none;
+  color: white;
+  padding: 15px 30px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 18px;
+  margin: 20px auto;
+  cursor: pointer;
+  border-radius: 25px;
+  transition: background 0.3s ease, transform 0.3s ease;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+button#restartButton:hover {
+  background: linear-gradient(45deg, #ff7f50, #ffb6c1);
+  transform: scale(1.05);
+}
+
+button#restartButton:active {
+  transform: scale(0.98);
+}
+
+.result-message {
+  text-align: center;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.success {
+  background-color: #d4edda; /* 綠色背景 */
+  color: #155724; /* 深綠色文字 */
+  border: 1px solid #c3e6cb; /* 綠色邊框 */
+}
+
+.failure {
+  background-color: #f8d7da; /* 紅色背景 */
+  color: #721c24; /* 深紅色文字 */
+  border: 1px solid #f5c6cb; /* 紅色邊框 */
+}
+
+.modal {
+  display: flex; /* 使用 flexbox 進行居中 */
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.close-button {
+  cursor: pointer;
+  float: right;
+  font-size: 20px;
+}

@@ -90,8 +90,33 @@
 
 <section id="game2" class="game-area" style="display: none;">
   <h3>這是關卡 2 的遊戲區域</h3>
-  <!-- 加入關卡 2 的遊戲內容 -->
+  <h3>問答遊戲</h3>
+  <div id="quiz-container">
+    <p id="question-number">第 <span id="current-question-number">1</span> 題 / 總共 10 題</p>
+    <p id="question">請回答問題</p>
+    <div class="answer-row">
+      <button class="answer-button" onclick="checkAnswer('A')">A. 答案 A</button>
+      <button class="answer-button" onclick="checkAnswer('B')">B. 答案 B</button>
+    </div>
+    <div class="answer-row">
+      <button class="answer-button" onclick="checkAnswer('C')">C. 答案 C</button>
+      <button class="answer-button" onclick="checkAnswer('D')">D. 答案 D</button>
+    </div>
+    <p id="feedback"></p>
+    <p id="score">答對題數: <span id="correct-count">0</span> / 10</p>
+  </div>
+
+  <!-- 重新開始按鈕 -->
+  <button id="restartButton" onclick="restartQuiz()">重新開始</button>
+
+  <audio id="correctSound">
+    <source src="voice/Correct.mp4" type="audio/mp4">
+  </audio>
+  <audio id="wrongSound">
+    <source src="voice/wrong.mp4" type="audio/mp4">
+  </audio>
 </section>
+
 
 <section id="game3" class="game-area" style="display: none;">
   <h3>這是關卡 3 的遊戲區域</h3>
@@ -129,12 +154,12 @@ function checkLevel2Access() {
   if (days < 3) {
     showGame(2); // 顯示第二關
   } else {
-    alert("第二關尚未開啟，請稍後再試！");
+    alert("第二關尚未開啟，請耐心等候！");
   }
 }
 
 // 倒數日期
-var countdownDate = new Date('2024-10-23').getTime();
+var countdownDate = new Date('2024-12-08').getTime();
 var clickCount = 0; // 點擊計數器
 var secondPhaseOpened = false; // 記錄第二關是否已開啟
 
@@ -503,6 +528,210 @@ document.getElementById('restart-button').addEventListener('click', () => {
 });
 
 initGame(); // 初次加載遊戲
+
+
+
+
+
+
+
+const questions = [
+  {
+    question: "Aimer 的哪一首歌曲是動畫《Fate/stay night》UBW 的片尾曲？",
+    options: { A: "Brave Shine", B: "Kataomoi", C: "Rokutousei no Yoru", D: "Ref:rain" },
+    answer: "A"
+  },
+  {
+    question: "Yuuri 的哪一首歌曲讓他迅速成名，並登上排行榜？",
+    options: { A: "BETELGEUSE", B: "Dried Flowers", C: "Infinity", D: "Leo" },
+    answer: "B"
+  },
+  {
+    question: "Yoasobi 的哪一首歌被用作《BEASTARS》第二季的片頭曲？",
+    options: { A: "Yoru ni Kakeru", B: "Ano Yume o Nazotte", C: "Kaibutsu", D: "Halzion" },
+    answer: "C"
+  },
+  {
+    question: "Yorushika 的主唱 n-buna 與誰共同組成了樂隊？",
+    options: { A: "Hoshino Gen", B: "Ikuta Lilas", C: "suis", D: "Aimer" },
+    answer: "C"
+  },
+  {
+    question: "Aimer 的第一張專輯名稱是什麼？",
+    options: { A: "Midnight Sun", B: "Sleepless Nights", C: "Daydream", D: "After Dark" },
+    answer: "B"
+  },
+  {
+    question: "Yoasobi 的首張數位單曲《Yoru ni Kakeru》是改編自哪部小說？",
+    options: { A: "夢の雫と星の花", B: "ヤメゴク", C: "タナトスの誘惑", D: "タイムマシン" },
+    answer: "A"
+  },
+  {
+    question: "Yorushika 的哪一首歌曲以「忘記愛人」的主題為背景？",
+    options: { A: "春泥棒", B: "夜行", C: "花に亡霊", D: "だから僕は音楽を辞めた" },
+    answer: "A"
+  },
+  {
+    question: "Yoasobi 的歌曲「夜に駆ける」描述的是什麼主題？",
+    options: { A: "孤獨", B: "愛情", C: "懷舊", D: "夢想" },
+    answer: "A"
+  },
+  {
+    question: "Yorushika 的哪首歌以「旅途」為主題？",
+    options: { A: "Sora ni Utaeba", B: "Hikaru Nara", C: "Hana ni Arashi", D: "Hikaru" },
+    answer: "C"
+  },
+  {
+    question: "Yorushika 的主唱是哪位音樂人？",
+    options: { A: "Aimer", B: "n-buna", C: "Yuuri", D: "Ayase" },
+    answer: "B"
+  },
+  {
+    question: "Aimer 在哪一年首次出道？",
+    options: { A: "2011年", B: "2012年", C: "2013年", D: "2014年" },
+    answer: "A"
+  },
+   {
+    question: "Yuuri 的「Dried Flowers」在 Spotify 上的播放次數已經突破了多少？",
+    options: { A: "一億次", B: "五千萬次", C: "三億次", D: "八千萬次" },
+    answer: "C"
+  },
+  {
+    question: "Aimer 的哪一首歌曲是《Koi wa Ameagari no You ni》的片尾曲？",
+    options: { A: "StarRingChild", B: "I beg you", C: "Ref:rain", D: "Zero" },
+    answer: "C"
+  },
+   {
+    question: "Yoasobi 的歌曲「Haruka」是根據哪部作品改編的？",
+    options: { A: "小説《怪談》", B: "小説《月王子》", C: "小説《大兔子》", D: "小説《不幸的流浪者》" },
+    answer: "B"
+  },
+  {
+    question: "在 Yoasobi 中，哪位成員負責作曲和編曲？",
+    options: { A: "Aimer", B: "Ayase", C: "n-buna", D: "Yuuri" },
+    answer: "B"
+  },
+];
+
+
+// 隨機選擇 10 題
+function selectRandomQuestions(allQuestions, num) {
+  const shuffled = [...allQuestions].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, num);
+}
+
+
+
+let currentQuestionIndex = 0; // 當前問題的索引
+let correctCount = 0; // 答對題數
+let answeringAllowed = true; // 控制是否可以回答
+let selectedQuestions = selectRandomQuestions(questions, 10); // 隨機選擇的 10 題
+
+// 顯示下一題
+function displayNextQuestion() {
+  if (currentQuestionIndex < selectedQuestions.length) { // 使用 selectedQuestions 的長度
+    const questionData = selectedQuestions[currentQuestionIndex]; // 使用 selectedQuestions
+    document.getElementById('current-question-number').textContent = currentQuestionIndex + 1; // 更新題號
+    document.getElementById('question').textContent = questionData.question;
+    document.getElementsByClassName('answer-button')[0].textContent = `A. ${questionData.options.A}`;
+    document.getElementsByClassName('answer-button')[1].textContent = `B. ${questionData.options.B}`;
+    document.getElementsByClassName('answer-button')[2].textContent = `C. ${questionData.options.C}`;
+    document.getElementsByClassName('answer-button')[3].textContent = `D. ${questionData.options.D}`;
+    document.getElementById('feedback').textContent = ""; // 清空反饋信息
+  } else {
+    if (correctCount >= 6) {
+      document.getElementById('quiz-container').innerHTML = `
+        <div class="result-message success">
+          <h2>恭喜！你答對了六題！</h2>
+          <p>提示字是: <strong>ga</strong></p>
+        </div>
+      `;
+    } else {
+      document.getElementById('quiz-container').innerHTML = `
+        <div class="result-message failure">
+          <h2>遊戲結束！很可惜，你未答對六題。</h2>
+          <p>再接再厲，下次會更好！</p>
+        </div>
+      `;
+    }
+  }
+  answeringAllowed = true; // 允許回答
+}
+
+// 檢查答案
+function checkAnswer(selectedOption) {
+  if (!answeringAllowed) return; // 如果不允許回答，則直接返回
+
+  const questionData = selectedQuestions[currentQuestionIndex]; // 使用 selectedQuestions
+  const feedbackElement = document.getElementById('feedback');
+  const correctSound = document.getElementById('correctSound');
+  const wrongSound = document.getElementById('wrongSound');
+
+  answeringAllowed = false; // 禁止再次回答
+  
+  
+  // 設定音效音量
+  correctSound.volume = 0.1; // 設定正確音效音量
+  wrongSound.volume = 0.1; // 設定錯誤音效音量
+
+  if (selectedOption === questionData.answer) {
+    correctCount++;
+    feedbackElement.textContent = "回答正確！";
+    feedbackElement.style.color = "green";
+    correctSound.play();
+  } else {
+    feedbackElement.textContent = `回答錯誤！正確答案是: ${questionData.answer}.`;
+    feedbackElement.style.color = "red";
+    wrongSound.play();
+  }
+
+  // 更新答對題數顯示
+  document.getElementById('correct-count').textContent = correctCount;
+
+  // 移動到下一題
+  currentQuestionIndex++;
+  setTimeout(displayNextQuestion, 3000); // 等待 3 秒後顯示下一題
+}
+
+// 隨機化問題
+function shuffleQuestions() {
+  for (let i = questions.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [questions[i], questions[j]] = [questions[j], questions[i]];
+  }
+}
+
+// 初始化遊戲
+function startQuiz() {
+  shuffleQuestions(); // 隨機化問題
+  displayNextQuestion(); // 顯示第一題
+}
+
+function restartQuiz() {
+  document.getElementById('quiz-container').innerHTML = `
+    <p id="question-number">第 <span id="current-question-number">1</span> 題 / 總共 10 題</p>
+    <p id="question">請回答問題</p>
+    <div class="answer-row">
+      <button class="answer-button" onclick="checkAnswer('A')">A. 答案 A</button>
+      <button class="answer-button" onclick="checkAnswer('B')">B. 答案 B</button>
+    </div>
+    <div class="answer-row">
+      <button class="answer-button" onclick="checkAnswer('C')">C. 答案 C</button>
+      <button class="answer-button" onclick="checkAnswer('D')">D. 答案 D</button>
+    </div>
+    <p id="feedback"></p>
+    <p id="score">答對題數: <span id="correct-count">0</span> / 10</p>
+  `;
+
+  // 重置遊戲狀態
+  currentQuestionIndex = 0;
+  correctCount = 0;
+
+  startQuiz(); // 重新開始遊戲
+}
+
+// 呼叫開始遊戲的函數
+startQuiz();
 
 
 </script>
