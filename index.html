@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>靖彤生日倒數計時器</title>
   <link rel="stylesheet" href="styles.css">  
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
 </head>
 <body>
 
@@ -48,30 +50,33 @@
   
 <section class="level-selector">
   <div class="level-card" onclick="showGame(1)">
-    <h2>關卡 1</h2>
-    <img src="level1.png" alt="Level 1" />
+    <h2>關卡 1</h2>    
+	<p id="level1-countdown">常駐開啟</p>
   </div>
 
-  <div class="level-card" id="level-2" onclick="checkLevel2Access()">
-    <h2>關卡 2</h2>
-    <img src="level2.png" alt="Level 2" />
-    <p id="level2-countdown">還剩 <span id="level2-days">3</span> 天 開啟</p> <!-- 倒數計時顯示 -->
-  </div>
+	<div class="level-card" id="level-2" onclick="checkLevel2Access()">
+	  <h2>關卡 2</h2>    
+	  <p id="level2-countdown">還剩 <span id="level2-days">3</span> 天 開啟</p> <!-- 倒數計時顯示 -->
+	  <p id="limited-access-message" style="display: none;">關卡限時開放中!</p> <!-- 限時開放消息 -->
+	</div>
+
+
 
   <div class="level-card" onclick="showGame(3)">
-    <h2>關卡 3</h2>
-    <img src="level3.png" alt="Level 3" />
+    <h2>關卡 3</h2>    
   </div>
 </section>
 
 <div id="hint-message" style="display: none;">今天的提示字是: <span id="hint-word">Re</span>。</div>
 
 <!-- 三個不同的遊戲區域 -->
-<section id="game1" class="game-area">
+<section id="game1" class="game-area" style="display: none;">
   <section id="game-section">
     <h2 class="game-title-modern"><span>音樂</span> 消消樂</h2>
 
-    <p class="score-display">分數: <span id="score">0</span></p> <!-- 顯示分數 -->
+    <div class="score-container">
+      <p class="score-display">分數: <span id="score">0</span></p> <!-- 顯示分數 -->
+    </div>
 
     <div id="memory-game" class="memory-game">
       <!-- 這裡的卡片將通過 JavaScript 動態生成 -->
@@ -79,7 +84,7 @@
 
     <label for="volumeControl">音量:</label>
     <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.1">
-    <button id="restart-button" class="restart-btn" style="display: none;">重新開始遊戲</button>
+    <button id="restart-button" class="restart-btn" style="display: none;">重新洗牌</button>
   </section>
 
   <div id="message-container" style="display: none;">
@@ -89,25 +94,24 @@
 </section>
 
 <section id="game2" class="game-area" style="display: none;">
-  <h3>這是關卡 2 的遊戲區域</h3>
-  <h3>問答遊戲</h3>
-  <div id="quiz-container">
+  <h3 class="game-title">關卡 2 - 問答遊戲</h3>
+  <div id="quiz-container" class="quiz-container">
     <p id="question-number">第 <span id="current-question-number">1</span> 題 / 總共 10 題</p>
     <p id="question">請回答問題</p>
-    <div class="answer-row">
-      <button class="answer-button" onclick="checkAnswer('A')">A. 答案 A</button>
-      <button class="answer-button" onclick="checkAnswer('B')">B. 答案 B</button>
-    </div>
-    <div class="answer-row">
-      <button class="answer-button" onclick="checkAnswer('C')">C. 答案 C</button>
-      <button class="answer-button" onclick="checkAnswer('D')">D. 答案 D</button>
-    </div>
+	<div class="answer-row">
+		<button class="answer-button" onclick="checkAnswer('A')">A. 答案 A</button>
+		<button class="answer-button" onclick="checkAnswer('B')">B. 答案 B</button>
+	</div>
+	<div class="answer-row">
+		<button class="answer-button" onclick="checkAnswer('C')">C. 答案 C</button>
+		<button class="answer-button" onclick="checkAnswer('D')">D. 答案 D</button>
+	</div>
     <p id="feedback"></p>
     <p id="score">答對題數: <span id="correct-count">0</span> / 10</p>
   </div>
 
   <!-- 重新開始按鈕 -->
-  <button id="restartButton" onclick="restartQuiz()">重新開始</button>
+  <button id="restartButton" class="restart-btn" onclick="restartQuiz()">重新開始</button>
 
   <audio id="correctSound">
     <source src="voice/Correct.mp4" type="audio/mp4">
@@ -186,19 +190,28 @@ function updateCountdown() {
   } else if (days < 2) {
     showCatAnimation();
   }
-// 更新關卡2中的倒數顯示，並將days減去2
+
+  // 更新關卡2中的倒數顯示，並將days減去2
   var remainingDays = days - 2;
   document.getElementById('level2-countdown').textContent = `還剩 ${remainingDays} 天 開啟`;
+
   // 當剩餘時間小於三天時開啟第二關
   console.log("Days until birthday: " + days); // 日誌輸出
   if (days < 3 && !secondPhaseOpened) {
     secondPhaseOpened = true; // 設置為已開啟
     document.getElementById('level-2').style.display = 'block'; // 顯示第二關內容
+    
     // 隱藏關卡2中的倒數顯示
     document.getElementById('level2-countdown').style.display = 'none';
+    
+    // 顯示限時開放的消息
+    document.getElementById('limited-access-message').style.display = 'block'; // 顯示消息
+
     console.log("Second phase opened!"); // 日誌輸出
   }
 }
+
+
 
 // 輔助函數：補零
 function padZero(num) {
@@ -711,14 +724,14 @@ function restartQuiz() {
   document.getElementById('quiz-container').innerHTML = `
     <p id="question-number">第 <span id="current-question-number">1</span> 題 / 總共 10 題</p>
     <p id="question">請回答問題</p>
-    <div class="answer-row">
-      <button class="answer-button" onclick="checkAnswer('A')">A. 答案 A</button>
-      <button class="answer-button" onclick="checkAnswer('B')">B. 答案 B</button>
-    </div>
-    <div class="answer-row">
-      <button class="answer-button" onclick="checkAnswer('C')">C. 答案 C</button>
-      <button class="answer-button" onclick="checkAnswer('D')">D. 答案 D</button>
-    </div>
+	<div class="answer-row">
+		<button class="answer-button" onclick="checkAnswer('A')">A. 答案 A</button>
+		<button class="answer-button" onclick="checkAnswer('B')">B. 答案 B</button>
+	</div>
+	<div class="answer-row">
+		<button class="answer-button" onclick="checkAnswer('C')">C. 答案 C</button>
+		<button class="answer-button" onclick="checkAnswer('D')">D. 答案 D</button>
+	</div>
     <p id="feedback"></p>
     <p id="score">答對題數: <span id="correct-count">0</span> / 10</p>
   `;

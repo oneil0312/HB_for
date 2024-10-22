@@ -124,43 +124,95 @@ body {
 }
 
 
+/* 全局卡片樣式 */
 .level-selector {
   display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin: 20px;
+  justify-content: space-between; /* 卡片左右排列 */
+  gap: 30px; /* 卡片間距 */
+  padding: 20px;
 }
 
 .level-card {
-  background-color: #f2f2f2;
-  border-radius: 10px;
-  width: 300px;
+  background-color: #333; /* 卡片背景顏色，模仿舊遊戲風格 */
+  border: 5px solid #ffcc00; /* 粗框，經典遊戲的外框樣式 */
+  border-radius: 5px; /* 圓角稍微減小 */
   text-align: center;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
   cursor: pointer;
+  padding: 20px;
+  width: 220px; /* 卡片寬度 */
+  transition: transform 0.2s, box-shadow 0.2s; /* 鼠標效果 */
 }
 
 .level-card:hover {
-  transform: scale(1.05);
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(255, 204, 0, 0.5); /* 增加懷舊感的陰影效果 */
+}
+
+.level-card h2 {
+  font-family: 'Press Start 2P', cursive; /* 使用像素字體 */
+  font-size: 1.2em;
+  margin: 10px 0;
+  color: #fff; /* 白色字體對比明顯 */
 }
 
 .level-card img {
   width: 100%;
-  height: auto;
-  border-radius: 10px;
-  margin-bottom: 15px;
+  border: 3px solid #ffcc00; /* 圖片外框 */
+  margin-bottom: 10px;
 }
+
+#level1-countdown {
+  font-family: 'Press Start 2P', cursive; /* 同樣使用像素風格字體 */
+  font-size: 1.2em; /* 調整字體大小 */
+  color: #ffcc00; /* 黃色字體，懷舊感 */
+}
+
+
+#level2-countdown {
+  font-family: 'Press Start 2P', cursive; /* 同樣使用像素風格字體 */
+  font-size: 1.2em;
+  color: #ffcc00; /* 黃色字體，懷舊感 */
+}
+
+/* 卡片間距設計 */
+.level-selector {
+  justify-content: center;
+}
+
+.level-card:not(:first-child) {
+  margin-left: 40px; /* 每個卡片之間的額外間距 */
+}
+/* 提示文字美化 */
+#hint-message {
+  font-size: 1.2rem;
+  color: #ff6347;
+  margin-top: 20px;
+  text-align: center;
+}
+
+/* 手機響應式設計 */
+@media (max-width: 768px) {
+  .level-selector {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .level-card {
+    width: 80%;
+  }
+}
+
 
 /* 隱藏/顯示遊戲區域 */
 .game-area {
-  display: none;
-  padding: 20px;
-  background-color: #f0f8ff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin: 20px;
+    background-color: #1a1a1a; /* 深灰背景 */
+    color: #e0e0e0; /* 淺灰文字 */
+    font-family: 'Press Start 2P', cursive; /* 像素風格字體 */
+    padding: 20px; /* 內邊距 */
+    border-radius: 15px; /* 圓角 */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7); /* 陰影 */
+    max-width: 600px; /* 最大寬度 */
+    margin: auto; /* 自動居中 */
 }
 
 
@@ -226,60 +278,91 @@ h1 {
   }
 }
 
+/* 整體遊戲區域風格 */
+#game1 {
+    background: linear-gradient(135deg, #222, #333); /* 深色漸層背景 */
+    border: 10px solid #ffcc00; /* 黃色邊框 */
+    border-radius: 20px; /* 圓角 */
+    box-shadow: 0 0 40px rgba(255, 204, 0, 0.7), 0 0 20px rgba(255, 0, 0, 0.5); /* 霓虹燈效果 */
+    padding: 40px; /* 增加內邊距以擴大整體空間 */
+    max-width: 900px; /* 增加最大寬度 */
+    margin: 40px auto; /* 置中顯示 */
+    text-align: center;
+}
 
+
+
+/* 街機風格的標題 */
 .game-title-modern {
-    font-size: 3.5rem; /* 字體大小 */
-    color: #ffffff; /* 文字顏色 */
-    text-align: center; /* 文字置中 */
-    font-family: 'Arial', sans-serif; /* 字體 */
-    margin: 20px 0; /* 上下邊距 */
-    padding: 15px 20px; /* 內邊距 */
-    background: linear-gradient(135deg, #6a5acd, #ff6347); /* 漸層背景 */
-    border-radius: 15px; /* 圓角 */
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5); /* 增加陰影 */
-    text-transform: uppercase; /* 大寫字母 */
-    letter-spacing: 3px; /* 增加字母間距 */
-    position: relative; /* 相對定位 */
-    overflow: hidden; /* 隱藏溢出 */
+    font-family: 'Press Start 2P', cursive; /* 像素字體 */
+    font-size: 2.5rem;
+    color: #ff0000; /* 紅色文字，模仿遊戲標題 */
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8); /* 文字陰影強化效果 */
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.8); /* 背景半透明，增加立體感 */
+    border: 3px solid #00ff00; /* 綠色邊框 */
+    border-radius: 10px;
+    display: inline-block;
+}
+
+
+@keyframes flicker-strong {
+    0% { opacity: 1; }
+    50% { opacity: 0.4; }
+    100% { opacity: 1; }
+}
+
+@keyframes flicker-weak {
+    0% { opacity: 1; }
+    50% { opacity: 0.8; }
+    100% { opacity: 1; }
+}
+
+/* 懸停效果：放大 */
+.game-title-modern:hover {
+    transform: scale(1.05);
 }
 
 /* 突出顯示的文字樣式 */
 .game-title-modern span {
-    color: #ffeb3b; /* 突出顯示的顏色 */
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* 文字陰影 */
-    font-size: 4rem; /* 更大的字體 */
+    color: #ff0000; /* 紅色 */
+    text-shadow: 3px 3px 4px rgba(0, 0, 0, 0.9); /* 強陰影 */
+    font-size: 4rem;
+    animation: pulse 2s infinite;
 }
 
-/* 加入粒子效果 */
-.game-title-modern::after {
+/* 脈衝動畫 */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* CRT效果 */
+.game-title-modern::before {
     content: '';
     position: absolute;
-    width: 300%;
-    height: 300%;
-    top: 50%;
-    left: 50%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 20%, transparent 50%);
-    transform: translate(-50%, -50%);
-    animation: pulse 2s infinite; /* 粒子動畫 */
-    z-index: 0; /* 放在背景 */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.05),
+        rgba(255, 255, 255, 0.05) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.2;
 }
 
-@keyframes pulse {
-    0% { transform: translate(-50%, -50%) scale(1); }
-    50% { transform: translate(-50%, -50%) scale(1.2); }
-    100% { transform: translate(-50%, -50%) scale(1); }
+.game-title-modern span {
+    position: relative;
+    z-index: 2;
 }
 
-/* 增加閃爍效果 */
-@keyframes flicker {
-    0% { opacity: 1; }
-    50% { opacity: 0.7; }
-    100% { opacity: 1; }
-}
-
-.game-title-modern {
-    animation: flicker 1.5s infinite; /* 加入閃爍動畫 */
-}
 
 
 
@@ -289,14 +372,16 @@ h1 {
   margin-bottom: 50px;
 }
 
-/* 翻牌消消樂遊戲的樣式 */
+/* 遊戲卡片區域設置 */
 .memory-game {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between; /* 確保卡片均勻分佈 */
-  width: 640px;
-  margin: 20px auto;
-  perspective: 1000px; /* 添加視角效果 */
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4列卡片布局 */
+    gap: 20px; /* 增加卡片之間的距離 */
+    padding: 20px;
+    background-color: #444; /* 深色背景 */
+    border-radius: 15px;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.7); /* 內部陰影 */
+    margin-bottom: 20px; /* 增加卡片區域底部的距離 */
 }
 
 /* 設定卡片的初始狀態 */
@@ -346,80 +431,110 @@ h1 {
   border-radius: 10px; /* 增加圓角 */
 }
 
+/* 重新開始遊戲按鈕 */
 .restart-btn {
-    background-color: #4CAF50; /* 按鈕背景色：綠色 */
-    color: #fff; /* 字體顏色：白色 */
-    font-size: 22px; /* 字體大小 */
-    font-weight: bold; /* 字體加粗 */
-    padding: 12px 24px; /* 上下和左右內邊距 */
-    border: none; /* 移除邊框 */
-    border-radius: 30px; /* 圓角 */
-    cursor: pointer; /* 游標變為手形 */
-    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s; /* 加入陰影變化的過渡效果 */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* 陰影效果 */
-    outline: none; /* 移除按鈕焦點 */
-    display: block; /* 讓按鈕居中 */
-    margin: 20px auto; /* 自動上下邊距，居中 */
-    text-transform: uppercase; /* 字母全部大寫 */
-    letter-spacing: 1px; /* 增加字母間距 */
+    display: block; /* 塊級元素 */
+    margin: 20px auto; /* 上下距離為20px，左右自動置中 */
+    font-family: 'Press Start 2P', cursive; /* 像素風格字體 */
+    font-size: 1.2rem; /* 字體大小稍微增大 */
+    background: linear-gradient(145deg, #ff6f61, #ff3b30); /* 漸變紅色背景 */
+    color: #fff; /* 白色字體 */
+    border: none; /* 無邊框 */
+    padding: 15px 30px; /* 內邊距增加 */
+    border-radius: 30px; /* 圓形按鈕 */
+    cursor: pointer; /* 鼠標樣式 */
+    text-transform: uppercase; /* 大寫 */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); /* 陰影 */
+    transition: all 0.3s; /* 過渡效果 */
+    outline: none; /* 無焦點邊框 */
 }
 
 .restart-btn:hover {
-    background-color: #45a049; /* 懸停時顏色變化：稍微深一點的綠色 */
-    transform: scale(1.05); /* 懸停時放大效果 */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* 懸停時增加陰影 */
+    background: linear-gradient(145deg, #ff3b30, #ff6f61); /* 懸停時反轉顏色 */
+    transform: scale(1.05); /* 懸停時稍微放大 */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7); /* 增加陰影 */
 }
 
 .restart-btn:active {
-    transform: scale(0.95); /* 按下時縮小效果 */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* 按下時減少陰影 */
+    transform: scale(0.95); /* 點擊時縮小 */
+    box-shadow: inset 0 5px 10px rgba(0, 0, 0, 0.5); /* 內凹陰影效果 */
 }
 
 
 
-.score-display {
-    font-size: 24px;
-    font-weight: bold;
-    color: #fff;
+/* 訊息彈出框設置 */
+#message-container {
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 3px solid #ff0000;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
+    color: #ffffff;
+    font-family: 'Press Start 2P', cursive;
     text-align: center;
-    margin: 20px 0;
-    padding: 10px;
-    background-color: rgba(0, 0, 0, 0.7);
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+#message-text {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+#close-button {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1rem;
+    background-color: #ff0000;
+    color: #fff;
+    border: 2px solid #ffcc00;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+/* 分數顯示風格 */
+.score-display {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.5rem;
+    color: #00ff00; /* 綠色字體，經典遊戲UI配色 */
+    margin: 15px 0;
+    padding: 5px;
+    background: rgba(0, 0, 0, 0.7); /* 背景透明黑色 */
+    border: 2px solid #ffcc00; /* 黃色邊框 */
+    border-radius: 5px;
+    display: inline-block;
 }
 
 #score {
-    color: #ffcc00;
-    font-size: 28px;
-    transition: color 0.3s;
+    text-align: center; /* 分數文字置中 */
+    font-size: 1rem; /* 分數字體大小 */
+    margin-top: 15px; /* 上方距離 */
+    color: #e0e0e0; /* 淺灰色 */
 }
 
 #score:hover {
     color: #ff9900;
 }
 
-/* 美化音量控制滑動條 */
+/* 音量控制條風格 */
 #volumeControl {
-    -webkit-appearance: none;  /* 移除預設樣式 */
-    width: 150px;              /* 設定滑動條的寬度 */
-    height: 10px;              /* 設定滑動條的高度 */
-    background: #ddd;          /* 背景顏色 */
-    border-radius: 5px;        /* 滑動條邊緣圓角化 */
-    outline: none;             /* 移除邊框 */
-    opacity: 0.7;              /* 透明度 */
-    transition: opacity 0.2s;  /* 當滑鼠移過時變更透明度 */
+    width: 80%;
+    margin-top: 10px;
+    appearance: none;
+    background: #ffcc00; /* 黃色進度條 */
+    height: 8px;
+    border-radius: 5px;
+    outline: none;
+    box-shadow: 0 0 10px rgba(255, 204, 0, 0.7);
 }
 
-/* 滑動條的滑塊樣式 */
+/* 音量控制條的滑塊設置 */
 #volumeControl::-webkit-slider-thumb {
-    -webkit-appearance: none;  /* 移除預設滑塊樣式 */
-    appearance: none;          /* 兼容其他瀏覽器 */
-    width: 20px;               /* 設定滑塊的寬度 */
-    height: 20px;              /* 設定滑塊的高度 */
-    background: #4CAF50;       /* 滑塊的顏色 */
-    border-radius: 50%;        /* 圓形滑塊 */
-    cursor: pointer;           /* 滑塊樣式改變為手形 */
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #ff0000; /* 紅色滑塊 */
+    border-radius: 50%;
+    cursor: pointer;
 }
 
 /* 當滑鼠懸停或點擊滑塊時，改變透明度 */
@@ -585,8 +700,17 @@ label[for="volumeControl"] {
   border-radius: 10px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   text-align: center; /* 置中對齊 */
-  max-width: 500px; /* 限制最大寬度 */
+  max-width: 700px; /* 限制最大寬度 */
   margin: auto; /* 自動外邊距居中 */
+}
+
+
+#limited-access-message {
+    font-family: 'Press Start 2P', cursive; /* 字體 */
+    font-size: 1rem; /* 字體大小 */
+    color: #ffcc00; /* 字體顏色，與原本一致 */
+    text-align: center; /* 文字置中 */
+    margin-top: 10px; /* 上方距離 */
 }
 
 /* 標題樣式 */
@@ -596,40 +720,40 @@ label[for="volumeControl"] {
   margin-bottom: 20px;
 }
 
+.game-title {
+    text-align: center; /* 標題置中 */
+    font-size: 2.5rem; /* 標題字體大小 */
+    margin-bottom: 20px; /* 標題下方距離 */
+    color: #ffcc00; /* 黃色標題 */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* 標題陰影 */
+}
+
 /* 問題文本樣式 */
-#quiz-container #question {
-  font-size: 24px;
-  margin-bottom: 15px;
-  color: #333;
-  font-weight: bold; /* 粗體字 */
+.quiz-container {
+    border: 3px solid #61dafb; /* 藍色邊框 */
+    border-radius: 10px; /* 圓角 */
+    padding: 30px; /* 增加內邊距 */
+    background-color: #3c4149; /* 深灰藍背景 */
+    max-width: 800px; /* 最大寬度 */
+    margin: 20px auto; /* 上下邊距 20px，左右居中 */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); /* 增加陰影 */
 }
 
-/* 答案按鈕樣式 */
-.answer-button {
-  background-color: #e7e7e7; /* 淺灰色背景 */
-  color: #333; /* 深色文字 */
-  border: 2px solid #4A90E2; /* 藍色邊框 */
-  border-radius: 5px;
-  padding: 12px 20px;
-  margin: 10px; /* 每個按鈕之間的間距 */
-  cursor: pointer;
-  font-size: 18px;
-  transition: background-color 0.3s, transform 0.2s; /* 動畫效果 */
+h3.game-title {
+    font-family: 'Press Start 2P', cursive; /* 像素風格字體 */
+    font-size: 2.5rem; /* 字體大小 */
+    color: #ff4757; /* 顏色 */
+    text-align: center; /* 置中 */
+    margin-bottom: 20px; /* 下方邊距 */
 }
 
-/* 當滑鼠懸停在按鈕上時 */
-.answer-button:hover {
-  background-color: #4A90E2; /* 懸停變藍 */
-  color: white; /* 懸停文字變白 */
-  transform: scale(1.05); /* 懸停時稍微放大 */
-}
 
 /* 反饋文本樣式 */
 #feedback {
-  margin-top: 15px;
-  font-size: 20px;
-  color: #d9534f; /* 鮮紅色 */
-  font-weight: bold; /* 粗體字 */
+    text-align: center; /* 反饋文字置中 */
+    font-size: 1.2rem; /* 反饋字體大小 */
+    margin-top: 10px; /* 上方距離 */
+    color: #ffcc00; /* 黃色反饋 */
 }
 
 /* 特殊樣式 */
@@ -638,29 +762,42 @@ label[for="volumeControl"] {
 }
 /* 新增答案行樣式 */
 .answer-row {
-  display: flex; /* 使用 Flexbox */
-  justify-content: center; /* 水平置中 */
-  gap: 30px; /* 按鈕之間的間距 */
-  margin: 10px 0; /* 上下間距 */
+    display: flex; /* 使用 Flexbox */
+    justify-content: space-between; /* 左右分開 */
+    margin-bottom: 15px; /* 答案行之間距離 */
 }
 
 /* 按鈕樣式 */
 .answer-button {
-  flex: 1; /* 使按鈕同樣大小 */
-  min-width: 120px; /* 設定最小寬度 */
-  padding: 15px; /* 增加內邊距 */
-  font-size: 16px; /* 字體大小 */
-  border: 2px solid #007bff; /* 邊框樣式 */
-  border-radius: 5px; /* 圓角 */
-  background-color: #f0f8ff; /* 背景顏色 */
-  color: #333; /* 字體顏色 */
-  cursor: pointer; /* 鼠標樣式 */
-  transition: background-color 0.3s; /* 過渡效果 */
+    font-family: 'Press Start 2P', cursive; /* 使用像素風格字體 */
+    font-size: 1rem; /* 字體大小 */
+    background: #28a745; /* 背景顏色 */
+    color: #ffffff; /* 字體顏色 */
+    border: 3px solid #ffcc00; /* 邊框顏色 */
+    border-radius: 5px; /* 圓角 */
+    padding: 10px 20px; /* 內邊距 */
+    margin: 5px; /* 上下間距 */
+    cursor: pointer; /* 鼠標樣式 */
+    text-transform: uppercase; /* 大寫 */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5); /* 陰影 */
+    transition: all 0.3s; /* 過渡效果 */
 }
 
-/* 按鈕 hover 效果 */
+/* 懸停效果 */
 .answer-button:hover {
-  background-color: #e0f0ff; /* 鼠標懸停時變色 */
+    background: #218838; /* 懸停時的顏色 */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7); /* 增強陰影 */
+}
+
+/* 點擊效果 */
+.answer-button:active {
+    transform: scale(0.95); /* 點擊時縮小 */
+    box-shadow: inset 0 5px 10px rgba(0, 0, 0, 0.5); /* 內凹陰影效果 */
+}
+
+#question {
+    font-size: 1.5rem; /* 題目字體大小 */
+    margin-bottom: 20px; /* 下方邊距 */
 }
 
 #question-number {
@@ -676,30 +813,6 @@ label[for="volumeControl"] {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* 陰影效果 */
 }
 
-button#restartButton {
-  background: linear-gradient(45deg, #ff6f61, #ffcccb);
-  border: none;
-  color: white;
-  padding: 15px 30px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 18px;
-  margin: 20px auto;
-  cursor: pointer;
-  border-radius: 25px;
-  transition: background 0.3s ease, transform 0.3s ease;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-button#restartButton:hover {
-  background: linear-gradient(45deg, #ff7f50, #ffb6c1);
-  transform: scale(1.05);
-}
-
-button#restartButton:active {
-  transform: scale(0.98);
-}
 
 .result-message {
   text-align: center;
