@@ -6,6 +6,7 @@
   <title>靖彤生日倒數計時器</title>
   <link rel="stylesheet" href="styles.css">  
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 </head>
 <body>
@@ -53,21 +54,22 @@
 <section class="level-selector">
   <div class="level-card" onclick="showGame(1)">
     <h2>關卡 1</h2>    
-	<p id="level1-countdown">常駐開啟</p>
+    <p id="level1-countdown">常駐開啟!</p>
   </div>
 
-	<div class="level-card" id="level-2" onclick="checkLevel2Access()">
-	  <h2>關卡 2</h2>    
-	  <p id="level2-countdown">還剩 <span id="level2-days">3</span> 天 開啟</p> <!-- 倒數計時顯示 -->
-	  <p id="limited-access-message" style="display: none;">關卡限時開放中!</p> <!-- 限時開放消息 -->
-	</div>
+  <div class="level-card" id="level-2" onclick="checkLevel2Access()">
+    <h2>關卡 2</h2>    
+    <p id="level2-countdown">還剩 <span id="level2-days">3</span> 天 開啟</p> <!-- 倒數計時顯示 -->
+    <p id="limited-access-message" style="display: none;">關卡限時開放中!</p> <!-- 限時開放消息 -->
+  </div>
 
-
-
-  <div class="level-card" onclick="showGame(3)">
+  <div class="level-card" id="level-3" onclick="checkLevel3Access()">
     <h2>關卡 3</h2>    
+    <p id="level3-countdown">還剩 <span id="level3-days">5</span> 天 開啟</p> <!-- 倒數計時顯示 -->
+    <p id="limited-access-message-3" style="display: none;">關卡限時開放中!</p> <!-- 限時開放消息 -->
   </div>
 </section>
+
 
 <div id="hint-message" style="display: none;">今天的提示字是: <span id="hint-word">Re</span>。</div>
 
@@ -157,10 +159,19 @@ function playSound() {
 
 function checkLevel2Access() {
   var days = parseInt(document.getElementById('days').textContent);
-  if (days < 3) {
+  if (days < 2) {
     showGame(2); // 顯示第二關
   } else {
     alert("第二關尚未開啟，請耐心等候！");
+  }
+}
+
+function checkLevel3Access() {
+  var days = parseInt(document.getElementById('days').textContent);
+  if (days < 1) { // 檢查剩餘天數是否小於1
+    showGame(3); // 顯示第三關
+  } else {
+    alert("第三關尚未開啟，請耐心等候！");
   }
 }
 
@@ -168,6 +179,7 @@ function checkLevel2Access() {
 var countdownDate = new Date('2024-12-08').getTime();
 var clickCount = 0; // 點擊計數器
 var secondPhaseOpened = false; // 記錄第二關是否已開啟
+var thirdPhaseOpened = false; // 關卡 3 的狀態
 
 // 更新倒數計時器
 function updateCountdown() {
@@ -193,24 +205,32 @@ function updateCountdown() {
     showCatAnimation();
   }
 
-  // 更新關卡2中的倒數顯示，並將days減去2
-  var remainingDays = days - 2;
-  document.getElementById('level2-countdown').textContent = `還剩 ${remainingDays} 天 開啟`;
+  // 更新關卡2中的倒數顯示，並將 days 減去 2
+  var remainingDaysLevel2 = days - 2;
+  document.getElementById('level2-countdown').textContent = `還剩 ${remainingDaysLevel2} 天 開啟`;
 
-  // 當剩餘時間小於三天時開啟第二關
-  console.log("Days until birthday: " + days); // 日誌輸出
-  if (days < 3 && !secondPhaseOpened) {
+  // 當剩餘時間小於二天時開啟第二關
+  console.log("Days until birthday: " + days);
+  if (days < 2 && !secondPhaseOpened) {
     secondPhaseOpened = true; // 設置為已開啟
     document.getElementById('level-2').style.display = 'block'; // 顯示第二關內容
-    
-    // 隱藏關卡2中的倒數顯示
-    document.getElementById('level2-countdown').style.display = 'none';
-    
-    // 顯示限時開放的消息
-    document.getElementById('limited-access-message').style.display = 'block'; // 顯示消息
-
-    console.log("Second phase opened!"); // 日誌輸出
+    document.getElementById('level2-countdown').style.display = 'none'; // 隱藏倒數顯示
+    document.getElementById('limited-access-message').style.display = 'block'; // 顯示限時開放的消息
+    console.log("Second phase opened!");
   }
+
+  // 更新關卡3中的倒數顯示，並將 days 減去 1
+  var remainingDaysLevel3 = days - 1;
+  document.getElementById('level3-countdown').textContent = `還剩 ${remainingDaysLevel3} 天 開啟`;
+
+	// 當剩餘時間小於一天時開啟第三關
+	if (remainingDaysLevel3 < 1 && !thirdPhaseOpened) {
+	  thirdPhaseOpened = true; // 設置為已開啟
+	  document.getElementById('level-3').style.display = 'block'; // 顯示第三關內容
+	  document.getElementById('level3-countdown').style.display = 'none'; // 隱藏倒數顯示
+	  document.getElementById('limited-access-message-3').style.display = 'block'; // 顯示限時開放的消息
+	  console.log("Third phase opened!");
+	}
 }
 
 
@@ -556,6 +576,56 @@ const questions = [
     options: { A: "Brave Shine", B: "Kataomoi", C: "Rokutousei no Yoru", D: "Ref:rain" },
     answer: "A"
   },
+    {
+    question: "怪盜基德的首次登場是在《名偵探柯南》的第幾集？",
+    options: { A: "第50集", B: "第76集", C: "第125集", D: "第219集" },
+    answer: "B"
+  },
+    {
+    question: "灰原哀的本名是什麼？",
+    options: { A: "宮野明美", B: "宮野志保", C: "工藤有希子", D: "妃英理" },
+    answer: "B"
+  },
+   {
+    question: "《名偵探柯南》的作者是誰？",
+    options: { A: "青山剛昌", B: "鳥山明", C: "岸本齊史", D: "尾田榮一郎" },
+    answer: "A"
+  },
+   {
+    question: "怪盜基德的真實身份是誰？",
+    options: { A: "服部平次", B: "工藤新一", C: "黑羽快斗", D: "白馬探" },
+    answer: "C"
+  },
+    {
+    question: "降谷 暁（ふるや さとる）的投球風格主要以什麼為特點？",
+    options: { A: "快速球", B: "曲球", C: "變速球", D: "指叉球" },
+    answer: "A"
+  },
+    {
+    question: "小湊 春市（こみなと はるいち）的特長是什麼？",
+    options: { A: "打擊", B: "守備", C: "跑壘", D: "戰術" },
+    answer: "A"
+  },
+   {
+    question: "哪位角色擔任青道高校的捕手？",
+    options: { A: "倉持 洋一（くらもち よういち）", B: "小湊 春市（こみなと はるいち）", C: "降谷 暁（ふるや さとる)", D: "御幸 一也（みゆき かずや）" },
+    answer: "D"
+  },
+    {
+    question: "怪盜基德通常會事先給警方送什麼來預告他的行動？",
+    options: { A: "畫像", B: "電子郵件", C: "挑戰信", D: "寶石樣品" },
+    answer: "C"
+  },
+   {
+    question: "工藤新一當初被灌下的藥劑名稱是什麼？",
+    options: { A: "APTX 4869", B: "VX 3000", C: "XK-500", D: "MDX-900" },
+    answer: "A"
+  },
+   {
+    question: "怪盜基德的目標通常是什麼類型的物品？",
+    options: { A: "古董", B: "珠寶和寶石", C: "文書文件", D: "藝術品" },
+    answer: "B"
+  },
   {
     question: "Yuuri 的哪一首歌曲讓他迅速成名，並登上排行榜？",
     options: { A: "BETELGEUSE", B: "Dried Flowers", C: "Infinity", D: "Leo" },
@@ -591,6 +661,11 @@ const questions = [
     options: { A: "孤獨", B: "愛情", C: "懷舊", D: "夢想" },
     answer: "A"
   },
+    {
+    question: "在柯南的故事中，黑暗組織的代號『琴酒』的搭檔是誰？",
+    options: { A: "雪莉", B: "伏特加", C: "基爾", D: "雷利" },
+    answer: "B"
+  },
   {
     question: "Yorushika 的哪首歌以「旅途」為主題？",
     options: { A: "Sora ni Utaeba", B: "Hikaru Nara", C: "Hana ni Arashi", D: "Hikaru" },
@@ -605,11 +680,6 @@ const questions = [
     question: "Aimer 在哪一年首次出道？",
     options: { A: "2011年", B: "2012年", C: "2013年", D: "2014年" },
     answer: "A"
-  },
-   {
-    question: "Yuuri 的「Dried Flowers」在 Spotify 上的播放次數已經突破了多少？",
-    options: { A: "一億次", B: "五千萬次", C: "三億次", D: "八千萬次" },
-    answer: "C"
   },
   {
     question: "Aimer 的哪一首歌曲是《Koi wa Ameagari no You ni》的片尾曲？",
@@ -644,33 +714,39 @@ let selectedQuestions = selectRandomQuestions(questions, 10); // 隨機選擇的
 
 // 顯示下一題
 function displayNextQuestion() {
-  if (currentQuestionIndex < selectedQuestions.length) { // 使用 selectedQuestions 的長度
-    const questionData = selectedQuestions[currentQuestionIndex]; // 使用 selectedQuestions
+  if (currentQuestionIndex < selectedQuestions.length) { // 確認仍有問題可顯示
+    const questionData = selectedQuestions[currentQuestionIndex]; // 獲取當前問題資料
     document.getElementById('current-question-number').textContent = currentQuestionIndex + 1; // 更新題號
-    document.getElementById('question').textContent = questionData.question;
+    document.getElementById('question').textContent = questionData.question; // 更新問題內容
+
+    // 更新選項文字
     document.getElementsByClassName('answer-button')[0].textContent = `A. ${questionData.options.A}`;
     document.getElementsByClassName('answer-button')[1].textContent = `B. ${questionData.options.B}`;
     document.getElementsByClassName('answer-button')[2].textContent = `C. ${questionData.options.C}`;
     document.getElementsByClassName('answer-button')[3].textContent = `D. ${questionData.options.D}`;
+    
     document.getElementById('feedback').textContent = ""; // 清空反饋信息
   } else {
+    // 顯示結果
     if (correctCount >= 6) {
       document.getElementById('quiz-container').innerHTML = `
         <div class="result-message success">
-          <h2>恭喜！你答對了六題！</h2>
-          <p>提示字是: <strong>ga</strong></p>
+          <h2>恭喜！你答對了超過六題！</h2>
+          <p>今天的提示字是: <strong>ga</strong></p> <!-- 顯示提示字 -->
         </div>
+        <button onclick="restartQuiz()">重新開始</button> <!-- 提供重新開始按鈕 -->
       `;
     } else {
       document.getElementById('quiz-container').innerHTML = `
         <div class="result-message failure">
-          <h2>遊戲結束！很可惜，你未答對六題。</h2>
+          <h2>遊戲結束！很可惜，你未能答對六題。</h2>
           <p>再接再厲，下次會更好！</p>
         </div>
+        <button onclick="restartQuiz()">重新開始</button> <!-- 提供重新開始按鈕 -->
       `;
     }
   }
-  answeringAllowed = true; // 允許回答
+  answeringAllowed = true; // 允許回答下一題
 }
 
 // 檢查答案
@@ -718,32 +794,37 @@ function shuffleQuestions() {
 
 // 初始化遊戲
 function startQuiz() {
-  shuffleQuestions(); // 隨機化問題
   displayNextQuestion(); // 顯示第一題
 }
 
 function restartQuiz() {
-  document.getElementById('quiz-container').innerHTML = `
-    <p id="question-number">第 <span id="current-question-number">1</span> 題 / 總共 10 題</p>
-    <p id="question">請回答問題</p>
-	<div class="answer-row">
-		<button class="answer-button" onclick="checkAnswer('A')">A. 答案 A</button>
-		<button class="answer-button" onclick="checkAnswer('B')">B. 答案 B</button>
-	</div>
-	<div class="answer-row">
-		<button class="answer-button" onclick="checkAnswer('C')">C. 答案 C</button>
-		<button class="answer-button" onclick="checkAnswer('D')">D. 答案 D</button>
-	</div>
-    <p id="feedback"></p>
-    <p id="score">答對題數: <span id="correct-count">0</span> / 10</p>
-  `;
+  // 隨機選擇新的 10 題
+  selectedQuestions = selectRandomQuestions(questions, 10); // 重新隨機選擇問題
 
   // 重置遊戲狀態
   currentQuestionIndex = 0;
   correctCount = 0;
 
-  startQuiz(); // 重新開始遊戲
+  // 重置 UI 並準備開始新的遊戲
+  document.getElementById('quiz-container').innerHTML = `
+    <p id="question-number">第 <span id="current-question-number">1</span> 題 / 總共 10 題</p>
+    <p id="question">請回答問題</p>
+    <div class="answer-row">
+      <button class="answer-button" onclick="checkAnswer('A')">A. 答案 A</button>
+      <button class="answer-button" onclick="checkAnswer('B')">B. 答案 B</button>
+    </div>
+    <div class="answer-row">
+      <button class="answer-button" onclick="checkAnswer('C')">C. 答案 C</button>
+      <button class="answer-button" onclick="checkAnswer('D')">D. 答案 D</button>
+    </div>
+    <p id="feedback"></p>
+    <p id="score">答對題數: <span id="correct-count">0</span> / 10</p>
+  `;
+
+  // 開始新的遊戲，顯示第一個問題
+  displayNextQuestion();
 }
+
 
 // 呼叫開始遊戲的函數
 startQuiz();

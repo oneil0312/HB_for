@@ -52,7 +52,7 @@ body {
 }
 
 .sagittarius-image {
-    width: 300px; /* 調整圖片大小 */
+    width: 350px; /* 調整圖片大小 */
     height: auto; /* 保持比例 */
     margin: 0 10px; /* 左右間距 */
 }
@@ -61,7 +61,7 @@ body {
 .date-circle {
   position: absolute; /* 繼續使用絕對定位 */
   top: 56.5%; /* 調整圈圈的垂直位置 */
-  left: 33.7%; /* 調整圈圈的水平位置 */
+  left: 34.7%; /* 調整圈圈的水平位置 */
   transform: translate(-50%, -50%); /* 使圓圈居中於指定位置 */
   width: 40px; /* 圈圈的寬度 */
   height: 40px; /* 圈圈的高度 */
@@ -69,6 +69,67 @@ body {
   border-radius: 50%; /* 使邊角圓滑，形成圓形 */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* 添加陰影 */
 }
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+  /* 手機上的日曆圖片尺寸調整 */
+  .sagittarius-image {
+      width: 200px; /* 手機上的圖片較小 */
+      margin: 0 5px; /* 調整邊距 */
+  }
+
+  /* 手機上的紅色圈圈樣式調整 */
+  .date-circle {
+      top: 60%; /* 調整圈圈的垂直位置 */
+      left: 35%; /* 調整圈圈的水平位置 */
+      width: 30px; /* 手機上的圈圈較小 */
+      height: 30px; /* 手機上的圈圈高度較小 */
+      border: 3px solid red; /* 手機上的圈圈邊框稍微變細 */
+  }
+}
+
+/* 響應式設計 */
+@media (max-width: 390px) {
+  /* 手機上的日曆圖片尺寸調整 */
+  .calendar-image {
+      width: 300px; /* 手機上的日曆圖片較小 */
+      height: auto; /* 保持比例 */
+  }
+
+  /* 手機上的紅色圈圈樣式調整 */
+  .date-circle {
+      top: 56.5%; /* 調整圈圈的垂直位置 */
+      left: 17%; /* 調整圈圈的水平位置 */
+      width: 25px; /* 手機上的圈圈較小 */
+      height: 25px; /* 手機上的圈圈高度較小 */
+      border: 3px solid red; /* 手機上的圈圈邊框稍微變細 */
+  }
+}
+
+/* 手機上的字體大小調整 */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 6vw; /* 較大的手機上字體稍微變大 */
+    }
+}
+
+@media (max-width: 390px) {
+    h1 {
+        font-size: 5vw; /* 針對較小手機進一步調整字體 */
+    }
+}
+/* 預設情況下顯示 */
+.sagittarius-image {
+    display: block; /* 圖片正常顯示 */
+}
+
+/* 針對小型手機隱藏 */
+@media (max-width: 390px) {
+    .sagittarius-image {
+        display: none; /* 隱藏指定的圖片 */
+    }
+}
+
 
 /* 麵包圖片樣式，左下角 */
 .causon_bread {
@@ -126,15 +187,19 @@ body {
 /* 全局卡片樣式 */
 .level-selector {
   display: flex;
-  justify-content: space-between; /* 卡片左右排列 */
+  justify-content: center; /* 卡片居中顯示 */
   gap: 30px; /* 卡片間距 */
-  padding: 20px;
+  padding: 20px; /* 類似的上下間距 */
+  flex-wrap: wrap; /* 允許卡片在小螢幕上換行 */
+  margin: 0 auto; /* 自動左右邊距以確保居中 */
+  max-width: 1000px; /* 可選，設置最大寬度以避免過於擁擠 */
 }
 
+/* 卡片樣式 */
 .level-card {
-  background-color: #333; /* 卡片背景顏色，模仿舊遊戲風格 */
-  border: 5px solid #ffcc00; /* 粗框，經典遊戲的外框樣式 */
-  border-radius: 5px; /* 圓角稍微減小 */
+  background-color: #333; /* 卡片背景顏色 */
+  border: 5px solid #ffcc00; /* 粗框 */
+  border-radius: 5px; /* 圓角 */
   text-align: center;
   cursor: pointer;
   padding: 20px;
@@ -144,14 +209,15 @@ body {
 
 .level-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 4px 8px rgba(255, 204, 0, 0.5); /* 增加懷舊感的陰影效果 */
+  box-shadow: 0 4px 8px rgba(255, 204, 0, 0.5); /* 陰影效果 */
 }
 
+/* 字體和圖片樣式 */
 .level-card h2 {
   font-family: 'Press Start 2P', cursive; /* 使用像素字體 */
   font-size: 1.2em;
   margin: 10px 0;
-  color: #fff; /* 白色字體對比明顯 */
+  color: #fff; /* 白色字體 */
 }
 
 .level-card img {
@@ -160,46 +226,63 @@ body {
   margin-bottom: 10px;
 }
 
-#level1-countdown {
+/* 倒計時字體樣式 */
+#level1-countdown,
+#level2-countdown,
+#level3-countdown {
   font-family: 'Press Start 2P', cursive; /* 同樣使用像素風格字體 */
   font-size: 1.2em; /* 調整字體大小 */
-  color: #ffcc00; /* 黃色字體，懷舊感 */
+  color: #ffcc00; /* 黃色字體 */
 }
 
-
-#level2-countdown {
-  font-family: 'Press Start 2P', cursive; /* 同樣使用像素風格字體 */
-  font-size: 1.2em;
-  color: #ffcc00; /* 黃色字體，懷舊感 */
-}
-
-/* 卡片間距設計 */
-.level-selector {
-  justify-content: center;
-}
-
-.level-card:not(:first-child) {
-  margin-left: 40px; /* 每個卡片之間的額外間距 */
-}
-/* 提示文字美化 */
-#hint-message {
-  font-size: 1.2rem;
-  color: #ff6347;
-  margin-top: 20px;
-  text-align: center;
-}
-
-/* 手機響應式設計 */
+/* 響應式設計 */
 @media (max-width: 768px) {
   .level-selector {
-    flex-direction: column;
-    align-items: center;
+    flex-direction: column; /* 垂直排列 */
+    align-items: center; /* 居中顯示 */
+    gap: 20px; /* 調整間距 */
+    padding: 0; /* 去除內邊距 */
   }
 
   .level-card {
-    width: 80%;
+    width: 80%; /* 卡片寬度縮小 */
+    margin: 10px 0; /* 卡片上下間距 */
   }
 }
+
+@media (max-width: 390px) {
+  .level-selector {
+    flex-direction: column; /* 垂直排列 */
+    align-items: center; /* 居中顯示 */
+    gap: 10px; /* 卡片間距縮小 */
+    padding: 0; /* 去除內邊距 */
+  }
+
+  .level-card {
+    width: 100%; /* 卡片佔滿寬度 */
+    padding: 15px;
+    margin: 5px 0;
+  }
+
+  .level-card h2 {
+    font-size: 1em; /* 字體進一步縮小 */
+  }
+
+  .level-card img {
+    width: 90%; /* 縮小圖片以適應螢幕 */
+    margin-bottom: 8px;
+  }
+
+  #level1-countdown, #level2-countdown {
+    font-size: 1em; /* 字體進一步縮小 */
+  }
+
+  #hint-message {
+    font-size: 1rem; /* 提示文字縮小 */
+  }
+}
+
+
 
 
 /* 隱藏/顯示遊戲區域 */
@@ -258,24 +341,13 @@ h1 {
   animation: bounce 1s ease-in-out infinite; /* 設置彈跳動畫 */
 }
 
+
+
 @keyframes bounce {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
 }
 
-/* 響應式設計 */
-@media (max-width: 768px) {
-  .calendar-image {
-    width: 90%; /* 在小屏幕上使日曆圖片寬度變小 */
-  }
-  .date-circle {
-    width: 30px; /* 在小屏幕上圓圈寬度變小 */
-    height: 30px; /* 在小屏幕上圓圈高度變小 */
-  }
-  h1 {
-    font-size: 2rem; /* 在小屏幕上字體大小變小 */
-  }
-}
 
 /* 整體遊戲區域風格 */
 #game1 {
@@ -505,14 +577,19 @@ h1 {
 
 #score {
     text-align: center; /* 分數文字置中 */
-    font-size: 1rem; /* 分數字體大小 */
+    font-size: 1.5rem; /* 增加字體大小 */
     margin-top: 15px; /* 上方距離 */
-    color: #e0e0e0; /* 淺灰色 */
+    color: #ff6f61; /* 明亮的珊瑚色 */
+    font-family: 'Noto Sans', sans-serif; /* 使用現代的無襯線字體 */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* 加入陰影效果 */
+    transition: color 0.3s, transform 0.3s; /* 增加過渡效果 */
 }
 
 #score:hover {
-    color: #ff9900;
+    color: #ffcc00; /* 懸停時的顏色 */
+    transform: scale(1.1); /* 懸停時放大效果 */
 }
+
 
 /* 音量控制條風格 */
 #volumeControl {
@@ -704,61 +781,55 @@ label[for="volumeControl"] {
 }
 
 
-#limited-access-message {
+#limited-access-message,
+#limited-access-message-3 {
     font-family: 'Press Start 2P', cursive; /* 字體 */
-    font-size: 1rem; /* 字體大小 */
+    font-size: 1.2em; /* 字體大小 */
     color: #ffcc00; /* 字體顏色，與原本一致 */
     text-align: center; /* 文字置中 */
-    margin-top: 10px; /* 上方距離 */
 }
 
 /* 標題樣式 */
 #game2 h3 {
   font-size: 28px;
-  color: #4A90E2; /* 藍色 */
+  color: #FF6F61; /* 溫暖的桃紅色 */
   margin-bottom: 20px;
+  font-family: 'Noto Sans KR', sans-serif; /* 使用韓文無襯線字體 */
 }
 
 .game-title {
     text-align: center; /* 標題置中 */
     font-size: 2.5rem; /* 標題字體大小 */
     margin-bottom: 20px; /* 標題下方距離 */
-    color: #ffcc00; /* 黃色標題 */
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* 標題陰影 */
+    color: #FF6F61; /* 溫暖的桃紅色 */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* 標題陰影 */
+    font-family: 'Noto Sans KR', sans-serif; /* 使用韓文無襯線字體 */
 }
 
 /* 問題文本樣式 */
 .quiz-container {
-    border: 3px solid #61dafb; /* 藍色邊框 */
-    border-radius: 10px; /* 圓角 */
+    border: 3px solid #FF9AA2; /* 粉紅色邊框 */
+    border-radius: 20px; /* 圓角 */
     padding: 30px; /* 增加內邊距 */
-    background-color: #3c4149; /* 深灰藍背景 */
+    background-color: #FFE0E0; /* 淺粉色背景 */
     max-width: 800px; /* 最大寬度 */
     margin: 20px auto; /* 上下邊距 20px，左右居中 */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); /* 增加陰影 */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* 增加陰影 */
 }
-
-h3.game-title {
-    font-family: 'Press Start 2P', cursive; /* 像素風格字體 */
-    font-size: 2.5rem; /* 字體大小 */
-    color: #ff4757; /* 顏色 */
-    text-align: center; /* 置中 */
-    margin-bottom: 20px; /* 下方邊距 */
-}
-
 
 /* 反饋文本樣式 */
 #feedback {
     text-align: center; /* 反饋文字置中 */
     font-size: 1.2rem; /* 反饋字體大小 */
     margin-top: 10px; /* 上方距離 */
-    color: #ffcc00; /* 黃色反饋 */
+    color: #FF6F61; /* 溫暖的桃紅色 */
 }
 
 /* 特殊樣式 */
 .answer-button:focus {
   outline: none; /* 去掉按鈕焦點的邊框 */
 }
+
 /* 新增答案行樣式 */
 .answer-row {
     display: flex; /* 使用 Flexbox */
@@ -768,70 +839,73 @@ h3.game-title {
 
 /* 按鈕樣式 */
 .answer-button {
-    font-family: 'Press Start 2P', cursive; /* 使用像素風格字體 */
+    font-family: 'Noto Sans KR', sans-serif; /* 使用韓文無襯線字體 */
     font-size: 1rem; /* 字體大小 */
-    background: #28a745; /* 背景顏色 */
+    background: #FF6F61; /* 溫暖的桃紅色 */
     color: #ffffff; /* 字體顏色 */
-    border: 3px solid #ffcc00; /* 邊框顏色 */
-    border-radius: 5px; /* 圓角 */
+    border: 3px solid #FF9AA2; /* 粉紅色邊框 */
+    border-radius: 20px; /* 圓角 */
     padding: 10px 20px; /* 內邊距 */
     margin: 5px; /* 上下間距 */
     cursor: pointer; /* 鼠標樣式 */
     text-transform: uppercase; /* 大寫 */
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5); /* 陰影 */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); /* 陰影 */
     transition: all 0.3s; /* 過渡效果 */
 }
 
 /* 懸停效果 */
 .answer-button:hover {
-    background: #218838; /* 懸停時的顏色 */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7); /* 增強陰影 */
+    background: #D9504E; /* 懸停時的顏色 */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4); /* 增強陰影 */
 }
 
 /* 點擊效果 */
 .answer-button:active {
     transform: scale(0.95); /* 點擊時縮小 */
-    box-shadow: inset 0 5px 10px rgba(0, 0, 0, 0.5); /* 內凹陰影效果 */
+    box-shadow: inset 0 5px 10px rgba(0, 0, 0, 0.2); /* 內凹陰影效果 */
 }
 
 #question {
     font-size: 1.5rem; /* 題目字體大小 */
     margin-bottom: 20px; /* 下方邊距 */
+    font-family: 'Noto Sans KR', sans-serif; /* 使用韓文無襯線字體 */
+    color: #333; /* 文字顏色 */
 }
 
 #question-number {
     font-size: 1.5em; /* 增大字體 */
     font-weight: bold; /* 使字體加粗 */
-    color: #333; /* 文字顏色 */
+    color: #FF6F61; /* 溫暖的桃紅色 */
     margin-bottom: 20px; /* 底部距離 */
     text-align: center; /* 置中 */
-    background-color: #f0f8ff; /* 背景顏色 */
-    border: 2px solid #4caf50; /* 邊框 */
-    border-radius: 10px; /* 邊角圓滑 */
+    background-color: #FFE0E0; /* 淺粉色背景 */
+    border: 2px solid #FF9AA2; /* 粉紅色邊框 */
+    border-radius: 20px; /* 邊角圓滑 */
     padding: 10px; /* 內距 */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* 陰影效果 */
 }
 
-
+/* 結果訊息樣式 */
 .result-message {
   text-align: center;
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 20px;
   margin-top: 20px;
 }
 
 .success {
-  background-color: #d4edda; /* 綠色背景 */
+  background-color: #D4EDDA; /* 淺綠色背景 */
   color: #155724; /* 深綠色文字 */
-  border: 1px solid #c3e6cb; /* 綠色邊框 */
+  border: 1px solid #C3E6CB; /* 綠色邊框 */
 }
 
 .failure {
-  background-color: #f8d7da; /* 紅色背景 */
-  color: #721c24; /* 深紅色文字 */
-  border: 1px solid #f5c6cb; /* 紅色邊框 */
+  background-color: #F8D7DA; /* 淺紅色背景 */
+  color: #721C24; /* 深紅色文字 */
+  border: 1px solid #F5C6CB; /* 紅色邊框 */
 }
 
+/* 模態視窗樣式 */
 .modal {
   display: flex; /* 使用 flexbox 進行居中 */
   justify-content: center;
@@ -846,9 +920,9 @@ h3.game-title {
 }
 
 .modal-content {
-  background-color: white;
+  background-color: #FFFFFF; /* 白色背景 */
   padding: 20px;
-  border-radius: 5px;
+  border-radius: 10px;
   text-align: center;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
@@ -857,4 +931,5 @@ h3.game-title {
   cursor: pointer;
   float: right;
   font-size: 20px;
+  color: #FF6F61; /* 溫暖的桃紅色 */
 }

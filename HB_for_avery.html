@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
@@ -15,79 +15,79 @@
         </h1>       
     </header>
 
-    <section id="cake-section">
-		<img src="IMG/birthdaycake.jpg" alt="生日蛋糕" class="cake" />
-		<div class="candles">
-			<img src="IMG/candle_unburn.png" alt="蠟燭" class="candle" onmouseover="lightCandle(this)" />
-			<img src="IMG/candle_unburn.png" alt="蠟燭" class="candle" onmouseover="lightCandle(this)" />
-			<img src="IMG/candle_unburn.png" alt="蠟燭" class="candle" onmouseover="lightCandle(this)" />
-		</div>
-		<div class="wish-container"> <!-- 新增的容器 -->
-			<button id="wish-button" class="hidden" onclick="makeWish()">許願</button>
-			<div id="wish-message" class="hidden">請許下今年的心願</div>
-		</div>
-	</section>
+    <main>
+        <section id="cake-section">
+            <img src="IMG/birthdaycake.jpg" alt="生日蛋糕" class="cake" />
+            <div class="candles">
+                <img src="IMG/candle_unburn.png" alt="蠟燭" class="candle" onmouseover="lightCandle(this)" />
+                <img src="IMG/candle_unburn.png" alt="蠟燭" class="candle" onmouseover="lightCandle(this)" />
+                <img src="IMG/candle_unburn.png" alt="蠟燭" class="candle" onmouseover="lightCandle(this)" />
+            </div>
+            <div class="wish-container"> 
+                <button id="wish-button" class="hidden" onclick="makeWish()">許願</button>
+                <div id="wish-message" class="hidden">請許下今年的心願</div>
+            </div>
+        </section>
 
-
-    <section id="input-section">
-        <label for="hint-input">請輸入前幾天收集到的提示：</label>
-        <input type="text" id="hint-input" placeholder="輸入提示字">
-        <button id="confirm-button">確認</button>
-        <div id="result-message" class="hidden"></div>
-		<div id="result-message" class="hidden"></div>
-		<img id="qr-code" class="hidden" src="IMG/RickRoll.jpg" alt="QR Code" />
-
-    </section>
+        <section id="input-section">
+            <label for="hint-input">請輸入前幾天收集到的提示：</label>
+            <input type="text" id="hint-input" placeholder="輸入提示字">
+            <button id="confirm-button">確認</button>
+            <div id="result-message" class="hidden"></div>
+            <img id="qr-code" class="hidden" src="IMG/RickRoll.jpg" alt="QR Code" />
+        </section>
+    </main>
 
     <footer>
-        <p>©歐尼歐版權大概吧</p>
+        <p>© 歐尼歐版權大概吧</p>
     </footer>
 
     <script>
         const confirmButton = document.getElementById('confirm-button');
         const hintInput = document.getElementById('hint-input');
         const resultMessage = document.getElementById('result-message');
-        let litCandles = 0;
+        let litCandles = 0; // 紀錄已點亮的蠟燭數量
 
-    confirmButton.addEventListener('click', function() {
-			const userInput = hintInput.value.trim().toLowerCase();
-			if (userInput === 'regalo') {
-				resultMessage.textContent = '正確！請截圖兌換禮物或是掃QR碼';
-				resultMessage.className = 'success';
-				document.getElementById('qr-code').classList.remove('hidden'); // 顯示QR碼
-			} else {
-				resultMessage.textContent = '錯誤！請再試一次。';
-				resultMessage.className = 'error';
-				document.getElementById('qr-code').classList.add('hidden'); // 隱藏QR碼
-			}
-			resultMessage.classList.remove('hidden');
-			hintInput.value = ''; // 清空輸入框
-		});
-
+        confirmButton.addEventListener('click', function() {
+            const userInput = hintInput.value.trim().toLowerCase();
+            if (userInput === 'regalo') {
+                resultMessage.textContent = '正確！請截圖兌換禮物或是掃QR碼';
+                resultMessage.className = 'success'; // 顯示成功樣式
+                document.getElementById('qr-code').classList.remove('hidden'); // 顯示QR碼
+            } else {
+                resultMessage.textContent = '錯誤！請再試一次。';
+                resultMessage.className = 'error'; // 顯示錯誤樣式
+                document.getElementById('qr-code').classList.add('hidden'); // 隱藏QR碼
+            }
+            resultMessage.classList.remove('hidden');
+            hintInput.value = ''; // 清空輸入框
+        });
 
         function lightCandle(candle) {
-            candle.src = 'IMG/candle.png'; // 替換為點燃蠟燭的圖片
-            litCandles++;
-            if (litCandles === 3) { // 假設有三根蠟燭
-                document.getElementById('wish-button').classList.remove('hidden');
-            }
-        }
-
+			if (candle.src.includes('candle_unburn.png')) {
+				candle.src = 'IMG/candle.png'; // 更換為點燃的蠟燭圖片
+				litCandles++;
+				if (litCandles === 3) { // 當所有蠟燭點亮時，顯示許願按鈕
+					document.getElementById('wish-button').classList.remove('hidden');
+				}
+			}
+		}
 		function makeWish() {
+			// 點下許願按鈕後顯示訊息，並在10秒後熄滅蠟燭
 			document.getElementById('wish-message').classList.remove('hidden');
 			setTimeout(extinguishCandles, 10000); // 10秒後熄滅蠟燭
 		}
 
-
-        function extinguishCandles() {
-            const candles = document.querySelectorAll('.candle');
-            candles.forEach(candle => {
-                candle.src = 'IMG/candle_unburn.png'; // 恢復為未點燃的蠟燭圖片
-            });
-            document.getElementById('wish-button').classList.add('hidden');
-            document.getElementById('wish-message').classList.add('hidden');
-            litCandles = 0; // 重置點燃的蠟燭數量
-        }
+		function extinguishCandles() {
+			const candles = document.querySelectorAll('.candle');
+			candles.forEach(candle => {
+				candle.src = 'IMG/candle_unburn.png'; // 更換回未點燃的蠟燭圖片
+			});
+			// 隱藏許願按鈕和訊息，重置已點亮的蠟燭數量
+			document.getElementById('wish-button').classList.add('hidden');
+			document.getElementById('wish-message').classList.add('hidden');
+			litCandles = 0;
+		}
     </script>
 </body>
 </html>
