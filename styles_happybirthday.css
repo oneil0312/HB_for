@@ -28,6 +28,42 @@ header h1 {
     display: none; /* 隱藏元素 */
 }
 
+/* 煙火容器 */
+#fireworks-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    z-index: 9999;
+}
+
+/* 煙火基本樣式 */
+.firework {
+    position: absolute;
+    border-radius: 50%;
+    animation: explode 1s ease-out forwards;
+}
+
+/* 煙火爆炸動畫 */
+@keyframes explode {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+
+
 
 .name {
     font-family: 'Bangers', cursive; /* 使用更具漫畫風的 Google Fonts 字體 */

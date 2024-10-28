@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>靖彤生日倒數計時器</title>
   <link rel="stylesheet" href="styles.css">  
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -72,11 +73,13 @@
 
 
 <div id="hint-message" style="display: none;">今天的提示字是: <span id="hint-word">Re</span>。</div>
-
+<div id="hint-message-3" style="display: none;" class="hint-message">
+    今天的提示字是: <span id="hint-word-3">la</span>。
+</div>
 <!-- 三個不同的遊戲區域 -->
 <section id="game1" class="game-area" style="display: none;">
   <section id="game-section">
-    <h2 class="game-title-modern"><span>音樂</span> 消消樂</h2>
+    <h2 class="game-title-modern"><span>關卡 1 -音樂</span> 消消樂</h2>
 
     <div class="score-container">
       <p class="score-display">分數: <span id="score">0</span></p> <!-- 顯示分數 -->
@@ -125,11 +128,33 @@
   </audio>
 </section>
 
-
 <section id="game3" class="game-area" style="display: none;">
-  <h3>這是關卡 3 的遊戲區域</h3>
-  <!-- 加入關卡 3 的遊戲內容 -->
+  <h3>這是關卡 3 - 拼圖遊戲(拼圖可以放在外面喔)</h3>
+  
+  <!-- 圖片選擇器 -->
+  <div id="image-selector">
+      <h4>選擇要拼的圖片:</h4>
+      <img src="IMG/Puzzle_1/InuYasha.jpg" alt="InuYasha" data-image="InuYasha" class="selectable-image" />
+      <img src="IMG/Puzzle_2/AceofDiamond.jpg" alt="Ace of Diamond" data-image="AceofDiamond" class="selectable-image" />
+      <img src="IMG/Puzzle_3/Konan.jpg" alt="Konan" data-image="Konan" class="selectable-image" /> <!-- 新增的圖片 -->
+  </div>
+
+  <div class="puzzle-container" id="puzzleContainer">
+    <!-- 拼圖小塊將通過 JavaScript 動態生成 -->
+  </div>
+  
+  <div class="original-puzzle">
+    <img src="IMG/Puzzle_1/InuYasha.jpg" alt="完整的拼圖" />
+  </div>
+
+  <p id="puzzle-status" style="display: none;">恭喜你完成拼圖！</p>
+  <button onclick="shufflePuzzle()">重新洗牌</button>
 </section>
+
+
+
+
+
 
 <div style="text-align: center;">
   <a href="HB_for_avery.html">
@@ -734,7 +759,6 @@ function displayNextQuestion() {
           <h2>恭喜！你答對了超過六題！</h2>
           <p>今天的提示字是: <strong>ga</strong></p> <!-- 顯示提示字 -->
         </div>
-        <button onclick="restartQuiz()">重新開始</button> <!-- 提供重新開始按鈕 -->
       `;
     } else {
       document.getElementById('quiz-container').innerHTML = `
@@ -742,7 +766,6 @@ function displayNextQuestion() {
           <h2>遊戲結束！很可惜，你未能答對六題。</h2>
           <p>再接再厲，下次會更好！</p>
         </div>
-        <button onclick="restartQuiz()">重新開始</button> <!-- 提供重新開始按鈕 -->
       `;
     }
   }
@@ -828,6 +851,254 @@ function restartQuiz() {
 
 // 呼叫開始遊戲的函數
 startQuiz();
+
+
+
+
+let piecesCount = 25; // 初始為 5x5 拼圖
+let shuffledPositions = [];
+let puzzleImage = 'InuYasha'; // 初始圖片
+let puzzleFolder = 'Puzzle_1'; // 初始資料夾
+let originalDimensions = { width: 800, height: 450 }; // 固定拼圖容器的尺寸
+
+// 原始圖片尺寸
+const imageDimensions = {
+    'InuYasha': { width: 1280, height: 814 }, // 圖片 1
+    'AceofDiamond': { width: 213, height: 136 }, // 圖片 2
+    'Konan': { width: 267, height: 189 } // 圖片 3
+};
+
+// 初始化拼圖
+function initializePuzzle() {
+    const puzzleContainer = document.getElementById("puzzleContainer");
+    puzzleContainer.innerHTML = ""; // 清空容器
+
+    // 更新容器尺寸
+    updatePuzzleContainerSize();
+
+    shuffledPositions = generateShuffledPositions();
+
+    for (let i = 1; i <= piecesCount; i++) {
+        const piece = document.createElement("div");
+        piece.classList.add("puzzle-piece");
+
+        // 計算拼圖塊的尺寸
+        const pieceWidth = (originalDimensions.width / Math.sqrt(piecesCount));
+        const pieceHeight = (originalDimensions.height / Math.sqrt(piecesCount));
+
+        piece.style.width = `${pieceWidth}px`;
+        piece.style.height = `${pieceHeight}px`;
+
+        piece.style.backgroundImage = `url('IMG/${puzzleFolder}/${puzzleImage}_${i}.jpg')`; // 更新路徑
+
+        // 使用亂數位置
+        const { x, y } = shuffledPositions[i - 1];
+        piece.style.left = `${x}px`;
+        piece.style.top = `${y}px`;
+
+        piece.dataset.index = i;
+
+        // 添加滑鼠拖動功能
+        addDragFunctionality(piece);
+
+        puzzleContainer.appendChild(piece);
+    }
+
+    // 更新完整拼圖的圖片
+    updateOriginalPuzzleImage();
+}
+
+// 更新完整拼圖的圖片
+function updateOriginalPuzzleImage() {
+    const originalPuzzleImage = document.querySelector('.original-puzzle img');
+    originalPuzzleImage.src = `IMG/${puzzleFolder}/${puzzleImage}.jpg`; // 更新完整拼圖路徑
+}
+
+// 更新拼圖容器的大小
+function updatePuzzleContainerSize() {
+    const puzzleContainer = document.querySelector(".puzzle-container");
+    const gridSize = Math.sqrt(piecesCount);
+
+    puzzleContainer.style.width = `${originalDimensions.width}px`; // 固定寬度
+    puzzleContainer.style.height = `${(originalDimensions.height / gridSize) * gridSize}px`; // 高度根據行數計算
+}
+
+// 生成亂數位置
+function generateShuffledPositions() {
+    const positions = [];
+    const gridSize = Math.sqrt(piecesCount); // 獲取行數
+
+    for (let y = 0; y < gridSize; y++) {
+        for (let x = 0; x < gridSize; x++) {
+            positions.push({ x: x * (originalDimensions.width / gridSize), y: y * (originalDimensions.height / gridSize) }); // 使用拼圖塊的大小
+        }
+    }
+    return positions.sort(() => Math.random() - 0.5);
+}
+
+// 更改拼圖尺寸
+function changePuzzleSize(size) {
+    if (size === '5x5') {
+        piecesCount = 25; // 5x5 拼圖
+        puzzleFolder = 'Puzzle_1'; // 更新資料夾
+        puzzleImage = 'InuYasha'; // 更新圖片名
+        originalDimensions = { width: 800, height: 450 }; // 更新尺寸
+    } else if (size === '6x6') {
+        if (puzzleImage === 'AceofDiamond') {
+            piecesCount = 36; // 6x6 拼圖
+            puzzleFolder = 'Puzzle_2'; // 更新資料夾
+            const scaleFactor = originalDimensions.width / imageDimensions[puzzleImage].width; // 計算縮放因子
+            originalDimensions = { 
+                width: imageDimensions[puzzleImage].width * scaleFactor, 
+                height: imageDimensions[puzzleImage].height * scaleFactor 
+            }; // 更新尺寸
+        } else if (puzzleImage === 'Konan') {
+            piecesCount = 36; // 6x6 拼圖
+            puzzleFolder = 'Puzzle_3'; // 更新資料夾
+            const scaleFactor = originalDimensions.width / imageDimensions[puzzleImage].width; // 計算縮放因子
+            originalDimensions = { 
+                width: imageDimensions[puzzleImage].width * scaleFactor, 
+                height: imageDimensions[puzzleImage].height * scaleFactor 
+            }; // 更新尺寸
+        } else {
+            piecesCount = 36; // 預設為 6x6 拼圖
+            puzzleFolder = 'Puzzle_2'; // 更新資料夾
+            puzzleImage = 'AceofDiamond'; // 更新圖片名
+            const scaleFactor = originalDimensions.width / imageDimensions[puzzleImage].width; // 計算縮放因子
+            originalDimensions = { 
+                width: imageDimensions[puzzleImage].width * scaleFactor, 
+                height: imageDimensions[puzzleImage].height * scaleFactor 
+            }; // 更新尺寸
+        }
+    }
+    initializePuzzle(); // 重新初始化拼圖
+}
+
+// 添加滑鼠拖動功能
+function addDragFunctionality(piece) {
+    let startX, startY, initialX, initialY;
+
+    piece.addEventListener("mousedown", (e) => {
+        startX = e.clientX;
+        startY = e.clientY;
+        initialX = parseInt(piece.style.left, 10);
+        initialY = parseInt(piece.style.top, 10);
+
+        piece.style.cursor = "grabbing";
+
+        document.addEventListener("mousemove", onMouseMove);
+        document.addEventListener("mouseup", onMouseUp);
+    });
+
+    function onMouseMove(e) {
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        piece.style.left = `${initialX + dx}px`;
+        piece.style.top = `${initialY + dy}px`;
+    }
+
+    function onMouseUp() {
+        piece.style.cursor = "grab";
+        document.removeEventListener("mousemove", onMouseMove);
+        document.removeEventListener("mouseup", onMouseUp);
+        snapToGrid(piece);
+        checkPuzzleCompletion();
+    }
+}
+
+// 將拼圖塊對齊到網格
+function snapToGrid(piece) {
+    const x = parseInt(piece.style.left, 10);
+    const y = parseInt(piece.style.top, 10);
+
+    const gridSize = Math.sqrt(piecesCount);
+    const gridX = Math.round(x / (originalDimensions.width / gridSize)) * (originalDimensions.width / gridSize);
+    const gridY = Math.round(y / (originalDimensions.height / gridSize)) * (originalDimensions.height / gridSize);
+
+    piece.style.left = `${gridX}px`;
+    piece.style.top = `${gridY}px`;
+}
+
+// 完成拼圖檢查
+function checkPuzzleCompletion() {
+    const pieces = document.querySelectorAll(".puzzle-piece");
+    let completed = true;
+
+    pieces.forEach((piece) => {
+        const index = parseInt(piece.dataset.index, 10) - 1;
+        const gridSize = Math.sqrt(piecesCount);
+        const correctX = (index % gridSize) * (originalDimensions.width / gridSize);
+        const correctY = Math.floor(index / gridSize) * (originalDimensions.height / gridSize);
+
+        const currentX = parseInt(piece.style.left, 10);
+        const currentY = parseInt(piece.style.top, 10);
+
+        // 輸出當前與正確位置的對比
+        console.log(`Piece ${index + 1}: Current Position = (${currentX}, ${currentY}), Correct Position = (${correctX}, ${correctY})`);
+
+        // 使用一個小的容忍範圍來判斷位置是否匹配
+        const tolerance = 1; // 容忍範圍
+
+        if (Math.abs(currentX - correctX) > tolerance || Math.abs(currentY - correctY) > tolerance) {
+            completed = false;
+        }
+    });
+
+    if (completed) {
+        document.getElementById("puzzle-status").style.display = "block";
+
+        // 顯示提示字
+        const hintMessage = document.getElementById("hint-message-3");
+        hintMessage.style.display = "block"; // 顯示提示信息
+        
+        // 添加淡入效果
+        hintMessage.style.opacity = 0; // 初始化透明度
+        hintMessage.style.transition = "opacity 0.5s ease"; // 過渡效果
+
+        // 更新提示內容
+        hintMessage.innerHTML = '恭喜你完成拼圖！今天的提示詞是: <span id="hint-word-3">' + document.getElementById("hint-word-3").textContent + '</span>。';
+
+        // 顯示提示時淡入
+        setTimeout(() => {
+            hintMessage.style.opacity = 1; // 完全可見
+        }, 10); // 確保淡入效果
+
+        // 在一段時間後隱藏提示
+        setTimeout(() => {
+            hintMessage.style.opacity = 0; // 開始淡出
+            setTimeout(() => {
+                hintMessage.style.display = "none"; // 隱藏提示
+            }, 500); // 等待淡出完成
+        }, 3000); // 3秒後淡出
+    }
+}
+
+
+
+
+
+// 圖片選擇功能
+document.querySelectorAll('.selectable-image').forEach(image => {
+    image.addEventListener('click', () => {
+        puzzleImage = image.dataset.image; // 更新圖片名
+        if (puzzleImage === 'InuYasha') {
+            changePuzzleSize('5x5'); // 選擇 InuYasha 時設置為 5x5 拼圖
+        } else {
+            changePuzzleSize('6x6'); // 其他圖片設置為 6x6 拼圖
+        }
+    });
+});
+
+// 初始化拼圖
+initializePuzzle();
+
+
+
+
+
+
+
+
 
 
 </script>

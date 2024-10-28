@@ -11,12 +11,16 @@
 }
 
 body {
+	
   font-family: Arial, sans-serif;
   background-color: #f3f4f6;
   text-align: center;
   margin: 0;
   padding: 0;
 }
+
+
+
 
 /* 倒數計時區域 */
 #countdown {
@@ -153,28 +157,31 @@ body {
 }
 
 /* CSS 動畫效果 */
+/* 優化滑入滑出動畫 */
 @keyframes slide-in-out {
   0% {
-    transform: translateX(100%); /* 從右側開始 */
-    opacity: 0; /* 初始不透明度 */
+    transform: translateX(100%);
+    opacity: 0;
   }
   50% {
-    transform: translateX(0); /* 到達中間 */
-    opacity: 1; /* 中間時全不透明 */
+    transform: translateX(0);
+    opacity: 1;
   }
   100% {
-    transform: translateX(100%); /* 再次移動到右側，消失 */
-    opacity: 0; /* 最後不透明度為0 */
+    transform: translateX(100%);
+    opacity: 0;
   }
 }
 
+/* 添加will-change提示優化 */
 #causonImage.animate {
-  position: fixed; /* 固定在螢幕上 */
-  top: 50%;  /* 垂直居中 */
-  left: 100%; /* 一開始隱藏在右側螢幕外 */
-  width: 150px; /* 設定圖片大小 */
+  position: fixed;
+  top: 50%;
+  left: 100%;
+  width: 150px;
   height: auto;
-  animation: slide-in-out 3s ease-in-out forwards; /* 3秒的滑動動畫 */
+  animation: slide-in-out 3s ease-in-out forwards;
+  will-change: transform, opacity;
 }
 
 #birthday-image {
@@ -343,6 +350,7 @@ h1 {
 
 
 
+/* 彈跳效果優化 */
 @keyframes bounce {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
@@ -366,7 +374,7 @@ h1 {
 /* 街機風格的標題 */
 .game-title-modern {
     font-family: 'Press Start 2P', cursive; /* 像素字體 */
-    font-size: 2.5rem;
+    font-size: 1.5rem;
     color: #ff0000; /* 紅色文字，模仿遊戲標題 */
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8); /* 文字陰影強化效果 */
     padding: 10px;
@@ -398,40 +406,43 @@ h1 {
 .game-title-modern span {
     color: #ff0000; /* 紅色 */
     text-shadow: 3px 3px 4px rgba(0, 0, 0, 0.9); /* 強陰影 */
-    font-size: 4rem;
+    font-size: 2.5rem;
     animation: pulse 2s infinite;
 }
 
-/* 脈衝動畫 */
+/* 脈衝動畫的優化 */
 @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
 }
 
-/* CRT效果 */
+/* CRT效果優化 */
 .game-title-modern::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: repeating-linear-gradient(
-        0deg,
-        rgba(255, 255, 255, 0.05),
-        rgba(255, 255, 255, 0.05) 1px,
-        transparent 1px,
-        transparent 2px
-    );
-    z-index: 1;
-    pointer-events: none;
-    opacity: 0.2;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.05),
+    rgba(255, 255, 255, 0.05) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.2;
+  will-change: opacity;
 }
 
 .game-title-modern span {
-    position: relative;
-    z-index: 2;
+  position: relative;
+  z-index: 2;
+  animation: pulse 2s infinite;
+  will-change: transform;
 }
 
 
@@ -933,3 +944,136 @@ label[for="volumeControl"] {
   font-size: 20px;
   color: #FF6F61; /* 溫暖的桃紅色 */
 }
+
+
+
+
+/* 關卡 3 樣式 */
+#game3 {
+    background-color: #ffeef8; /* 淺粉色背景 */
+    color: #333; /* 文字顏色 */
+    font-family: 'Press Start 2P', cursive; /* 日本動漫風格字型 */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#image-selector {
+    display: flex; /* 使用 flexbox 來排列圖片 */
+    gap: 10px; /* 圖片之間的間距 */
+    justify-content: center; /* 使圖片居中 */
+    margin-bottom: 20px; /* 下方邊距 */
+}
+
+.selectable-image {
+    width: 180px; /* 設置圖片寬度 */
+    height: auto; /* 高度自動調整，保持比例 */
+    cursor: pointer; /* 鼠標懸停時顯示手形光標 */
+    border: 2px solid transparent; /* 默認邊框 */
+    border-radius: 5px; /* 圓角 */
+    transition: border 0.3s; /* 添加過渡效果 */
+}
+
+.selectable-image:hover {
+    border: 2px solid #ff6347; /* 鼠標懸停時顯示邊框顏色 */
+}
+
+/* 拼圖容器樣式 */
+.puzzle-container {
+    position: relative;
+    margin: 20px auto; /* 使容器居中 */
+    background-color: #ffffff; /* 白色背景以增加對比度 */
+    border: 2px solid #f8bbd0; /* 淺粉色邊框 */
+}
+
+/* 原始拼圖樣式 */
+.original-puzzle {
+    margin: 20px auto; /* 上下外邊距 */
+    text-align: center; /* 使圖片居中 */
+}
+
+.original-puzzle img {
+    width: 500px; /* 設置圖片的寬度 */
+    height: auto; /* 高度自動調整，保持比例 */
+    border: 2px solid #f8bbd0; /* 圖片邊框 */
+    border-radius: 10px; /* 圖片邊框圓角 */
+}
+
+/* 拼圖塊樣式 */
+.puzzle-piece {
+    position: absolute;
+    background-size: cover;
+    cursor: grab;
+    border: 1px solid #f8bbd0; /* 淺粉色邊框 */
+    user-select: none;
+}
+
+/* 遊戲區域樣式 */
+.game-area {
+    padding: 20px; /* 增加內邊距 */
+    max-width: 850px; /* 這個值應該大於容器的寬度 */
+    margin: 0 auto; /* 使整個遊戲區域居中 */
+}
+
+/* 按鈕樣式 */
+button {
+    background-color: #ffb3d1; /* 淺粉紅色 */
+    color: white; /* 按鈕文字顏色 */
+    font-family: 'Press Start 2P', cursive; /* 使用相同的字型 */
+    border: none;
+    border-radius: 8px; /* 增加圓角 */
+    padding: 15px 30px; /* 增加內邊距以擴大按鈕 */
+    font-size: 1.2em; /* 增加字體大小 */
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #ff8cbf; /* 更深的粉紅色 */
+}
+
+/* 按鈕禁用樣式 */
+button:disabled {
+    background-color: #f2a6c4; /* 禁用時的背景色 */
+    color: #666; /* 禁用時的文字顏色 */
+    cursor: not-allowed; /* 鼠標指針樣式 */
+}
+
+/* 拼圖完成狀態樣式 */
+#puzzle-status {
+    font-size: 1.5em; /* 增加狀態文字大小 */
+    color: #28a745; /* 成功的顏色 */
+    text-align: center; /* 文字居中 */
+    margin-top: 20px; /* 增加上邊距 */
+}
+
+.hint-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 240, 245, 0.9); /* 淡粉色半透明背景 */
+    color: #4B0082; /* 深紫色字體 */
+    padding: 20px;
+    border-radius: 15px; /* 圓角邊框 */
+    z-index: 1000; /* 確保在最上面 */
+    display: none; /* 初始隱藏 */
+    text-align: center; /* 文字居中 */
+    font-family: 'AnimeFont', sans-serif; /* 使用日系動漫字體 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* 陰影效果 */
+    animation: pop-in 0.5s ease; /* 添加彈出動畫 */
+    border: 2px solid #FF69B4; /* 粉紅色邊框 */
+}
+
+@keyframes pop-in {
+    from {
+        transform: translate(-50%, -60%); /* 從上方進入 */
+        opacity: 0; /* 開始時透明 */
+    }
+    to {
+        transform: translate(-50%, -50%); /* 最終位置 */
+        opacity: 1; /* 完全可見 */
+    }
+}
+
+

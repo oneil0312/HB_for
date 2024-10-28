@@ -23,6 +23,7 @@
                 <img src="IMG/candle_unburn.png" alt="蠟燭" class="candle" onmouseover="lightCandle(this)" />
                 <img src="IMG/candle_unburn.png" alt="蠟燭" class="candle" onmouseover="lightCandle(this)" />
             </div>
+			
             <div class="wish-container"> 
                 <button id="wish-button" class="hidden" onclick="makeWish()">許願</button>
                 <div id="wish-message" class="hidden">請許下今年的心願</div>
@@ -36,6 +37,8 @@
             <div id="result-message" class="hidden"></div>
             <img id="qr-code" class="hidden" src="IMG/RickRoll.jpg" alt="QR Code" />
         </section>
+	<div id="fireworks-container" class="hidden"></div>
+	<div id="overlay" class="hidden"></div>
     </main>
 
     <footer>
@@ -88,6 +91,66 @@
 			document.getElementById('wish-message').classList.add('hidden');
 			litCandles = 0;
 		}
+function createFireworks() {
+    const container = document.getElementById("fireworks-container");
+
+    // 煙火效果生成
+    for (let i = 0; i < 30; i++) { // 可以調整煙火的顆數
+        const firework = document.createElement("div");
+        firework.classList.add("firework");
+
+        // 隨機位置
+        const x = Math.random() * window.innerWidth;
+        const y = Math.random() * window.innerHeight;
+
+        // 隨機顏色和大小
+        const size = Math.random() * 20 + 10; // 大小範圍：10px 到 30px
+        const color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+        
+        firework.style.left = `${x}px`;
+        firework.style.top = `${y}px`;
+        firework.style.width = `${size}px`;
+        firework.style.height = `${size}px`;
+        firework.style.backgroundColor = color;
+        
+        container.appendChild(firework);
+
+        // 動畫時間隨機化
+        firework.style.animationDuration = `${Math.random() * 1 + 0.5}s`; // 時間範圍：0.5s 到 1.5s
+
+        // 動畫結束後移除元素
+        firework.addEventListener("animationend", () => {
+            firework.remove();
+        });
+    }
+
+    // 5 秒後隱藏煙火容器
+    setTimeout(() => {
+        container.classList.add("hidden");
+    }, 2000);
+}
+
+
+
+
+// 修改 lightCandle 和 makeWish 函數以觸發煙火
+document.getElementById("wish-button").addEventListener("click", () => {
+    document.getElementById("fireworks-container").classList.remove("hidden");
+    createFireworks();
+});
+function lightCandle(candle) {
+    if (candle.src.includes('candle_unburn.png')) {
+        candle.src = 'IMG/candle.png'; // 更換為點燃的蠟燭圖片
+        litCandles++;
+        if (litCandles === 3) { // 當所有蠟燭點亮時，顯示許願按鈕並啟動煙火
+            document.getElementById('wish-button').classList.remove('hidden');
+            document.getElementById("fireworks-container").classList.remove("hidden");
+            createFireworks();
+        }
+    }
+}
+
+
     </script>
 </body>
 </html>
