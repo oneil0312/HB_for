@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>靖彤生日網頁</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Bangers&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles_happybirthday.css">
 </head>
 <body>
@@ -14,31 +14,38 @@
             <span class="celebration">生日快樂 🎈</span>
         </h1>       
     </header>
-
+    
+    <div class="circle circle-1"></div>
+    <div class="circle circle-2"></div>
+    <div class="circle circle-3"></div>
+    
     <main>
-        <section id="cake-section">
-            <img src="IMG/birthdaycake.jpg" alt="生日蛋糕" class="cake" />
-            <div class="candles">
-                <img src="IMG/candle_unburn.png" alt="蠟燭" class="candle" onmouseover="lightCandle(this)" />
-                <img src="IMG/candle_unburn.png" alt="蠟燭" class="candle" onmouseover="lightCandle(this)" />
-                <img src="IMG/candle_unburn.png" alt="蠟燭" class="candle" onmouseover="lightCandle(this)" />
-            </div>
-			
-            <div class="wish-container"> 
-                <button id="wish-button" class="hidden" onclick="makeWish()">許願</button>
-                <div id="wish-message" class="hidden">請許下今年的心願</div>
-            </div>
-        </section>
 
-        <section id="input-section">
-            <label for="hint-input">請輸入前幾天收集到的提示：</label>
-            <input type="text" id="hint-input" placeholder="輸入提示字">
-            <button id="confirm-button">確認</button>
-            <div id="result-message" class="hidden"></div>
-            <img id="qr-code" class="hidden" src="IMG/RickRoll.jpg" alt="QR Code" />
-        </section>
-	<div id="fireworks-container" class="hidden"></div>
-	<div id="overlay" class="hidden"></div>
+            <section id="cake-section">
+                <img src="IMG/birthdaycake.jpg" alt="生日蛋糕" class="cake" loading="lazy" />
+                <div class="candles">
+                    <img src="IMG/candle_unburn.png" alt="未點燃的蠟燭" class="candle" />
+                    <img src="IMG/candle_unburn.png" alt="未點燃的蠟燭" class="candle" />
+                    <img src="IMG/candle_unburn.png" alt="未點燃的蠟燭" class="candle" />
+                </div>
+                
+                <div class="wish-container"> 
+                    <button id="wish-button" class="hidden">許願</button>
+                    <div id="wish-message" class="hidden">請許下今年的心願</div>
+                </div>
+            </section>
+
+            <section id="input-section">
+                <label for="hint-input">請輸入前幾天收集到的提示：</label>
+                <input type="text" id="hint-input" placeholder="輸入提示字" aria-label="提示字輸入框">
+                <button id="confirm-button">確認</button>
+                <div id="result-message" class="hidden" aria-live="polite"></div>
+                <img id="qr-code" class="hidden" src="IMG/RickRoll.jpg" alt="QR Code" loading="lazy" />
+            </section>
+            
+            <div id="fireworks-container" class="hidden"></div>
+            <div id="speech-bubble-container" ></div>
+
     </main>
 
     <footer>
@@ -66,88 +73,130 @@
             hintInput.value = ''; // 清空輸入框
         });
 
-        function lightCandle(candle) {
-			if (candle.src.includes('candle_unburn.png')) {
-				candle.src = 'IMG/candle.png'; // 更換為點燃的蠟燭圖片
-				litCandles++;
-				if (litCandles === 3) { // 當所有蠟燭點亮時，顯示許願按鈕
-					document.getElementById('wish-button').classList.remove('hidden');
-				}
-			}
-		}
-		function makeWish() {
-			// 點下許願按鈕後顯示訊息，並在10秒後熄滅蠟燭
-			document.getElementById('wish-message').classList.remove('hidden');
-			setTimeout(extinguishCandles, 10000); // 10秒後熄滅蠟燭
-		}
-
-		function extinguishCandles() {
-			const candles = document.querySelectorAll('.candle');
-			candles.forEach(candle => {
-				candle.src = 'IMG/candle_unburn.png'; // 更換回未點燃的蠟燭圖片
-			});
-			// 隱藏許願按鈕和訊息，重置已點亮的蠟燭數量
-			document.getElementById('wish-button').classList.add('hidden');
-			document.getElementById('wish-message').classList.add('hidden');
-			litCandles = 0;
-		}
-function createFireworks() {
-    const container = document.getElementById("fireworks-container");
-
-    // 煙火效果生成
-    for (let i = 0; i < 30; i++) { // 可以調整煙火的顆數
-        const firework = document.createElement("div");
-        firework.classList.add("firework");
-
-        // 隨機位置
-        const x = Math.random() * window.innerWidth;
-        const y = Math.random() * window.innerHeight;
-
-        // 隨機顏色和大小
-        const size = Math.random() * 20 + 10; // 大小範圍：10px 到 30px
-        const color = `hsl(${Math.random() * 360}, 100%, 50%)`;
-        
-        firework.style.left = `${x}px`;
-        firework.style.top = `${y}px`;
-        firework.style.width = `${size}px`;
-        firework.style.height = `${size}px`;
-        firework.style.backgroundColor = color;
-        
-        container.appendChild(firework);
-
-        // 動畫時間隨機化
-        firework.style.animationDuration = `${Math.random() * 1 + 0.5}s`; // 時間範圍：0.5s 到 1.5s
-
-        // 動畫結束後移除元素
-        firework.addEventListener("animationend", () => {
-            firework.remove();
+        // 使用事件委派，綁定到父元素
+        document.querySelector('.candles').addEventListener('mouseover', function(e) {
+            if (e.target.classList.contains('candle')) {
+                lightCandle(e.target);
+            }
         });
-    }
 
-    // 5 秒後隱藏煙火容器
-    setTimeout(() => {
-        container.classList.add("hidden");
-    }, 2000);
-}
+        function lightCandle(candle) {
+            if (candle.src.includes('candle_unburn.png')) {
+                candle.src = 'IMG/candle.png'; // 更換為點燃的蠟燭圖片
+                litCandles++;
+                if (litCandles === 3) { // 當所有蠟燭點亮時，顯示許願按鈕
+                    document.getElementById('wish-button').classList.remove('hidden');
+                    // 調整提示區域的位置
+                    document.getElementById('input-section').style.marginTop = '50px'; // 可以根據需要調整
+                }
+            }
+        }
 
-
-
-
-// 修改 lightCandle 和 makeWish 函數以觸發煙火
-document.getElementById("wish-button").addEventListener("click", () => {
-    document.getElementById("fireworks-container").classList.remove("hidden");
-    createFireworks();
-});
-function lightCandle(candle) {
-    if (candle.src.includes('candle_unburn.png')) {
-        candle.src = 'IMG/candle.png'; // 更換為點燃的蠟燭圖片
-        litCandles++;
-        if (litCandles === 3) { // 當所有蠟燭點亮時，顯示許願按鈕並啟動煙火
-            document.getElementById('wish-button').classList.remove('hidden');
+        document.getElementById("wish-button").addEventListener("click", () => {
+            makeWish();
             document.getElementById("fireworks-container").classList.remove("hidden");
             createFireworks();
+            createSpeechBubble(); // 生成對話框
+        });
+
+        function makeWish() {
+            // 點下許願按鈕後顯示訊息，並在10秒後熄滅蠟燭
+            document.getElementById('wish-message').classList.remove('hidden');
+            setTimeout(extinguishCandles, 10000); // 10秒後熄滅蠟燭
         }
-    }
+
+        function extinguishCandles() {
+            const candles = document.querySelectorAll('.candle');
+            candles.forEach(candle => {
+                candle.src = 'IMG/candle_unburn.png'; // 更換回未點燃的蠟燭圖片
+            });
+            // 隱藏許願按鈕和訊息，重置已點亮的蠟燭數量
+            document.getElementById('wish-button').classList.add('hidden');
+            document.getElementById('wish-message').classList.add('hidden');
+            litCandles = 0;
+            document.getElementById('input-section').style.marginTop = '0'; // 重置 margin
+        }
+
+        function createFireworks() {
+            const container = document.getElementById("fireworks-container");
+
+            // 煙火效果生成
+            for (let i = 0; i < 30; i++) { // 可以調整煙火的顆數
+                const firework = document.createElement("div");
+                firework.classList.add("firework");
+
+                // 隨機位置
+                const x = Math.random() * window.innerWidth;
+                const y = Math.random() * window.innerHeight;
+
+                // 隨機顏色和大小
+                const size = Math.random() * 20 + 10; // 大小範圍：10px 到 30px
+                const color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                
+                firework.style.left = `${x}px`;
+                firework.style.top = `${y}px`;
+                firework.style.width = `${size}px`;
+                firework.style.height = `${size}px`;
+                firework.style.backgroundColor = color;
+                
+                container.appendChild(firework);
+
+                // 動畫時間隨機化
+                firework.style.animationDuration = `${Math.random() * 1 + 0.5}s`; // 時間範圍：0.5s 到 1.5s
+
+                // 動畫結束後移除元素
+                firework.addEventListener("animationend", () => {
+                    firework.remove();
+                });
+            }
+
+            // 5 秒後隱藏煙火容器
+            setTimeout(() => {
+                container.classList.add("hidden");
+            }, 2000);
+        }
+
+window.addEventListener('load', () => {
+    createSpeechBubble(); // 頁面加載後自動生成對話框
+});
+
+function createSpeechBubble() {
+    const container = document.getElementById("speech-bubble-container");
+    const phrases = ["Boom!", "Wow!", "Yay!", "Happy Birthday!", "Let's Celebrate!", "Surprise!"];
+    
+    const interval = setInterval(() => {
+        const bubble = document.createElement("div");
+        bubble.classList.add("speech-bubble");
+
+        // 隨機選擇對話框內容
+        const phrase = phrases[Math.floor(Math.random() * phrases.length)];
+        bubble.textContent = phrase;
+
+        // 隨機選擇對話框出現的側邊
+        const side = Math.random() < 0.5 ? 'left' : 'right';
+        const x = side === 'left' ? Math.random() * (window.innerWidth / 2) : Math.random() * (window.innerWidth / 2) + (window.innerWidth / 2);
+        const y = Math.random() * (window.innerHeight - 100); // 確保不超出視窗
+        bubble.style.left = `${x}px`;
+        bubble.style.top = `${y}px`;
+
+        container.appendChild(bubble);
+
+        // 動畫結束後移除對話框
+        bubble.addEventListener("animationend", () => {
+            bubble.remove();
+        });
+
+        // 每個對話框持續4秒
+        setTimeout(() => {
+            bubble.remove();
+        }, 4000);
+
+    }, 800); // 每 0.8 秒生成一個新的對話框
+
+    // 停止生成對話框的條件，可以根據需要進行設置
+    setTimeout(() => {
+        clearInterval(interval);
+    }, 20000); // 20秒後停止生成對話框
 }
 
 

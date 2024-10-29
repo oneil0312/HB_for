@@ -11,7 +11,8 @@
 
 </head>
 <body>
-
+<label for="test-date">選擇測試日期:</label>
+  <input type="date" id="test-date" onchange="setTestDate()">
 <section id="countdown">
   <h1>靖彤 정동 Avery 生日倒數計時器</h1>
   <div id="digital-clock">
@@ -201,10 +202,22 @@ function checkLevel3Access() {
 }
 
 // 倒數日期
-var countdownDate = new Date('2024-10-30').getTime();
+var countdownDate = new Date('2024-12-08').getTime();
 var clickCount = 0; // 點擊計數器
 var secondPhaseOpened = false; // 記錄第二關是否已開啟
 var thirdPhaseOpened = false; // 關卡 3 的狀態
+
+function setTestDate() {
+  var selectedDate = document.getElementById('test-date').value;
+  if (selectedDate) {
+    countdownDate = new Date(selectedDate).getTime(); // 更新倒數日期為選擇的測試日期
+    updateCountdown(); // 更新倒數計時
+  }
+}
+// 格式化顯示日期數字
+function padZero(num) {
+  return num < 10 ? '0' + num : num;
+}
 
 // 更新倒數計時器
 function updateCountdown() {

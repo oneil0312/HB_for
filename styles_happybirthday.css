@@ -1,32 +1,127 @@
 /* 全局設置 */
 body {
-    font-family: 'Comic Sans MS', sans-serif; /* 更改為漫畫風字體 */
-    background-color: #ffe600; /* 亮黃色背景 */
+    font-family: 'Impact', sans-serif; /* 漫畫風格字體 */
     color: #333;
     margin: 0;
     padding: 20px;
     text-align: center;
-    background-image: radial-gradient(circle, rgba(255, 230, 0, 0.3) 20%, transparent 20%), radial-gradient(circle, rgba(255, 230, 0, 0.3) 20%, transparent 20%);
-    background-size: 50px 50px;
-    background-position: 0 0, 25px 25px; /* 模擬漫畫半色調背景 */
+
+    /* 漸變背景色 */
+    background: linear-gradient(135deg, #ffcc00 25%, #ff0033 25%, #ff0033 50%, #00ccff 50%, #00ccff 75%, #ffcc00 75%);
+    background-size: 300% 300%; /* 增加背景的大小 */
+    animation: gradient-animation 20s ease infinite; /* 動態漸變效果 */
+    position: relative;
+    overflow: hidden; /* 避免內容溢出 */
 }
 
+
+html, body {
+    min-height: 100vh; /* 設置最小高度為視口高度 */
+    overflow-y: auto; /* 始終顯示垂直滾動條 */
+}
+
+
+@keyframes gradient-animation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* 額外圖案 */
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1); /* 半透明白色圓 */
+    animation: pulse 5s infinite; /* 脈動動畫 */
+}
+
+.circle-1 { width: 100px; height: 100px; top: 10%; left: 20%; }
+.circle-2 { width: 150px; height: 150px; top: 50%; left: 70%; }
+.circle-3 { width: 80px; height: 80px; bottom: 20%; right: 30%; }
+
+@keyframes pulse {
+    0% { transform: scale(0.8); opacity: 1; }
+    50% { transform: scale(1); opacity: 0.5; }
+    100% { transform: scale(0.8); opacity: 1; }
+}
+
+/* 標題樣式 */
 header h1 {
-    text-align: center;
     margin: 20px 0;
-    font-size: 3rem;
-    color: #ff0033; /* 鮮紅色 */
-    text-shadow: 4px 4px 0 #000, 6px 6px 0 #fff; /* 強烈對比的文字陰影 */
+    font-size: 3.5rem;
+    color: #ff4500; /* 鮮橘紅色 */
+    text-shadow: 3px 3px 0 #000, 5px 5px 0 #fff; /* 強烈對比的文字陰影 */
     animation: fadeIn 1s ease-in-out;
-    border: 4px solid #000; /* 粗線條邊框 */
-    padding: 10px;
+    border: 6px solid #000; /* 更粗的黑色邊框 */
+    padding: 15px;
     display: inline-block;
-    background-color: #fff; /* 白色背景，模仿漫畫中的文字框 */
+    background-color: #fff; /* 白色背景，模擬漫畫中的文字框 */
 }
 
+/* 隱藏元素 */
 .hidden {
-    display: none; /* 隱藏元素 */
+    display: none; 
 }
+
+#input-section {
+	transition: margin-top 0.3s ease; /* 添加平滑過渡效果 */
+}
+
+
+.speech-bubble {
+    position: absolute;
+    padding: 15px;
+    color: #333;
+    background-color: #fff200; /* 鮮黃色背景，增強漫畫風 */
+    border: 4px solid #333; /* 粗邊框，模擬漫畫描邊 */
+    border-radius: 10px;
+    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.3), -6px -6px 0 rgba(0, 0, 0, 0.3); /* 模擬手繪陰影，強化深度 */
+    font-family: 'Bangers', sans-serif; /* 動漫風格字體 */
+    font-size: 20px;
+    text-align: center;
+    clip-path: polygon(
+        10% 0%, 25% 12%, 40% 0%, 60% 12%, 80% 0%, 95% 12%, 100% 30%,
+        87% 40%, 100% 55%, 87% 70%, 100% 90%, 85% 100%, 70% 87%, 
+        50% 100%, 30% 87%, 15% 100%, 0% 90%, 12% 70%, 0% 55%, 12% 40%, 0% 30%
+    ); /* 更誇張的爆炸形狀 */
+    animation: popIn 1.5s cubic-bezier(0.2, 1, 0.3, 1.1), fadeOut 5s ease forwards;
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0.4) rotate(10deg);
+        opacity: 0;
+    }
+    80% {
+        transform: scale(1.25) rotate(-5deg);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+
+/* 位置設定 */
+.left {
+    left: 5%; /* 左側偏移 */
+    transform: translateY(-50%);
+}
+
+.right {
+    right: 5%; /* 右側偏移 */
+    transform: translateY(-50%);
+}
+
 
 /* 煙火容器 */
 #fireworks-container {
@@ -43,98 +138,89 @@ header h1 {
     z-index: 9999;
 }
 
-/* 煙火基本樣式 */
+/* 煙火樣式 */
 .firework {
     position: absolute;
     border-radius: 50%;
     animation: explode 1s ease-out forwards;
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.7), rgba(255, 0, 0, 0.8)); 
 }
 
 /* 煙火爆炸動畫 */
 @keyframes explode {
-    0% {
-        transform: scale(1);
-        opacity: 1;
-    }
-    100% {
-        transform: scale(4);
-        opacity: 0;
-    }
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(5); opacity: 0; }
 }
 
-
-
-
-.name {
-    font-family: 'Bangers', cursive; /* 使用更具漫畫風的 Google Fonts 字體 */
+/* 名稱樣式 */
+.name, .celebration {
+    font-family: 'Bangers', cursive; /* 動感字體 */
     font-size: 4rem;
-    color: #ff0033;
-    text-shadow: 4px 4px 0 #000, 6px 6px 0 #fff;
-    border: 5px solid #000; /* 粗黑邊框 */
+    color: #ff4500; /* 鮮橘紅色 */
+    text-shadow: 3px 3px 0 #000, 6px 6px 0 #fff;
+    border: 6px solid #000; /* 更粗的黑色邊框 */
     padding: 10px;
     background-color: #ffcc00; /* 亮黃色背景 */
     display: inline-block;
-    margin-bottom: 20px;
 }
 
 .celebration {
-    font-family: 'Arial Black', sans-serif; /* 加粗字體 */
+    font-family: 'Arial Black', sans-serif; /* 粗體字 */
     font-size: 3rem;
     color: #0033ff; /* 鮮藍色 */
-    text-shadow: 3px 3px 0 #000, 5px 5px 0 #fff;
-    border: 4px solid #000;
-    background-color: #ffcc00;
-    padding: 10px;
-    display: inline-block;
 }
 
+/* 鼠標懸停效果 */
 .name:hover, .celebration:hover {
-    transform: scale(1.1) rotate(5deg); /* 漫畫風的誇張旋轉效果 */
+    transform: scale(1.1) rotate(7deg); /* 漫畫風的誇張旋轉效果 */
 }
 
+/* 輸入區域樣式 */
 #input-section {
     margin-top: 20px;
     padding: 20px;
-    background-color: #fff;
+    background-color: #ffffff;
     border: 6px solid #000;
     border-radius: 10px;
-    box-shadow: 5px 5px 0 #000; /* 粗黑陰影 */
+    box-shadow: 6px 6px 0 #000; /* 粗黑陰影，漫畫感 */
     max-width: 600px;
     margin: 20px auto;
+	transition: margin-top 0.3s ease; /* 添加平滑過渡效果 */
 }
 
 label {
     display: block;
     font-size: 1.5em;
     font-weight: bold;
-    color: #ff0033;
+    color: #ff4500;
     padding: 10px;
     text-align: center;
     background-color: #ffcc00;
-    border: 4px solid #000;
-    box-shadow: 3px 3px 0 #000; /* 模仿漫畫風格的立體感 */
+    border: 6px solid #000;
+    box-shadow: 4px 4px 0 #000; /* 立體感 */
 }
 
 input[type="text"] {
     padding: 10px;
-    border: 4px solid #000;
+    border: 6px solid #000;
     width: 80%;
     margin-bottom: 15px;
     font-size: 1.2em;
     text-align: center;
-    background-color: #fff;
-    box-shadow: 3px 3px 0 #000;
+    background-color: #ffffff;
+    box-shadow: 4px 4px 0 #000;
 }
 
+/* 按鈕樣式 */
 button {
     padding: 10px 20px;
-    background: #ff0033;
-    border: 4px solid #000;
+    background: #ff4500;
+    border: 6px solid #000;
     color: white;
     font-size: 1.2em;
     text-transform: uppercase;
     cursor: pointer;
-    box-shadow: 5px 5px 0 #000;
+    box-shadow: 6px 6px 0 #000;
     transition: transform 0.3s, background 0.3s;
 }
 
@@ -143,6 +229,7 @@ button:hover {
     background: #ff6600; /* 懸停時改變顏色 */
 }
 
+/* 蛋糕區域樣式 */
 #cake-section {
     position: relative;
     margin: 30px 0;
@@ -153,7 +240,7 @@ button:hover {
     max-width: 300px;
     margin: 20px auto;
     border: 6px solid #000;
-    box-shadow: 5px 5px 0 #000;
+    box-shadow: 6px 6px 0 #000;
 }
 
 .candles {
@@ -172,22 +259,23 @@ button:hover {
     position: relative;
     bottom: 60px;
     transition: transform 0.3s;
-    border: 2px solid #000;
-    box-shadow: 3px 3px 0 #000;
+    border: 4px solid #000;
+    box-shadow: 4px 4px 0 #000;
 }
 
 .candle:hover {
-    transform: scale(1.2) rotate(5deg);
+    transform: scale(1.2) rotate(7deg);
 }
 
+/* 訊息樣式 */
 #wish-message {
     font-size: 1.5em;
     color: #fff;
     background: #0033ff;
     padding: 10px 15px;
     border-radius: 10px;
-    border: 4px solid #000;
-    box-shadow: 5px 5px 0 #000;
+    border: 6px solid #000;
+    box-shadow: 6px 6px 0 #000;
     text-transform: uppercase;
     max-width: 300px;
     margin: 20px auto;
@@ -195,53 +283,59 @@ button:hover {
 
 /* 成功和錯誤訊息的樣式 */
 .success, .error {
-    font-family: 'Comic Sans MS', sans-serif; /* 更換為漫畫字體 */
-    font-size: 2rem; /* 調整字體大小 */
+    font-family: 'Comic Sans MS', sans-serif;
+    font-size: 2rem;
     padding: 10px;
-    border: 4px solid #000;
-    box-shadow: 5px 5px 0 #000;
+    border: 6px solid #000;
+    box-shadow: 6px 6px 0 #000;
     display: inline-block;
-    background-color: #fff;
+    background-color: #ffcc00; /* 亮黃色背景 */
     color: #333;
     margin-top: 20px;
 }
 
-.success {
-    color: #28a745; /* 綠色，代表成功 */
-    background-color: #ffcc00; /* 亮黃色背景，漫畫風 */
-}
+.success { color: #28a745; } /* 綠色，代表成功 */
+.error { color: #dc3545; } /* 紅色，代表錯誤 */
 
-.error {
-    color: #dc3545; /* 紅色，代表錯誤 */
-    background-color: #ffcc00; /* 同樣使用亮黃色背景 */
-}
-
+/* 鼠標懸停效果 */
 .success:hover, .error:hover {
-    transform: scale(1.1) rotate(-3deg); /* 當鼠標懸停時，字體會有輕微旋轉效果 */
+    transform: scale(1.1) rotate(-3deg); /* 漫畫風旋轉效果 */
 }
 
-
-
+/* QR碼樣式 */
 #qr-code {
-    width: 150px; /* 調整 QR 碼的寬度 */
-    height: auto; /* 保持高度自動調整比例 */
-    border: 6px solid #000; /* 粗黑色邊框，模仿漫畫風格 */
-    box-shadow: 5px 5px 0 #000; /* 3D 效果的黑色陰影 */
-    background-color: #fff; /* 白色背景 */
-    padding: 10px; /* 為 QR 碼四周留白，模仿漫畫風 */
-    margin-top: 20px; /* 增加上方空間 */
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    width: 150px;
+    height: auto;
+    border: 6px solid #000;
+    box-shadow: 6px 6px 0 #000;
+    background-color: #fff;
+    padding: 10px;
+    margin-top: 20px;
+    transition: transform 0.3s;
 }
 
 #qr-code:hover {
-    transform: scale(1.1) rotate(-5deg); /* 懸停時放大並略微旋轉 */
-    box-shadow: 10px 10px 0 #000; /* 懸停時加強陰影 */
+    transform: scale(1.1);
 }
 
 footer {
-    margin-top: 30px;
-    font-size: 0.8em;
-    color: #333;
-    text-shadow: 1px 1px 0 #fff;
-    padding: 10px;
+    background-color: #333; /* 深色背景 */
+    color: #fff; /* 白色文字 */
+    padding: 20px 0; /* 上下邊距，讓內容有足夠空間 */
+    text-align: center; /* 文字置中 */
+    font-size: 30px; /* 字體大小 */
+    font-family: 'Bangers', cursive; /* 採用漫畫風格的字體 */
+    position: relative;
+}
+
+footer p {
+    margin: 0; /* 去除默認的段落邊距 */
+}
+footer::before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, #ffcc00, #ff0033, #00ccff); /* 動態漸變色條 */
+    margin-bottom: 20px;
 }
