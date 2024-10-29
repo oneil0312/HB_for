@@ -201,7 +201,7 @@ function checkLevel3Access() {
 }
 
 // 倒數日期
-var countdownDate = new Date('2024-12-08').getTime();
+var countdownDate = new Date('2024-10-30').getTime();
 var clickCount = 0; // 點擊計數器
 var secondPhaseOpened = false; // 記錄第二關是否已開啟
 var thirdPhaseOpened = false; // 關卡 3 的狀態
@@ -1088,6 +1088,13 @@ document.querySelectorAll('.selectable-image').forEach(image => {
         }
     });
 });
+
+
+function shufflePuzzle() {
+    initializePuzzle(); // 重新初始化拼圖
+    document.getElementById("puzzle-status").style.display = "none"; // 隱藏完成訊息
+}
+
 
 // 初始化拼圖
 initializePuzzle();
