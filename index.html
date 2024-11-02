@@ -11,6 +11,7 @@
 
 </head>
 <body>
+<div id="arcade-frame">
 <label for="test-date">選擇測試日期:</label>
   <input type="date" id="test-date" onchange="setTestDate()">
 <section id="countdown">
@@ -162,7 +163,10 @@
     <img id="birthday-image" src="https://static.wikia.nocookie.net/minecraft_zh_gamepedia/images/0/03/Nether_portal_%28animated%29.png/revision/latest/scale-to-width-down/250?cb=20200830042435" alt="Birthday Image" style="display: none;">
   </a>
 </div>
-
+</div>
+    <footer>
+        <p>© 歐尼歐版權大概吧</p>
+    </footer>
 
 <script>
 // 當點擊 causon_bread 時執行的函數
@@ -342,7 +346,9 @@ const songs = [
 	{ song: 'voice/yoasobi_monster.MP3', framework: 'yoasobi_monster' },
 	{ song: 'voice/yorushika_Algernon.MP3', framework: 'yorushika_Algernon' },
 	{ song: 'voice/yorushika_Tadakiminohare.MP3', framework: 'yorushika_Tadakiminohare' },
-    { song: 'voice/yuuri_DriedFlowers.MP3', framework: 'yuuri_DrideFlowers' }
+    { song: 'voice/yuuri_DriedFlowers.MP3', framework: 'yuuri_DrideFlowers' },
+	{ song: 'voice/ChoQmay_Anata No Koibito Ni Naritai.MP3', framework: 'ChoQmay_Anata No Koibito Ni Naritai' },
+	{ song: 'voice/Rokudenashi_One Voice.MP3', framework: 'Rokudenashi_One Voice' },
 ];
 
 let selectedSongs = [];
@@ -381,7 +387,7 @@ function initGame() {
 let hasFlippedCard = false;
 let lockBoard = false;
 let firstCard, secondCard;
-let score = 0; // 分數初始化
+let score = 9; // 分數初始化
 let audio; // 聲音變數
 
 const volumeControl = document.getElementById('volumeControl'); // 獲取音量控制元素
@@ -499,7 +505,7 @@ function showHintPopup() {
     hintPopup.id = 'hint-popup';
     hintPopup.innerHTML = `
         <div class="hint-popup-content">
-            <p> 今天的提示字是: <strong style="color: #ff4081;">RE</strong> </p>
+            <p style="color: #ff4081;"> 今天的提示字是: <strong style="color: #ff4081;">RE</strong> </p>
             <button class="hint-confirm-button">確認</button>
         </div>
     `;

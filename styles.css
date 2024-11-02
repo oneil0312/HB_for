@@ -10,10 +10,11 @@
   color: var(--main-color);
 }
 
+/* 主要背景設置 */
 body {
-	
-  font-family: Arial, sans-serif;
-  background-color: #f3f4f6;
+  font-family: 'Press Start 2P', Arial, sans-serif;
+  background-color: #000; /* 深色背景讓復古街機風格更突出 */
+  color: #fff;
   text-align: center;
   margin: 0;
   padding: 0;
@@ -22,56 +23,65 @@ body {
 
 
 
-/* 倒數計時區域 */
+
+/* 外框設計 */
 #countdown {
+  width: 90%;
+  max-width: 1600px;
   margin: 50px auto;
-  display: flex; /* 使用 Flexbox */
-  flex-direction: column; /* 讓內容垂直排列 */
-  align-items: center; /* 垂直居中 */
+  padding: 20px;
+  border: 10px solid #ff003c; /* 粗線條邊框，模擬街機機台邊框 */
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(255, 0, 60, 0.7), 0 0 30px rgba(255, 0, 60, 0.5); /* 外部發光效果 */
+  background-color: #222; /* 深色背景讓內容更突出 */
 }
 
-/* 時間顯示區塊樣式 */
+/* 顯示區塊樣式 */
 .digit {
   display: inline-block;
   margin: 10px;
-  font-size: 2rem;
+  font-size: 2.5rem;
 }
 
 .digit-label {
   display: block;
-  font-size: 1rem;
-  color: #555;
+  font-size: 1.2rem;
+  color: #a3a3a3;
 }
 
 .digit-value {
-  font-size: 3rem;
-  color: #ff4081;
+  font-size: 3.5rem;
+  color: #ffdf00; /* 黃色字體，模擬街機燈光效果 */
+  text-shadow: 2px 2px 0 #ff003c, -2px -2px 0 #003cff; /* 濃烈的陰影效果 */
 }
 
-/* 日曆圖片樣式，置中 */
+/* 日曆樣式 */
 .calendar-container {
-    display: flex; /* 使用 Flexbox */
-    align-items: center; /* 垂直居中對齊 */
-    position: relative; /* 設置為相對定位，讓裡面的絕對定位元素以此為參考 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 20px;
 }
 
 .sagittarius-image {
-    width: 350px; /* 調整圖片大小 */
-    height: auto; /* 保持比例 */
-    margin: 0 10px; /* 左右間距 */
+  width: 300px;
+  height: auto;
+  filter: brightness(1.0) contrast(1.2); /* 增強亮度與對比 */
+  margin: 0 5px;
 }
 
 /* 紅色圈圈樣式 */
 .date-circle {
-  position: absolute; /* 繼續使用絕對定位 */
-  top: 56.5%; /* 調整圈圈的垂直位置 */
-  left: 34.7%; /* 調整圈圈的水平位置 */
-  transform: translate(-50%, -50%); /* 使圓圈居中於指定位置 */
-  width: 40px; /* 圈圈的寬度 */
-  height: 40px; /* 圈圈的高度 */
-  border: 4px solid red; /* 圈圈的顏色和寬度 */
-  border-radius: 50%; /* 使邊角圓滑，形成圓形 */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* 添加陰影 */
+  position: absolute;
+  top: 56.5%;
+  left: 36.7%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  border: 4px solid #ff003c; /* 圓圈的顏色 */
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(255, 0, 60, 0.7);
 }
 
 /* 響應式設計 */
@@ -1077,3 +1087,34 @@ button:disabled {
 }
 
 
+footer {
+    background-color: #111; /* 更深的背景色 */
+    color: #00ffcc; /* 霓虹藍綠色文字 */
+    padding: 20px 0;
+    text-align: center;
+    font-size: 30px;
+    font-family: 'Press Start 2P', cursive;
+    position: relative;
+    border-top: 4px solid #ff0066; /* 顯眼的霓虹邊框 */
+}
+
+footer p {
+    margin: 0;
+    text-shadow: 2px 2px #333333, -2px -2px #333333; /* 字體陰影，增添立體感 */
+}
+
+footer::before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(to right, #ff0066, #ffcc00, #33ccff, #ff0066); /* 動態霓虹漸變色條 */
+    animation: glow 3s linear infinite; /* 讓條狀緩慢閃爍 */
+    margin-bottom: 20px;
+}
+
+/* 霓虹效果動畫 */
+@keyframes glow {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
