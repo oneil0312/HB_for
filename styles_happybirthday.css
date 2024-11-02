@@ -8,14 +8,14 @@ html, body {
 }
 
 body {
-    color: #333;
-    text-align: center;
-    padding: 20px;
+    color: #333; /* 字体颜色 */
+    text-align: center; /* 文字居中对齐 */
+    padding: 20px; /* 内边距 */
     background: linear-gradient(135deg, #ffcc00 25%, #ff0033 25%, #ff0033 50%, #00ccff 50%, #00ccff 75%, #ffcc00 75%);
-    background-size: 300% 300%;
-    animation: gradient-animation 30s ease infinite; /* 放慢背景動畫 */
-    position: relative;
-    overflow-y: auto; /* 允許垂直滾動 */
+    background-size: 300% 300%; /* 背景渐变的大小 */
+    animation: gradient-animation 30s ease infinite; /* 背景动画 */
+    position: relative; /* 允许子元素使用绝对定位 */
+    overflow-y: auto; /* 允许垂直滚动 */
 }
 
 /* 背景動畫效果 */
@@ -60,6 +60,64 @@ header h1 {
 	transition: margin-top 0.3s ease; /* 添加平滑過渡效果 */
 }
 
+
+/* 基础动画样式 */
+.animate {
+    position: absolute; /* 绝对定位 */
+    width: 200px; /* 调整图片宽度 */
+    height: auto; /* 保持图片的纵横比 */
+}
+
+/* 从左边到右边滚动的动画 */
+@keyframes scroll-and-rotate {
+    0% {
+        transform: rotate(0deg); /* 初始旋转 */
+        left: -200px; /* 从左边界外开始 */
+    }
+    100% {
+        left: 100vw; /* 结束位置，右边界外 */
+        transform: rotate(720deg); /* 旋转720度 */
+    }
+}
+
+/* 从右边到左边滚动的动画 */
+@keyframes scroll-and-rotate-left {
+    0% {
+        transform: rotate(0deg); /* 初始旋转 */
+        right: -200px; /* 从右边界外开始 */
+    }
+    100% {
+        right: 100vw; /* 结束位置，左边界外 */
+        transform: rotate(-1080deg); /* 旋转720度 */
+    }
+}
+
+/* 应用动画效果 */
+#movingImage1,
+#movingImage2 {
+    animation: scroll-and-rotate 4s linear infinite; /* 从左到右滚动 */
+
+}
+
+#movingImage5,
+#movingImage6{
+    animation: scroll-and-rotate 6s linear infinite; /* 从左到右滚动 */
+
+}
+
+#movingImage3,
+#movingImage4 {
+    animation: scroll-and-rotate-left 4s linear infinite; /* 从右到左滚动 */
+}
+
+
+
+
+/* 特定于 movingImage11 的样式调整 */
+#movingImage11 {
+    width: 130px; /* 调整为更小的宽度 */
+    height: auto; /* 维持纵横比 */
+}
 
 /* 漫畫對話框樣式 */
 .speech-bubble {

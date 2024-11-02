@@ -46,12 +46,13 @@
         <div class="date-circle"></div> <!-- 紅色圓圈 -->
     </div>
   
-  <img src="causon_bread.png" alt="causon_bread" class="causon_bread" onclick="playSound()">
-  <audio id="clickSound">
-    <source src="causon.mp3" type="audio/mpeg">
-  </audio>
-  
-  <img src="causon.png" alt="causon" class="causon" id="causonImage" style="display: none;">  
+	<img src="causon_bread.png" alt="causon_bread" class="causon_bread" onclick="playSound()">
+	<audio id="clickSound">
+		<source src="causon.mp3" type="audio/mpeg">
+	</audio>
+
+	<img src="causon.png" alt="causon" class="causon" id="causonImage" style="display: none;">
+
   
   
 <section class="level-selector">
@@ -168,20 +169,20 @@
 <script>
 // 當點擊 causon_bread 時執行的函數
 function playSound() {
-  var audio = document.getElementById("clickSound");
-  audio.volume = 0.3;
-  audio.play();
+    var audio = document.getElementById("clickSound");
+    audio.volume = 0.3;
+    audio.play();
 
-  // 顯示 causon.png 圖片並啟動動畫
-  var causonImage = document.getElementById("causonImage");
-  causonImage.style.display = 'block';  // 顯示圖片
-  causonImage.classList.add('animate');  // 添加動畫效果
+    // 顯示 causon.png 圖片並啟動動畫
+    var causonImage = document.getElementById("causonImage");
+    causonImage.style.display = 'block';  // 顯示圖片
+    causonImage.classList.add('animate');  // 添加動畫效果
 
-  // 在動畫結束後將圖片隱藏
-  setTimeout(function() {
-    causonImage.style.display = 'none';  // 重新隱藏圖片
-    causonImage.classList.remove('animate');  // 移除動畫效果以便下一次重新執行
-  }, 3000); // 3秒後隱藏圖片
+    // 在動畫結束後將圖片隱藏
+    setTimeout(function() {
+        causonImage.style.display = 'none';  // 重新隱藏圖片
+        causonImage.classList.remove('animate');  // 移除動畫效果以便下一次重新執行
+    }, 3000); // 3秒後隱藏圖片
 }
 
 function checkLevel2Access() {
