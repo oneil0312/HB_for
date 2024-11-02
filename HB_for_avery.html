@@ -5,19 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>靖彤生日網頁</title>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Bangers&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Sacramento&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles_happybirthday.css">
 </head>
 <body>
+	
+	<img src="IMG/brachiosaurus.png" alt="Brachiosaurus" id="brachiosaurus-right" class="dino">
+	<img src="IMG/brachiosaurus.png" alt="Brachiosaurus" id="brachiosaurus-left" class="dino">
+
+
+	<div id="dialog" class="dialog hidden">
+		<div class="dialog-content">
+			<span class="close">&times;</span>
+			<p class="greeting">嗨！我是 <span class="brachio">Brachio</span>，</p>
+			<p class="birthday-message"> <span class="birthday-name">靖彤</span> 生日快樂！</p>
+		</div>
+	</div>
+
+
     <header>
         <h1>
             <span class="name">🎈 靖彤 </span>
             <span class="celebration">生日快樂 🎈</span>
         </h1>       
-    </header>
-    
-    <div class="circle circle-1"></div>
-    <div class="circle circle-2"></div>
-    <div class="circle circle-3"></div>
+    </header>   
     
     <main>
 
@@ -28,12 +41,29 @@
                     <img src="IMG/candle_unburn.png" alt="未點燃的蠟燭" class="candle" />
                     <img src="IMG/candle_unburn.png" alt="未點燃的蠟燭" class="candle" />
                 </div>
-                
                 <div class="wish-container"> 
                     <button id="wish-button" class="hidden">許願</button>
                     <div id="wish-message" class="hidden">請許下今年的心願</div>
                 </div>
             </section>
+
+
+			<section id="birthday-flower-section">
+				<div id="card-container" class="card-container">
+					<div id="card" class="card">
+						<div class="card-back">
+							<p>生日花</p>
+							<img src="IMG/talocard.png" alt="卡背" class="card-image-back">
+						</div>
+						<div class="card-front">
+							<p>每個人出生那天</p>
+							<p>都有一朵花為他盛開</p>
+							<img src="IMG/1208card.png" alt="卡正" class="card-image-front">                                 
+						</div>
+					</div>
+				</div>
+			</section>
+
 
             <section id="input-section">
                 <label for="hint-input">請輸入前幾天收集到的提示：</label>
@@ -47,6 +77,10 @@
             <div id="speech-bubble-container" ></div>
 
     </main>
+
+
+
+
 
     <footer>
         <p>© 歐尼歐版權大概吧</p>
@@ -155,6 +189,16 @@
                 container.classList.add("hidden");
             }, 2000);
         }
+		
+		
+		
+const card = document.getElementById('card');
+
+card.addEventListener('click', function () {
+    // 切換翻轉效果
+    this.classList.toggle('flipped');
+});
+
 
 window.addEventListener('load', () => {
     createSpeechBubble(); // 頁面加載後自動生成對話框
@@ -162,7 +206,7 @@ window.addEventListener('load', () => {
 
 function createSpeechBubble() {
     const container = document.getElementById("speech-bubble-container");
-    const phrases = ["Boom!", "Wow!", "Yay!", "Happy Birthday!", "Let's Celebrate!", "Surprise!"];
+    const phrases = ["Boom!", "生日快樂!", "생일축하합니다!", "Happy Birthday!", "お誕生日おめでと", "Surprise!"];
     
     const interval = setInterval(() => {
         const bubble = document.createElement("div");
@@ -198,6 +242,53 @@ function createSpeechBubble() {
         clearInterval(interval);
     }, 20000); // 20秒後停止生成對話框
 }
+
+// 獲取元素
+const dinoRight = document.getElementById('brachiosaurus-right');
+const dinoLeft = document.getElementById('brachiosaurus-left');
+const dialog = document.getElementById('dialog');
+const closeButton = document.querySelector('.close');
+
+// 點擊事件
+[dinoRight, dinoLeft].forEach(dino => {
+    dino.addEventListener('click', function() {
+        dialog.classList.remove('hidden'); // 顯示對話框
+    });
+});
+
+// 關閉對話框
+closeButton.addEventListener('click', function() {
+    dialog.classList.add('hidden'); // 隱藏對話框
+});
+
+// 點擊對話框外部關閉
+dialog.addEventListener('click', function(e) {
+    if (e.target === dialog) {
+        dialog.classList.add('hidden'); // 隱藏對話框
+    }
+});
+
+// 自動關閉對話框
+setTimeout(() => {
+    dialog.classList.add('hidden');
+}, 5000); // 5 秒後自動關閉對話框
+
+
+// 點擊事件
+[dinoRight, dinoLeft].forEach(dino => {
+    dino.addEventListener('click', function() {
+        dialog.classList.add('visible'); // 顯示對話框
+        dialog.classList.remove('hidden'); // 确保它不被隐藏
+    });
+});
+
+// 關閉對話框
+closeButton.addEventListener('click', function() {
+    dialog.classList.remove('visible'); // 隐藏对话框
+    setTimeout(() => {
+        dialog.classList.add('hidden'); // 等待动画结束后隐藏
+    }, 300); // 等待时间与 CSS 动画时间相匹配
+});
 
 
     </script>

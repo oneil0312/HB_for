@@ -1,49 +1,42 @@
 /* 全局設置 */
-body {
-    font-family: 'Impact', sans-serif; /* 漫畫風格字體 */
-    color: #333;
-    margin: 0;
-    padding: 20px;
-    text-align: center;
-
-    /* 漸變背景色 */
-    background: linear-gradient(135deg, #ffcc00 25%, #ff0033 25%, #ff0033 50%, #00ccff 50%, #00ccff 75%, #ffcc00 75%);
-    background-size: 300% 300%; /* 增加背景的大小 */
-    animation: gradient-animation 20s ease infinite; /* 動態漸變效果 */
-    position: relative;
-    overflow: hidden; /* 避免內容溢出 */
-}
-
-
 html, body {
-    min-height: 100vh; /* 設置最小高度為視口高度 */
-    overflow-y: auto; /* 始終顯示垂直滾動條 */
+    height: 100%; /* 確保背景佔滿視窗 */
+    overflow-x: hidden; /* 隱藏水平滾動條，防止背景動畫產生滾動 */
+    margin: 0;
+    padding: 0;
+    font-family: 'Impact', sans-serif; /* 漫畫風格字體 */
 }
 
+body {
+    color: #333;
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #ffcc00 25%, #ff0033 25%, #ff0033 50%, #00ccff 50%, #00ccff 75%, #ffcc00 75%);
+    background-size: 300% 300%;
+    animation: gradient-animation 30s ease infinite; /* 放慢背景動畫 */
+    position: relative;
+    overflow-y: auto; /* 允許垂直滾動 */
+}
 
+/* 背景動畫效果 */
 @keyframes gradient-animation {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
 
-/* 額外圖案 */
-.circle {
-    position: absolute;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.1); /* 半透明白色圓 */
-    animation: pulse 5s infinite; /* 脈動動畫 */
+/* 內容區塊設定 */
+section {
+    margin-bottom: 25px; /* 每個 section 之間的底部邊距 */
+    padding: 20px; /* 可選，為每個 section 添加內部邊距 */
 }
 
-.circle-1 { width: 100px; height: 100px; top: 10%; left: 20%; }
-.circle-2 { width: 150px; height: 150px; top: 50%; left: 70%; }
-.circle-3 { width: 80px; height: 80px; bottom: 20%; right: 30%; }
-
-@keyframes pulse {
-    0% { transform: scale(0.8); opacity: 1; }
-    50% { transform: scale(1); opacity: 0.5; }
-    100% { transform: scale(0.8); opacity: 1; }
+#birthday-flower-section {
+    margin-top: -40px; /* 向上移动 */
+    padding-top: 20px; /* 调整顶部内边距，根据需要设置 */
+    padding-bottom: 60px; /* 可选，调整底部内边距 */
 }
+
 
 /* 標題樣式 */
 header h1 {
@@ -68,32 +61,41 @@ header h1 {
 }
 
 
+/* 漫畫對話框樣式 */
 .speech-bubble {
     position: absolute;
-    padding: 15px;
+    padding: 20px; /* 增加內部邊距 */
     color: #333;
-    background-color: #fff200; /* 鮮黃色背景，增強漫畫風 */
-    border: 4px solid #333; /* 粗邊框，模擬漫畫描邊 */
-    border-radius: 10px;
-    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.3), -6px -6px 0 rgba(0, 0, 0, 0.3); /* 模擬手繪陰影，強化深度 */
-    font-family: 'Bangers', sans-serif; /* 動漫風格字體 */
-    font-size: 20px;
+    background-color: #fff200; /* 漫畫風背景 */
+    border: 4px solid #333; /* 邊框 */
+    border-radius: 12px; /* 增加圓角 */
+    box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.5); /* 增強陰影效果 */
+    font-family: 'Bangers', sans-serif; /* 動漫字體 */
+    font-size: 24px; /* 增大字體 */
     text-align: center;
     clip-path: polygon(
         10% 0%, 25% 12%, 40% 0%, 60% 12%, 80% 0%, 95% 12%, 100% 30%,
         87% 40%, 100% 55%, 87% 70%, 100% 90%, 85% 100%, 70% 87%, 
         50% 100%, 30% 87%, 15% 100%, 0% 90%, 12% 70%, 0% 55%, 12% 40%, 0% 30%
-    ); /* 更誇張的爆炸形狀 */
+    ); /* 爆炸形狀 */
     animation: popIn 1.5s cubic-bezier(0.2, 1, 0.3, 1.1), fadeOut 5s ease forwards;
+    transition: transform 0.3s ease; /* 添加過渡效果 */
 }
 
+/* 添加對話框懸停效果 */
+.speech-bubble:hover {
+    transform: scale(1.05) rotate(2deg); /* 懸停時稍微放大和旋轉 */
+    box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.6); /* 增加陰影 */
+}
+
+/* 出現動畫 */
 @keyframes popIn {
     0% {
         transform: scale(0.4) rotate(10deg);
         opacity: 0;
     }
     80% {
-        transform: scale(1.25) rotate(-5deg);
+        transform: scale(1.4) rotate(-5deg);
         opacity: 1;
     }
     100% {
@@ -101,6 +103,7 @@ header h1 {
     }
 }
 
+/* 隱藏動畫 */
 @keyframes fadeOut {
     from {
         opacity: 1;
@@ -109,7 +112,6 @@ header h1 {
         opacity: 0;
     }
 }
-
 
 /* 位置設定 */
 .left {
@@ -267,6 +269,90 @@ button:hover {
     transform: scale(1.2) rotate(7deg);
 }
 
+
+.hidden {
+    display: none; /* 隐藏正面 */
+}
+
+.card-container {
+    position: relative;
+    width: 400px; /* 根据需要调整宽度 */
+    height: 450px; /* 根据需要调整高度 */
+    perspective: 1000px; /* 创建3D效果 */
+    margin: 20px auto; /* 居中 */
+}
+
+.card {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d; /* 保持3D效果 */
+    transition: transform 0.6s; /* 动画效果 */
+}
+
+.card-back, .card-front {
+    position: absolute;
+    backface-visibility: hidden; /* 隐藏背面 */
+    width: 100%;
+    height: 100%;
+}
+
+.card-back {
+    z-index: 1; /* 确保背面在下面 */
+    transform: rotateY(0deg); /* 背面初始状态 */
+}
+
+.card-front {
+    z-index: 2; /* 确保正面在上面 */
+    transform: rotateY(180deg); /* 正面初始状态 */
+}
+
+.card.flipped {
+    transform: rotateY(180deg); /* 翻转效果 */
+}
+
+.card-image-back {
+    width: 100%;
+    height: auto;
+}
+
+.card-image-front {
+    width: 70%;
+    height: auto;
+}
+
+
+/* 塔罗牌风格的文字 */
+.card-back p {
+    font-size: 2.5em; /* 字体大小 */
+    font-weight: bold; /* 粗体 */
+    color: #4B0082; /* 使用神秘的深紫色 */
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5); /* 添加阴影效果 */
+    margin: 20px 0; /* 上下边距 */
+    letter-spacing: 1.5px; /* 字母间距 */
+    font-family: 'Great Vibes', cursive; /* 使用优雅的连笔字体 */
+    background-color: rgba(255, 255, 255, 0.8); /* 半透明背景色 */
+    border-radius: 10px; /* 圆角效果 */
+    padding: 10px; /* 内边距 */
+}
+
+.card-front p {
+    font-size: 1.8em; /* 调整字体大小 */
+    color: #4B0082; /* 与卡背的颜色一致 */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* 添加阴影效果 */
+    margin: 0; /* 移除默认边距 */
+    padding: 10px; /* 添加内边距 */
+    text-align: center; /* 居中对齐文本 */
+    letter-spacing: 1.2px; /* 字母间距 */
+    font-family: 'Sacramento', cursive; /* 使用流畅的手写字体 */
+    background-color: rgba(255, 255, 255, 0.8); /* 半透明背景色 */
+    border-radius: 10px; /* 圆角效果 */
+}
+
+
+
+
+
 /* 訊息樣式 */
 #wish-message {
     font-size: 1.5em;
@@ -319,23 +405,157 @@ button:hover {
 }
 
 footer {
-    background-color: #333; /* 深色背景 */
-    color: #fff; /* 白色文字 */
-    padding: 20px 0; /* 上下邊距，讓內容有足夠空間 */
-    text-align: center; /* 文字置中 */
-    font-size: 30px; /* 字體大小 */
-    font-family: 'Bangers', cursive; /* 採用漫畫風格的字體 */
+    background-color: #111; /* 更深的背景色 */
+    color: #00ffcc; /* 霓虹藍綠色文字 */
+    padding: 20px 0;
+    text-align: center;
+    font-size: 30px;
+    font-family: 'Press Start 2P', cursive;
     position: relative;
+    border-top: 4px solid #ff0066; /* 顯眼的霓虹邊框 */
 }
 
 footer p {
-    margin: 0; /* 去除默認的段落邊距 */
+    margin: 0;
+    text-shadow: 2px 2px #333333, -2px -2px #333333; /* 字體陰影，增添立體感 */
 }
+
 footer::before {
     content: '';
     display: block;
     width: 100%;
-    height: 2px;
-    background: linear-gradient(to right, #ffcc00, #ff0033, #00ccff); /* 動態漸變色條 */
+    height: 4px;
+    background: linear-gradient(to right, #ff0066, #ffcc00, #33ccff, #ff0066); /* 動態霓虹漸變色條 */
+    animation: glow 3s linear infinite; /* 讓條狀緩慢閃爍 */
     margin-bottom: 20px;
 }
+
+/* 霓虹效果動畫 */
+@keyframes glow {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+
+
+#brachiosaurus-left {
+    position: absolute;
+    bottom: -700px;
+    left: 10%;
+    transform: translateX(-50%);
+    animation: moveDinoLeft 10s linear infinite;
+}
+
+#brachiosaurus-right {
+    position: absolute;
+    bottom: -700px;
+    right: 10%;
+    transform: translateX(50%);
+    animation: moveDinoRight 10s linear infinite;
+    animation-delay: 5s;
+}
+
+@keyframes moveDinoLeft {
+    0% {
+        bottom: -700px;
+    }
+    50% {
+        bottom: 50%;
+    }
+    100% {
+        bottom: 100%;
+    }
+}
+
+@keyframes moveDinoRight {
+    0% {
+        bottom: -700px;
+    }
+    100% {
+        bottom: 100%;
+    }
+}
+
+.dialog {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* 加深背景色，讓對話框更顯眼 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.dialog.visible {
+    opacity: 1;
+}
+
+.dialog-content {
+    background-color: #ffcc00; /* 將背景色調整為亮黃色，以符合漫畫風格 */
+    padding: 30px; /* 增加內邊距 */
+    border-radius: 15px; /* 更圓的邊框 */
+    text-align: center; /* 文本居中 */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); /* 更明顯的陰影效果 */
+    animation: slideIn 0.5s; /* 進入動畫 */
+}
+
+.close {
+    cursor: pointer;
+    float: right;
+    font-size: 24px; /* 增加關閉按鈕的字體大小 */
+    color: #ff4500; /* 鮮橘紅色，符合主題 */
+}
+
+.close:hover {
+    color: #e91e63; /* hover 狀態的顏色 */
+}
+
+.greeting {
+    font-size: 28px; /* 增加字體大小 */
+    color: #ff4500; /* 鮮橘紅色 */
+    font-family: 'Bangers', cursive; /* 漫畫風格字體 */
+}
+
+.dino-name {
+    font-weight: bold; /* 加粗 */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* 添加陰影效果 */
+}
+
+.birthday-message {
+    font-size: 32px; /* 大號字體 */
+    color: #ff4500; /* 鮮橘紅色 */
+    font-family: 'Bangers', cursive; /* 漫畫風格的字體 */
+    margin: 15px 0; /* 上下外邊距 */
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5); /* 添加陰影效果 */
+}
+
+/* 進入動畫效果 */
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* 隱藏類 */
+.hidden {
+    display: none;
+}
+
+.brachio {
+    color: #02b16c;
+}
+.birthday-name {
+    color: #0056b3;
+}
+
+
