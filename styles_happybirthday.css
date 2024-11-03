@@ -61,54 +61,54 @@ header h1 {
 }
 
 
-/* 基础动画样式 */
+/* 通用动画效果 */
 .animate {
-    position: absolute; /* 绝对定位 */
-    width: 200px; /* 调整图片宽度 */
-    height: auto; /* 保持图片的纵横比 */
+    position: absolute;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    width: 230px; /* 假设每张图片的宽度为150px */
+    height: 230px;
 }
 
-/* 从左边到右边滚动的动画 */
-@keyframes scroll-and-rotate {
-    0% {
-        transform: rotate(0deg); /* 初始旋转 */
-        left: -200px; /* 从左边界外开始 */
+/* 第1组：从左到右滚动，4秒 */
+.animate.group1 {
+    animation: scroll-right 4s linear infinite;
+}
+
+/* 第2组：从右到左滚动，4秒 */
+.animate.group2 {
+    animation: scroll-left 4s linear infinite;
+}
+
+/* 第3组：从左到右滚动，6秒 */
+.animate.group3 {
+    animation: scroll-right 6s linear infinite;
+}
+
+/* 定义从左到右滚动的动画 */
+@keyframes scroll-right {
+    from {
+        left: -150px; /* 初始位置在屏幕外左边 */
+        transform: rotate(0deg);
     }
-    100% {
-        left: 100vw; /* 结束位置，右边界外 */
-        transform: rotate(720deg); /* 旋转720度 */
+    to {
+        left: 100vw; /* 滚动到屏幕最右边外 */
+        transform: rotate(720deg);
     }
 }
 
-/* 从右边到左边滚动的动画 */
-@keyframes scroll-and-rotate-left {
-    0% {
-        transform: rotate(0deg); /* 初始旋转 */
-        right: -200px; /* 从右边界外开始 */
+/* 定义从右到左滚动的动画 */
+@keyframes scroll-left {
+    from {
+        right: -150px; /* 初始位置在屏幕外右边 */
+        transform: rotate(0deg);
     }
-    100% {
-        right: 100vw; /* 结束位置，左边界外 */
-        transform: rotate(-1080deg); /* 旋转720度 */
+    to {
+        right: 100vw; /* 滚动到屏幕最左边外 */
+        transform: rotate(-1080deg);
     }
 }
 
-/* 应用动画效果 */
-#movingImage1,
-#movingImage2 {
-    animation: scroll-and-rotate 4s linear infinite; /* 从左到右滚动 */
-
-}
-
-#movingImage5,
-#movingImage6{
-    animation: scroll-and-rotate 6s linear infinite; /* 从左到右滚动 */
-
-}
-
-#movingImage3,
-#movingImage4 {
-    animation: scroll-and-rotate-left 4s linear infinite; /* 从右到左滚动 */
-}
 
 
 

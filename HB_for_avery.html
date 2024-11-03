@@ -41,6 +41,18 @@
 			<img src="IMG/volleyball_kageyama.png" alt="滚动图片" class="animate" id="movingImage4">
 			<img src="IMG/volleyball_ushijima.png" alt="滚动图片" class="animate" id="movingImage5">
 			<img src="IMG/volleyball_goshiki.png" alt="滚动图片" class="animate" id="movingImage6">
+			<img src="IMG/volleyball_osamu.png" alt="滚动图片" class="animate" id="movingImage7">
+			<img src="IMG/volleyball_suna.png" alt="滚动图片" class="animate" id="movingImage8">
+			<img src="IMG/volleyball_atsuma.png" alt="滚动图片" class="animate" id="movingImage9">
+			<img src="IMG/volleyball_kita.png" alt="滚动图片" class="animate" id="movingImage10">
+			<img src="IMG/volleyball_yaku.png" alt="滚动图片" class="animate" id="movingImage11">
+			<img src="IMG/volleyball_nishinoya.png" alt="滚动图片" class="animate" id="movingImage12">
+			<img src="IMG/volleyball_aone.png" alt="滚动图片" class="animate" id="movingImage13">
+			<img src="IMG/volleyball_Koganegawa.png" alt="滚动图片" class="animate" id="movingImage14">
+			<img src="IMG/volleyball_asahi.png" alt="滚动图片" class="animate" id="movingImage15">
+			<img src="IMG/volleyball_atsuma.png" alt="滚动图片" class="animate" id="movingImage16">
+			<img src="IMG/volleyball_bokuto.png" alt="滚动图片" class="animate" id="movingImage17">
+			<img src="IMG/volleyball_oikawa.png" alt="滚动图片" class="animate" id="movingImage18">			
 		</div>
             <section id="cake-section">
                 <img src="IMG/birthdaycake.jpg" alt="生日蛋糕" class="cake" loading="lazy" />
@@ -95,59 +107,122 @@
     </footer>
 
     <script>	
-const images = [
-    ['movingImage1', 'movingImage2', ], // 第一组
-    ['movingImage3', 'movingImage4', ], // 第二组
-	['movingImage5', 'movingImage6', ], // 第三组
+// 所有图片的 ID
+const allImages = [
+    'movingImage1', 'movingImage2', 'movingImage3', 'movingImage4', 'movingImage5', 
+    'movingImage6', 'movingImage7', 'movingImage8', 'movingImage9', 'movingImage10', 
+    'movingImage11', 'movingImage12', 'movingImage13', 'movingImage14', 'movingImage15', 
+    'movingImage16', 'movingImage17', 'movingImage18'
 ];
 
-const occupiedPositions = new Set(); // 使用 Set 来存储已占用的位置
+// 定义全局变量
+let images = []; // 当前的图片组
+const occupiedPositionsGroup = [
+    new Set(), // 第一组的占位
+    new Set(), // 第二组的占位
+    new Set()  // 第三组的占位
+];
 
-function setRandomVerticalPosition(imageId) {
+// 随机选择六张图片的函数
+function getRandomImages(images, num) {
+    const selectedImages = [];
+    const imageSet = new Set();
+
+    while (imageSet.size < num) {
+        const randomIndex = Math.floor(Math.random() * images.length);
+        imageSet.add(images[randomIndex]);
+    }
+    return Array.from(imageSet);
+}
+
+// 更新显示的图片
+function updateDisplayedImages() {
+    const selectedImages = getRandomImages(allImages, 6);
+    selectedImages.forEach(imageId => {
+        const image = document.getElementById(imageId);
+        if (image) image.style.display = 'block'; // 显示选中的图片
+    });
+
+    allImages.forEach(imageId => {
+        if (!selectedImages.includes(imageId)) {
+            const image = document.getElementById(imageId);
+            if (image) image.style.display = 'none'; // 隐藏未选中的图片
+        }
+    });
+
+    images = [ // 使用全局变量
+        [selectedImages[0], selectedImages[1]], // 第一组
+        [selectedImages[2], selectedImages[3]], // 第二组
+        [selectedImages[4], selectedImages[5]]  // 第三组
+    ];
+
+    images.forEach((imageGroup, index) => {
+        const groupClass = `group${index + 1}`;
+        imageGroup.forEach(imageId => {
+            const image = document.getElementById(imageId);
+            if (image) image.classList.add('animate', groupClass);
+        });
+    });
+
+    images.forEach((imageGroup, index) => {
+        updateImagePositions(imageGroup, occupiedPositionsGroup[index]);
+    });
+}
+
+// 随机设置图片的垂直位置
+function setRandomVerticalPosition(imageId, occupiedPositions) {
     const image = document.getElementById(imageId);
-    const imageHeight = 200; // 假设图片的高度是200px
+    const imageHeight = 300; // 假设图片的高度是300px
     let randomPosition;
 
-    // 随机生成一个在视口高度范围内的垂直位置
+    // 修改这里的范围，以允许更大的垂直位置生成
+    const maxPosition = window.innerHeight - imageHeight; // 最大位置
+    const minPosition = 50; // 最小位置，向下移动的基准值，可以根据需要进行调整
+
     do {
-        randomPosition = Math.random() * (window.innerHeight - imageHeight);
+        // 生成的随机位置范围扩大至整个视口加上图片高度
+        randomPosition = Math.random() * (maxPosition - minPosition) + minPosition;
     } while (Array.from(occupiedPositions).some(pos => Math.abs(pos - randomPosition) < imageHeight));
 
     image.style.top = randomPosition + 'px'; // 设置图片的顶部位置
     occupiedPositions.add(randomPosition); // 将新位置添加到已占用位置集合
-    console.log(`随机位置 for ${imageId}: ${randomPosition}px`); // 输出随机位置
 }
 
 // 更新一组图像的位置
-function updateImagePositions(imageGroup) {
-    const currentOccupiedPositions = new Set(occupiedPositions); // 复制当前已占用的位置
+function updateImagePositions(imageGroup, occupiedPositions) {
+    occupiedPositions.clear(); // 清空当前组的占用位置
 
     imageGroup.forEach(imageId => {
-        setRandomVerticalPosition(imageId);
+        setRandomVerticalPosition(imageId, occupiedPositions);
     });
 
-    // 确保新位置不与其他组重叠
-    occupiedPositions.clear(); // 清空之前的占用位置
-    currentOccupiedPositions.forEach(pos => occupiedPositions.add(pos)); // 恢复之前的位置
+    console.log(`当前组的垂直位置:`, Array.from(occupiedPositions)); // 输出当前组的垂直位置
 }
 
-// 初始设置，确保第一轮不重叠
-images.forEach(imageGroup => {
-    updateImagePositions(imageGroup);
-});
+// 初始设置
+updateDisplayedImages(); // 生成初始的图像组并更新位置
 
-// 每隔4秒更新前两组的位置
+// 定时器更新位置
 setInterval(() => {
-    occupiedPositions.clear(); // 清空所有占用位置
-    updateImagePositions(images[0]); // 更新第一组
-	updateImagePositions(images[1]); // 更新第二组 
-}, 4000); // 4000毫秒 = 4秒
+    // 更新第一组和第二组的位置
+    updateImagePositions(images[0], occupiedPositionsGroup[0]); // 更新第一组
+    updateImagePositions(images[1], occupiedPositionsGroup[1]); // 更新第二组
+}, 4000); // 4000 毫秒 = 4 秒
 
-// 每隔4秒更新前两组的位置
 setInterval(() => {
-    occupiedPositions.clear(); // 清空所有占用位置
-    updateImagePositions(images[2]); // 更新第三组
-}, 6000); // 4000毫秒 = 4秒
+    // 更新第三组的位置
+    updateImagePositions(images[2], occupiedPositionsGroup[2]); // 更新第三组
+}, 6000); // 6000 毫秒 = 6 秒
+
+// 每隔 12 秒更新显示的六张图片
+setInterval(() => {
+    updateDisplayedImages();
+}, 12000); // 12000 毫秒 = 12 秒
+
+
+
+
+
 
 
 
