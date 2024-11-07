@@ -222,35 +222,46 @@ setInterval(() => {
 
 
 
-
-
-
-
-
-
 	
 	
-	
-        const confirmButton = document.getElementById('confirm-button');
-        const hintInput = document.getElementById('hint-input');
-        const resultMessage = document.getElementById('result-message');
+		const confirmButton = document.getElementById('confirm-button');
+		const hintInput = document.getElementById('hint-input');
+		const resultMessage = document.getElementById('result-message');
+
+		confirmButton.addEventListener('click', function() {
+			const userInput = hintInput.value.trim().toLowerCase();
+			resultMessage.classList.remove('success', 'error', 'hidden'); // 重置狀態
+
+			if (userInput === 'regalo') {
+				resultMessage.textContent = '正確！請截圖兌換禮物或是掃QR碼';
+				resultMessage.classList.add('success'); // 顯示成功樣式
+				document.getElementById('qr-code').classList.remove('hidden'); // 顯示QR碼
+			} else {
+				resultMessage.textContent = '錯誤！請再試一次。';
+				resultMessage.classList.add('error'); // 顯示錯誤樣式
+				document.getElementById('qr-code').classList.add('hidden'); // 隱藏QR碼
+
+				// 錯誤時添加晃動效果
+				document.body.classList.add('shake');
+				setTimeout(() => document.body.classList.remove('shake'), 500); // 0.5秒後停止晃動
+			}
+
+			// 重新觸發動畫
+			resultMessage.style.animation = 'none';
+			requestAnimationFrame(() => {
+				resultMessage.style.animation = ''; // 重啟動畫
+			});
+			hintInput.value = ''; // 清空輸入框
+		});
+
+							
+		
+		
+		
+
         let litCandles = 0; // 紀錄已點亮的蠟燭數量
-
-        confirmButton.addEventListener('click', function() {
-            const userInput = hintInput.value.trim().toLowerCase();
-            if (userInput === 'regalo') {
-                resultMessage.textContent = '正確！請截圖兌換禮物或是掃QR碼';
-                resultMessage.className = 'success'; // 顯示成功樣式
-                document.getElementById('qr-code').classList.remove('hidden'); // 顯示QR碼
-            } else {
-                resultMessage.textContent = '錯誤！請再試一次。';
-                resultMessage.className = 'error'; // 顯示錯誤樣式
-                document.getElementById('qr-code').classList.add('hidden'); // 隱藏QR碼
-            }
-            resultMessage.classList.remove('hidden');
-            hintInput.value = ''; // 清空輸入框
-        });
-
+		
+		
         // 使用事件委派，綁定到父元素
         document.querySelector('.candles').addEventListener('mouseover', function(e) {
             if (e.target.classList.contains('candle')) {
@@ -433,6 +444,7 @@ closeButton.addEventListener('click', function() {
         dialog.classList.add('hidden'); // 等待动画结束后隐藏
     }, 300); // 等待时间与 CSS 动画时间相匹配
 });
+
 
 
     </script>

@@ -575,6 +575,54 @@ h1 {
 
 
 
+
+/* 設定 Yorushika 卡片容器的樣式 */
+.yorushika-card-container {
+    position: fixed; /* 固定定位 */
+    bottom: 20px; /* 距離底部20px */
+    right: 20px; /* 距離右邊20px */
+    transform: translateX(0); /* 無需水平居中，直接定位到右邊 */
+}
+
+/* 設定 Yorushika 卡片樣式 */
+.yorushika-card {
+    cursor: pointer;
+    display: inline-block;
+    margin: 0; /* 去掉自動居中 */
+    border: 2px solid #02b16c; /* 使用和Brachio相關的顏色 */
+    border-radius: 12px; /* 增加圓角 */
+    overflow: hidden;
+    background-color: #f8f8f8; /* 淺色背景 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加陰影效果 */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* 平滑過渡 */
+    width: 200px; /* 固定寬度 */
+    height: 200px; /* 固定高度 */
+    text-align: center;
+}
+
+/* 設定圖片樣式 */
+.yorushika-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 使圖片自動填滿並保持比例 */
+    border-radius: 8px; /* 圓角效果 */
+    transition: transform 0.3s ease; /* 圖片的過渡效果 */
+}
+
+/* 卡片懸停效果 */
+.yorushika-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* 滑鼠懸停時增強陰影 */
+}
+
+/* 當卡片被懸停時，圖片放大 */
+.yorushika-card:hover img {
+    transform: scale(1.1); /* 當卡片被懸停時，圖片放大 */
+}
+
+
+
+
 /* 訊息彈出框設置 */
 #message-container {
     background-color: rgba(0, 0, 0, 0.8);

@@ -350,6 +350,65 @@ const songs = [
 	{ song: 'voice/milet, Aimer, Lilas Ikuta_Omokage.MP3', framework: 'milet, Aimer, Lilas Ikuta_Omokage' },
 ];
 
+
+const yorushikaSongs = [
+    { song: 'voice/yorushika_Algernon.MP3', framework: 'yorushika_Algernon' },
+    { song: 'voice/yorushika_Tadakiminohare.MP3', framework: 'yorushika_Tadakiminohare' },
+    { song: 'voice/yorushika_yusansan.MP3', framework: 'yorushika_yusansan' },
+    { song: 'voice/yorushika_thoughtcrime.MP3', framework: 'yorushika_thoughtcrime' },
+    { song: 'voice/yorushika_sayit.MP3', framework: 'yorushika_sayit' },
+    { song: 'voice/yorushika_Plagiarism.MP3', framework: 'yorushika_Plagiarism' },
+	{ song: 'voice/yorushika_harudorobou.MP3', framework: 'yorushika_harudorobou' },
+	{ song: 'voice/yorushika_hananibourei.MP3', framework: 'yorushika_hananibourei' },	
+	{ song: 'voice/yorushika_dakarabokuwaongakuwoyameta.MP3', framework: 'yorushika_dakarabokuwaongakuwoyameta' },	
+	{ song: 'voice/yorushika_aporia.MP3', framework: 'yorushika_aporia' },	
+];
+
+
+
+function addYorushikaImage() {
+    const memoryGame = document.getElementById('memory-game');
+
+    // 檢查是否已經有 Yorushika 卡片，如果有則不再插入
+    if (!document.querySelector('.yorushika-card')) {
+        const yorushikaCard = `
+            <div class="yorushika-card-container">
+                <div class="yorushika-card">
+                    <img src="IMG/yorushika.jpg" alt="Yorushika Special Level" />
+                </div>
+            </div>
+        `;
+
+        memoryGame.insertAdjacentHTML('beforeend', yorushikaCard);
+
+        // 為Yorushika卡片添加點擊事件，點擊後切換到Yorushika專屬關卡
+        document.querySelector('.yorushika-card').addEventListener('click', () => {
+            initYorushikaLevel(); // 切換到Yorushika專屬關卡
+        });
+    }
+}
+
+
+
+
+// 隨機選擇 Yorushika 歌曲
+function selectYorushikaSongs() {
+    const shuffledYorushikaSongs = yorushikaSongs.sort(() => 0.5 - Math.random());
+    selectedSongs = shuffledYorushikaSongs.slice(0, 4); // 取前4首
+}
+
+
+// 初始化Yorushika專屬關卡
+function initYorushikaLevel() {
+    selectYorushikaSongs(); // 選擇Yorushika的四首歌曲
+    generateCards(); // 根據選擇的歌曲生成卡片
+    addCardListeners(); // 添加卡片點擊事件
+    shuffle(); // 隨機打亂卡片
+}
+
+
+
+
 let selectedSongs = [];
 
 // 隨機選擇四組歌曲
@@ -358,9 +417,11 @@ function selectSongs() {
     selectedSongs = shuffledSongs.slice(0, 4); // 取前4組
 }
 
-// 動態生成卡片
+// 修改generateCards函數，使其能根據所選歌曲生成對應的卡片
 function generateCards() {
     const memoryGame = document.getElementById('memory-game');
+    memoryGame.innerHTML = ''; // 清空遊戲區域
+
     const cardsHtml = selectedSongs.flatMap(song => [
         `<div class="memory-card" data-framework="${song.framework}">
             <img class="front-face" src="IMG/music_img.jpg" alt="${song.framework}" />
@@ -371,15 +432,17 @@ function generateCards() {
             <div class="back-face"></div>
         </div>`
     ]).join('');
+    
     memoryGame.innerHTML = cardsHtml;
 }
 
-// 初始化遊戲
+// 初始化普通關卡，並加上Yorushika圖片
 function initGame() {
     selectSongs(); // 選擇新的四首歌曲
     generateCards(); // 根據選擇的歌曲生成卡片
     addCardListeners(); // 添加卡片點擊事件
     shuffle(); // 隨機打亂卡片
+    addYorushikaImage(); // 添加Yorushika專屬圖片
 }
 
 // 消消樂邏輯
