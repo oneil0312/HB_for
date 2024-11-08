@@ -622,6 +622,71 @@ h1 {
 
 
 
+/* 設定提示訊息的樣式 */
+.yorushika-message {
+    position: fixed;
+    top: 50%;  /* 垂直居中 */
+    left: 50%;  /* 水平居中 */
+    transform: translate(-50%, -50%);  /* 精確居中 */
+    background-color: rgba(0, 0, 0, 0.7);  /* 半透明背景 */
+    color: #b0a0e2;  /* 使用淺紫色來呈現Yorushika的風格 */
+    padding: 20px;
+    font-size: 24px;
+    font-family: 'Arial', sans-serif;  /* 使用簡潔的字體 */
+    border-radius: 12px;  /* 圓角 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);  /* 添加陰影 */
+    text-align: center;
+    z-index: 9999;  /* 確保提示框在最上層 */
+    width: 80%;  /* 設置寬度為頁面的80% */
+    max-width: 500px;  /* 最大寬度500px */
+    line-height: 1.5;
+}
+
+/* 提示訊息在加載時的過渡效果 */
+.yorushika-message {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* 提示訊息消失的動畫 */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+
+/* 設定還原按鈕的樣式 */
+.reset-button {
+    position: fixed;
+    bottom: 20px;  /* 距離底部20px */
+    left: 50%;
+    transform: translateX(-50%); /* 水平居中 */
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #b0a0e2;  /* 淺紫色背景 */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+    z-index: 9999;  /* 保證按鈕位於最上層 */
+}
+
+.reset-button:hover {
+    background-color: #a08cc1;  /* 鼠標懸停時顏色變深 */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.reset-button:focus {
+    outline: none;  /* 點擊時去除焦點邊框 */
+}
+
+
 
 /* 訊息彈出框設置 */
 #message-container {
