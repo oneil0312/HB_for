@@ -55,12 +55,13 @@
 			<img src="IMG/volleyball_oikawa.png" alt="滚动图片" class="animate" id="movingImage18">			
 		</div>
             <section id="cake-section">
+				<div id="sky-lantern-container"></div>
                 <img src="IMG/birthday_cake.jpg" alt="生日蛋糕" class="cake" />
                 <div class="candles">
                     <img src="IMG/candle_unburn.png" alt="未點燃的蠟燭" class="candle" />
                     <img src="IMG/candle_unburn.png" alt="未點燃的蠟燭" class="candle" />
                     <img src="IMG/candle_unburn.png" alt="未點燃的蠟燭" class="candle" />
-                </div>
+                </div>				
                 <div class="wish-container"> 
                     <button id="wish-button" class="hidden">許願</button>
                     <div id="wish-message" class="hidden">請許下今年的心願</div>
@@ -95,6 +96,7 @@
             
             <div id="fireworks-container" class="hidden"></div>
             <div id="speech-bubble-container" ></div>
+			
 
     </main>
 
@@ -445,7 +447,135 @@ closeButton.addEventListener('click', function() {
     }, 300); // 等待时间与 CSS 动画时间相匹配
 });
 
+const pinganShape = [
+    [0 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0], // 增加更多格子來細化形狀
+    [0 ,0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0],
+    [0 ,0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0],
+    [0 ,0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0],
+    [1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [0 ,0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+    [0 ,0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], // 在此處細化字形
+    [0 ,0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], 
+    [0 ,0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], // 上下更加對稱
+];
 
+const anShape = [
+    [0 ,0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], // 增加更多格子來細化形狀
+    [1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1 ,0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1],
+    [1 ,0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1],
+    [0 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+    [0 ,0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0],
+    [0 ,0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0], // 在此處細化字形
+    [0 ,0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0], 
+    [0 ,0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0], 
+    [0 ,0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0], 
+    [0 ,0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0], // 上下更加對稱
+];
+
+const gridSize = 40; // 每個天燈的格子大小
+const animationDuration = 4000; // 動畫持續時間（毫秒）
+const displayDuration = 10000; // 顯示天燈的時間（毫秒）
+
+function launchSkyLanterns() {
+    const container = document.getElementById("sky-lantern-container");
+    container.style.position = "relative";
+
+    // 獲取蛋糕元素的位置和大小
+    const cake = document.querySelector(".cake");
+    const cakeRect = cake.getBoundingClientRect();
+
+    // 計算「平」字形的位置，讓其出現在蛋糕左邊
+    const pinganOffsetX = cakeRect.left - pinganShape[0].length * gridSize - 200; // 距離蛋糕左側20px
+    const pinganOffsetY = cakeRect.top + (cakeRect.height - pinganShape.length * gridSize) / 2; // 垂直居中
+	
+	// 計算「安」字形的位置，讓其出現在蛋糕右邊
+    const anOffsetX = cakeRect.left + cakeRect.width + 200; // 距離蛋糕右側200px
+    const anOffsetY = cakeRect.top + (cakeRect.height - anShape.length * gridSize) / 2; // 垂直居中
+
+    // 創建「平」字的天燈
+    pinganShape.forEach((row, rowIndex) => {
+        row.forEach((cell, colIndex) => {
+            if (cell === 1) {
+                // 創建天燈
+                const lantern = document.createElement("div");
+                lantern.classList.add("sky-lantern");
+
+                // 設置初始位置（隨機水平，從畫面底部）
+                lantern.style.left = `${Math.random() * window.innerWidth}px`;
+                lantern.style.top = `${window.innerHeight}px`;
+
+                // 添加到容器
+                container.appendChild(lantern);
+
+                // 計算目標位置
+                const targetX = colIndex * gridSize + pinganOffsetX;
+                const targetY = rowIndex * gridSize + pinganOffsetY - 230;
+
+                // 延遲一段時間讓天燈移動到目標位置
+                setTimeout(() => {
+                    lantern.style.transition = `all ${animationDuration / 1000}s ease-out`;
+                    lantern.style.left = `${targetX}px`;
+                    lantern.style.top = `${targetY}px`;
+                }, 500);
+
+                // 設置10秒後隱藏天燈
+                setTimeout(() => {
+                    lantern.style.transition = `opacity 1s ease-out`;
+                    lantern.style.opacity = "0";
+
+                    // 10秒後移除天燈
+                    setTimeout(() => {
+                        lantern.remove();
+                    }, 1000);
+                }, displayDuration);
+            }
+        });
+    });
+
+    // 創建「安」字的天燈
+    anShape.forEach((row, rowIndex) => {
+        row.forEach((cell, colIndex) => {
+            if (cell === 1) {
+                // 創建天燈
+                const lantern = document.createElement("div");
+                lantern.classList.add("sky-lantern");
+
+                // 設置初始位置（隨機水平，從畫面底部）
+                lantern.style.left = `${Math.random() * window.innerWidth}px`;
+                lantern.style.top = `${window.innerHeight}px`;
+
+                // 添加到容器
+                container.appendChild(lantern);
+
+                // 計算目標位置
+                const targetX = colIndex * gridSize + anOffsetX;
+                const targetY = rowIndex * gridSize + anOffsetY - 230;
+
+                // 延遲一段時間讓天燈移動到目標位置
+                setTimeout(() => {
+                    lantern.style.transition = `all ${animationDuration / 1000}s ease-out`;
+                    lantern.style.left = `${targetX}px`;
+                    lantern.style.top = `${targetY}px`;
+                }, 500);
+
+                // 設置10秒後隱藏天燈
+                setTimeout(() => {
+                    lantern.style.transition = `opacity 1s ease-out`;
+                    lantern.style.opacity = "0";
+
+                    // 10秒後移除天燈
+                    setTimeout(() => {
+                        lantern.remove();
+                    }, 1000);
+                }, displayDuration);
+            }
+        });
+    });
+}
+
+// 點擊按鈕觸發天燈效果
+document.getElementById("wish-button").addEventListener("click", launchSkyLanterns);
 
     </script>
 </body>
