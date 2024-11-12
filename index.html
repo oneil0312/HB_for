@@ -12,8 +12,8 @@
 </head>
 <body>
 <div id="arcade-frame">
-<label for="test-date" style="display: none;">選擇測試日期:</label>
-  <input type="date" id="test-date" onchange="setTestDate()" style="display: none;">
+<label for="test-date" >選擇測試日期:</label>
+  <input type="date" id="test-date" onchange="setTestDate()" >   <!--style="display: none;"-->
 <section id="countdown">
   <h1>Teacher Avery 生日倒數計時器</h1>
   <div id="digital-clock">
@@ -105,6 +105,12 @@
 
 <section id="game2" class="game-area" style="display: none;">
   <h3 class="game-title">關卡 2 - 問答遊戲</h3>
+  
+    <!-- 進度條 -->
+  <div id="progress-bar-container">
+    <div id="progress-bar"></div>
+  </div>
+  
   <div id="quiz-container" class="quiz-container">
     <p id="question-number">第 <span id="current-question-number">1</span> 題 / 總共 10 題</p>
     <p id="question">請回答問題</p>
@@ -863,6 +869,9 @@ function displayNextQuestion() {
     document.getElementsByClassName('answer-button')[3].textContent = `D. ${questionData.options.D}`;
     
     document.getElementById('feedback').textContent = ""; // 清空反饋信息
+
+    // 更新進度條
+    updateProgressBar();
   } else {
     // 顯示結果
     if (correctCount >= 6) {
@@ -883,6 +892,14 @@ function displayNextQuestion() {
   }
   answeringAllowed = true; // 允許回答下一題
 }
+
+
+// 更新進度條
+function updateProgressBar() {
+  const progress = ((currentQuestionIndex + 1) / selectedQuestions.length) * 100;
+  document.getElementById('progress-bar').style.width = `${progress}%`;
+}
+
 
 // 檢查答案
 function checkAnswer(selectedOption) {
