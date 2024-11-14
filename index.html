@@ -77,7 +77,7 @@
 
 <div id="hint-message" style="display: none;">今天的提示字是: <span id="hint-word">Re</span>。</div>
 <div id="hint-message-3" style="display: none;" class="hint-message">
-    今天的提示字是: <span id="hint-word-3">la</span>。
+    今天的提示字是: <span id="hint-word-3">lo</span>。
 </div>
 <!-- 三個不同的遊戲區域 -->
 <section id="game1" class="game-area" style="display: none;">
@@ -512,19 +512,29 @@ function flipCard() {
     // 檢查是否點擊的是有音樂的卡片
     const imgElement = this.querySelector('.front-face');
     if (imgElement && imgElement.getAttribute('src').includes('music_img.jpg')) {
+        // 停止並重置當前播放的音樂
         if (audio) {
-            audio.pause(); // 如果有正在播放的音樂，則停止
-            audio.currentTime = 0; // 重置時間
+            audio.pause(); // 停止音樂
+            audio.currentTime = 0; // 重置音樂的播放位置
         }
 
         // 根據框架名稱選擇對應的音樂
         const selectedSong = selectedSongs.find(song => song.framework === this.dataset.framework);
         if (selectedSong) {
-            audio = new Audio(selectedSong.song); // 播放對應音樂
-			audio.volume = volumeControl.value; // 使用音量控制條當前值
-            audio.play().catch(err => {
-                console.error('音樂播放錯誤:', err);  // 捕獲播放錯誤
-            });
+            // 如果選中的歌曲和當前播放的歌曲不同，則創建新的音頻並播放
+            if (!audio || audio.src !== selectedSong.song) {
+                audio = new Audio(selectedSong.song); // 創建新的音頻對象
+                audio.volume = volumeControl.value; // 設置音量
+                audio.play().catch(err => {
+                    console.error('音樂播放錯誤:', err);  // 捕獲播放錯誤
+                });
+            } else {
+                audio.play().catch(err => {
+                    console.error('音樂播放錯誤:', err);  // 捕獲播放錯誤
+                });
+            }
+        } else {
+            console.error('未找到與該卡片對應的歌曲');
         }
     }
 
@@ -539,6 +549,9 @@ function flipCard() {
     // 短暫延遲後檢查是否匹配
     setTimeout(checkForMatch, 300); // 增加延遲，讓翻開的卡片更明顯
 }
+
+
+
 
 // 監聽音量控制滑動條，動態調整音量
 volumeControl.addEventListener('input', function() {
@@ -581,7 +594,7 @@ function showMatchMessage(songName, artist) {
     overlay.style.width = '100%';
     overlay.style.height = '100%';
     overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'; // 半透明背景
-    overlay.style.zIndex = '999'; // 確保在最上面
+    overlay.style.zIndex = '999'; // 确保在最上面
     document.body.appendChild(overlay);
 
     const matchMessage = document.createElement('div');
@@ -591,10 +604,15 @@ function showMatchMessage(songName, artist) {
             <p>🎉 恭喜你答對了!! 🎉</p>
             <p>歌名為: "${songName}"</p>
             <p>歌手為: "${artist}"</p>
-            <button id="confirm-button">確認 <span class="small-text">(請等後方卡片消失再按)</span></button>
+            <button id="confirm-button" style="display: none;">確認 <span class="small-text">(請等後方卡片消失再按)</span></button>
         </div>
     `;
     document.body.appendChild(matchMessage);
+
+    // 使用setTimeout延迟3秒显示确认按钮
+    setTimeout(() => {
+        document.getElementById('confirm-button').style.display = 'block';
+    }, 2000); // 2000毫秒后显示按钮
 
     // 點擊確認按鈕時，關閉提示視窗和覆蓋層
     document.getElementById('confirm-button').addEventListener('click', () => {

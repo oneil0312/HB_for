@@ -826,20 +826,34 @@ label[for="volumeControl"] {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
     z-index: 1000;
+    width: 400px;
+    text-align: center;
+    font-size: 20px;
 }
 
 .match-message-content {
+    background-color: rgba(255, 255, 255, 0.9); /* 半透明背景 */
+    border-radius: 15px;
+    padding: 30px;
+    font-size: 18px;
+    display: flex;
+    flex-direction: column; /* 垂直排列内容 */
+    justify-content: center; /* 垂直居中 */
+    align-items: center; /* 水平居中 */
     text-align: center;
 }
 
+/* 按钮样式 */
 #confirm-button {
-    padding: 10px 20px;
-    margin-top: 10px;
     background-color: #4CAF50;
     color: white;
     border: none;
     border-radius: 5px;
+    padding: 12px 25px;
     cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s, transform 0.3s ease-in-out;
+    margin-top: 20px; /* 增加与文本的间距 */
 }
 
 #confirm-button:hover {
