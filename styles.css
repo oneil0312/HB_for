@@ -1303,6 +1303,179 @@ button:disabled {
 }
 
 
+/* 播放控制器樣式 */
+#playMusic, #pauseMusic {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-family: 'Yu Mincho', serif; /* 書法風格 */
+    color: #f7e8dc;
+    background: radial-gradient(circle, #d4145a, #480048);
+    border: 2px solid #f7e8dc;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+#playMusic:hover, #pauseMusic:hover {
+    background: radial-gradient(circle, #480048, #d4145a);
+    transform: scale(1.1);
+}
+
+#playMusic:active, #pauseMusic:active {
+    transform: scale(0.95);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* 選擇框樣式 */
+#songSelector {
+    margin: 10px 0;
+    padding: 10px;
+    width: 220px;
+    font-size: 14px;
+    font-family: 'Yu Mincho', serif; /* 書法風格 */
+    color: #480048;
+    background: #f7e8dc;
+    border: 2px solid #d4145a;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+#songSelector:hover {
+    border-color: #480048;
+    background: #d4145a;
+    color: #f7e8dc;
+}
+
+/* 音量控制器 */
+#volumeControl {
+    margin: 5px;
+    width: 150px;
+    height: 10px;
+    background: linear-gradient(to right, #d4145a, #480048);
+    border-radius: 5px;
+    appearance: none; /* 移除默認樣式 */
+}
+
+#volumeControl::-webkit-slider-thumb {
+    appearance: none; /* 移除默認樣式 */
+    width: 20px;
+    height: 20px;
+    background: #f7e8dc;
+    border: 2px solid #480048;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+#volumeControl::-webkit-slider-thumb:hover {
+    background: #d4145a;
+    border-color: #f7e8dc;
+    transform: scale(1.2);
+}
+
+/* 標籤和按鈕容器 */
+#controller-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    margin: 20px auto;
+    width: 300px;
+    max-width: 90%;  /* 响应式设计，适应小屏幕 */
+    box-sizing: border-box;  /* 包含padding和border */
+}
+
+@media (max-width: 480px) {
+    #controller-container {
+        width: 90%;
+    }
+
+    #songSelector, #volumeControl {
+        width: 100%;  /* 滑块和选择框宽度调整 */
+    }
+}
+
+/* 音量控制器 */
+#musicVolumeControl {
+    -webkit-appearance: none;  /* 移除默认样式 */
+    appearance: none;  /* 移除默认样式 */
+    margin: 5px;
+    width: 150px;
+    height: 10px;
+    background: linear-gradient(to right, #d4145a, #480048); /* 渐变背景 */
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s ease;
+}
+
+/* 滑块的外观 */
+#musicVolumeControl::-webkit-slider-runnable-track {
+    height: 10px;
+    border-radius: 5px;
+}
+
+#musicVolumeControl::-webkit-slider-thumb {
+    -webkit-appearance: none;  /* 移除默认样式 */
+    appearance: none;  /* 移除默认样式 */
+    width: 20px;
+    height: 20px;
+    background: #f7e8dc;  /* 设定滑块的颜色 */
+    border: 2px solid #480048;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* 当滑块悬停时的效果 */
+#musicVolumeControl::-webkit-slider-thumb:hover {
+    background: #d4145a;  /* 悬停时变色 */
+    border-color: #f7e8dc;
+    transform: scale(1.2);  /* 增加缩放效果 */
+}
+
+/* 支持其他浏览器 */
+#musicVolumeControl::-moz-range-track {
+    height: 10px;
+    border-radius: 5px;
+    background: linear-gradient(to right, #d4145a, #480048);
+}
+
+#musicVolumeControl::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #f7e8dc;
+    border: 2px solid #480048;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#musicVolumeControl::-moz-range-thumb:hover {
+    background: #d4145a;
+    border-color: #f7e8dc;
+    transform: scale(1.2);
+}
+
+/* 针对 Firefox 的轨道样式 */
+#musicVolumeControl::-moz-range-progress {
+    background: #d4145a;  /* 进度条颜色 */
+}
+
+/* 音量控制器的标签样式 */
+#musicVolumeControl:focus {
+    outline: none; /* 取消焦点框 */
+    box-shadow: 0 0 10px rgba(216, 20, 90, 0.7); /* 聚焦时增加阴影 */
+}
+
+
+
 footer {
     background-color: #111; /* 更深的背景色 */
     color: #00ffcc; /* 霓虹藍綠色文字 */
@@ -1334,3 +1507,5 @@ footer::before {
     0%, 100% { opacity: 0.6; }
     50% { opacity: 1; }
 }
+
+

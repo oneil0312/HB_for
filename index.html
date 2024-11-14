@@ -147,6 +147,17 @@
       <img src="IMG/Puzzle_2/AceofDiamond.jpg" alt="Ace of Diamond" data-image="AceofDiamond" class="selectable-image" />
       <img src="IMG/Puzzle_3/Konan.jpg" alt="Konan" data-image="Konan" class="selectable-image" /> <!-- 新增的圖片 -->
   </div>
+  
+	<div id="controller-container">
+		<button id="playMusic">播放音樂 🎵</button>
+		<button id="pauseMusic">暫停音樂 ⏸️</button>
+		<label for="musicVolumeControl">音樂音量控制</label>
+		<input id="musicVolumeControl" type="range" min="0" max="1" step="0.01" value="0.3" />
+		<span id="musicVolumeStatus">音量: 30%</span> <!-- 用於顯示音樂音量 -->
+		<select id="songSelector">
+			<option value="" disabled selected>選擇歌曲</option>
+		</select>
+	</div>
 
   <div class="puzzle-container" id="puzzleContainer">
     <!-- 拼圖小塊將通過 JavaScript 動態生成 -->
@@ -210,7 +221,7 @@ function checkLevel3Access() {
 }
 
 // 倒數日期
-var countdownDate = new Date('2024-12-08').getTime();
+var countdownDate = new Date('2024-11-15').getTime();
 var clickCount = 0; // 點擊計數器
 var secondPhaseOpened = false; // 記錄第二關是否已開啟
 var thirdPhaseOpened = false; // 關卡 3 的狀態
@@ -982,6 +993,92 @@ function restartQuiz() {
 // 呼叫開始遊戲的函數
 startQuiz();
 
+
+
+
+
+const InuYashaSongs = [
+    { song: 'voice/puzzle/InuYashaOp1-Changetheworld.MP3', framework: 'InuYashaOp1-Changetheworld' },
+    { song: 'voice/puzzle/InuYashaOp2-IAm.MP3', framework: 'InuYashaOp2-IAm' },
+    { song: 'voice/puzzle/InuYashaOp3-OwarinaiYume.MP3', framework: 'InuYashaOp3-OwarinaiYume' },
+    { song: 'voice/puzzle/InuYashaOp4-Grip.MP3', framework: 'InuYashaOp4-Grip' },
+    { song: 'voice/puzzle/InuYashaED1-dream.MP3', framework: 'InuYashaED1-dream' },
+    { song: 'voice/puzzle/InuYashaED2-DoAsInfinity.MP3', framework: 'InuYashaED2-DoAsInfinity' },
+    { song: 'voice/puzzle/InuYashaED3-Dearest.MP3', framework: 'InuYashaED3-Dearest' },
+    { song: 'voice/puzzle/InuYashaED4-EveryHeart.MP3', framework: 'InuYashaED4-EveryHeart' },
+];
+
+let currentSongIndex = 0;
+let audioElement = new Audio();
+let musicVolumeControl = document.getElementById("musicVolumeControl");
+let musicVolumeStatus = document.getElementById("musicVolumeStatus");
+
+// 隨機播放歌曲
+function playRandomSong() {
+    currentSongIndex = Math.floor(Math.random() * InuYashaSongs.length);
+    const selectedSong = InuYashaSongs[currentSongIndex];
+    if (!selectedSong.song) {
+        console.error("No valid song selected.");
+        return;
+    }
+    audioElement.src = selectedSong.song;
+    audioElement.play().catch((error) => {
+        console.error("Error playing audio:", error);
+    });
+    console.log(`Now playing: ${selectedSong.framework}`);
+}
+
+// 初始化播放按鈕
+document.getElementById("playMusic").addEventListener("click", () => {
+    playRandomSong();
+});
+
+// 暫停音樂
+document.getElementById("pauseMusic").addEventListener("click", () => {
+    audioElement.pause();
+});
+
+// 音量控制
+musicVolumeControl.addEventListener("input", (event) => {
+    const volumeValue = parseFloat(event.target.value);  // 获取滑动条的值并转为浮动类型
+    if (!isNaN(volumeValue)) {  // 确保它是有效的数字
+        audioElement.volume = volumeValue;  // 更新音量
+        musicVolumeStatus.textContent = `音量: ${Math.round(volumeValue * 100)}%`;  // 更新显示音量百分比
+    }
+});
+
+// 填充歌曲選單
+const songSelector = document.getElementById("songSelector");
+
+InuYashaSongs.forEach((item, index) => {
+    const option = document.createElement("option");
+    option.value = index;
+    option.textContent = item.framework;
+    songSelector.appendChild(option);
+});
+
+// 處理歌曲選擇
+songSelector.addEventListener("change", (event) => {
+    currentSongIndex = event.target.value;
+    const selectedSong = InuYashaSongs[currentSongIndex];
+    audioElement.src = selectedSong.song;
+    audioElement.play();
+    console.log(`Now playing: ${selectedSong.framework}`);
+});
+
+audioElement.addEventListener("ended", () => {
+    currentSongIndex = (currentSongIndex + 1) % InuYashaSongs.length; // 循環播放
+    const nextSong = InuYashaSongs[currentSongIndex];
+    audioElement.src = nextSong.song;
+    audioElement.play();
+    console.log(`Now playing: ${nextSong.framework}`);
+});
+
+audioElement.addEventListener("error", () => {
+    console.error("Error loading audio file:", audioElement.src);
+    currentSongIndex = (currentSongIndex + 1) % InuYashaSongs.length; // 播放下一首
+    playRandomSong();
+});
 
 
 
