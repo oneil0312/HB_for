@@ -221,7 +221,7 @@ function checkLevel3Access() {
 }
 
 // 倒數日期
-var countdownDate = new Date('2024-11-15').getTime();
+var countdownDate = new Date('2024-12-08').getTime();
 var clickCount = 0; // 點擊計數器
 var secondPhaseOpened = false; // 記錄第二關是否已開啟
 var thirdPhaseOpened = false; // 關卡 3 的狀態
@@ -506,48 +506,52 @@ const volumeControl = document.getElementById('volumeControl'); // 獲取音量�
 function flipCard() {
     if (lockBoard) return; // 如果遊戲板被鎖定，則不允許點擊
     if (this === firstCard) return;
-
-    this.classList.add('flipped');
-
-    // 檢查是否點擊的是有音樂的卡片
+ 
+ this.classList.add('flipped');
+ 
+ // 檢查是否點擊的是有音樂的卡片
     const imgElement = this.querySelector('.front-face');
-    if (imgElement && imgElement.getAttribute('src').includes('music_img.jpg')) {
-        // 停止並重置當前播放的音樂
-        if (audio) {
-            audio.pause(); // 停止音樂
-            audio.currentTime = 0; // 重置音樂的播放位置
-        }
-
-        // 根據框架名稱選擇對應的音樂
-        const selectedSong = selectedSongs.find(song => song.framework === this.dataset.framework);
-        if (selectedSong) {
-            // 如果選中的歌曲和當前播放的歌曲不同，則創建新的音頻並播放
-            if (!audio || audio.src !== selectedSong.song) {
-                audio = new Audio(selectedSong.song); // 創建新的音頻對象
-                audio.volume = volumeControl.value; // 設置音量
-                audio.play().catch(err => {
-                    console.error('音樂播放錯誤:', err);  // 捕獲播放錯誤
-                });
-            } else {
-                audio.play().catch(err => {
-                    console.error('音樂播放錯誤:', err);  // 捕獲播放錯誤
-                });
-            }
-        } else {
-            console.error('未找到與該卡片對應的歌曲');
-        }
-    }
-
-    if (!hasFlippedCard) {
-        hasFlippedCard = true;
-        firstCard = this;
-        return;
-    }
-
-    secondCard = this;
-
-    // 短暫延遲後檢查是否匹配
-    setTimeout(checkForMatch, 300); // 增加延遲，讓翻開的卡片更明顯
+ 
+ // 設定第一張卡片
+ if (!hasFlippedCard) {
+  firstCard = this;
+  if (imgElement && imgElement.getAttribute('src').includes('music_img.jpg')) {
+   const selectedSong = selectedSongs.find(song => song.framework === this.dataset.framework);
+   if (selectedSong) {
+    audio = new Audio(selectedSong.song);    // 播放對應音樂
+    audio.volume = volumeControl.value;      // 使用音量控制條當前值
+    audio.play().catch(err => {
+     console.error('音樂播放錯誤:', err);  // 捕獲播放錯誤
+    });
+   }
+  }
+  
+  hasFlippedCard = true;
+  return;
+ }
+ 
+ // 設定第二張卡片
+ secondCard = this;
+ 
+ if (imgElement && imgElement.getAttribute('src').includes('music_img.jpg')) {
+  const img1_Element = firstCard.querySelector('.front-face');
+  if (img1_Element.getAttribute('src').includes('music_img.jpg')) {
+   audio.pause();          // 停止音樂
+   audio.currentTime = 0;  // 重置音樂到起始位置
+  }
+  
+  const selectedSong = selectedSongs.find(song => song.framework === this.dataset.framework);
+  if (selectedSong) {
+   audio = new Audio(selectedSong.song);    // 播放對應音樂
+   audio.volume = volumeControl.value;      // 使用音量控制條當前值
+   audio.play().catch(err => {
+    console.error('音樂播放錯誤:', err);  // 捕獲播放錯誤
+   });
+  }  
+ }
+ 
+ lockBoard = true;
+ setTimeout(checkForMatch, 500); // 增加延遲，讓翻開的卡片更明顯 
 }
 
 
@@ -574,8 +578,7 @@ function checkForMatch() {
         const singerName = selectedSong.song.split('/')[1].split('_')[0]; // 從文件名提取歌手名
         
         // 顯示匹配成功的消息
-        showMatchMessage(songName, singerName);
-        
+        showMatchMessage(songName, singerName);    
     } else {
         unflipCards(); // 如果不匹配，則翻回去
     }
@@ -594,32 +597,37 @@ function showMatchMessage(songName, artist) {
     overlay.style.width = '100%';
     overlay.style.height = '100%';
     overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'; // 半透明背景
-    overlay.style.zIndex = '999'; // 确保在最上面
+    overlay.style.zIndex = '999'; // 確保在最上面
     document.body.appendChild(overlay);
 
-    const matchMessage = document.createElement('div');
-    matchMessage.id = 'match-message';
-    matchMessage.innerHTML = `
-        <div class="match-message-content">
-            <p>🎉 恭喜你答對了!! 🎉</p>
-            <p>歌名為: "${songName}"</p>
-            <p>歌手為: "${artist}"</p>
-            <button id="confirm-button" style="display: none;">確認 <span class="small-text">(請等後方卡片消失再按)</span></button>
-        </div>
-    `;
-    document.body.appendChild(matchMessage);
+ const matchMessage = document.createElement('div');
+ matchMessage.id = 'match-message';
+ matchMessage.innerHTML = `
+  <div class="match-message-content">
+   <p>🎉 恭喜你答對了!! 🎉</p>
+   <p>歌名為: "${songName}"</p>
+   <p>歌手為: "${artist}"</p>
+   <button id="confirm-button" style="visibility: hidden";> 確認 </button>
+  </div>
+ `;
+ document.body.appendChild(matchMessage);
 
-    // 使用setTimeout延迟3秒显示确认按钮
-    setTimeout(() => {
-        document.getElementById('confirm-button').style.display = 'block';
-    }, 2000); // 2000毫秒后显示按钮
+ // 使用 setTimeout 在 1 秒後顯示按鈕
+ setTimeout(() => {
+  const confirmButton = document.getElementById('confirm-button');
+  if (confirmButton) {
+   confirmButton.style.visibility = 'visible';
+  }
+ }, 1000);
 
     // 點擊確認按鈕時，關閉提示視窗和覆蓋層
     document.getElementById('confirm-button').addEventListener('click', () => {
-        document.body.removeChild(matchMessage); // 移除提示視窗
-        document.body.removeChild(overlay); // 移除覆蓋層
-        lockBoard = false; // 確認後解鎖遊戲板
-        resetBoard(); // 重置翻牌狀態
+        document.body.removeChild(matchMessage);    // 移除提示視窗
+        document.body.removeChild(overlay);         // 移除覆蓋層
+  audio.pause();                              // 停止音樂
+        audio.currentTime = 0;                      // 重置音樂到起始位置   
+        lockBoard = false;                          // 確認後解鎖遊戲板
+        resetBoard();                               // 重置翻牌狀態
 
         // 檢查分數是否達到10分，顯示提示訊息
         if (score === 10) {
@@ -1026,15 +1034,75 @@ const InuYashaSongs = [
     { song: 'voice/puzzle/InuYashaED4-EveryHeart.MP3', framework: 'InuYashaED4-EveryHeart' },
 ];
 
+const DiamondnoAceSongs = [
+    { song: 'voice/puzzle/DiamondnoAceOp1-GoEXCEED.MP3', framework: 'DiamondnoAceOp1-GoEXCEED' },
+    { song: 'voice/puzzle/DiamondnoAceOp2-PerfectHERO.MP3', framework: 'DiamondnoAceOp2-PerfectHERO' },
+    { song: 'voice/puzzle/DiamondnoAceOp3-Hashire!Mirai.MP3', framework: 'DiamondnoAceOp3-Hashire!Mirai' },
+    { song: 'voice/puzzle/DiamondnoAceOp4-Hero.MP3', framework: 'DiamondnoAceOp4-Hero' },
+    { song: 'voice/puzzle/DiamondnoAceOp5-SoragaAozoradeAruTameni.MP3', framework: 'DiamondnoAceOp5-SoragaAozoradeAruTameni' },
+    { song: 'voice/puzzle/DiamondnoAceOp6-HajimarinoUta.MP3', framework: 'DiamondnoAceOp6-HajimarinoUta' },
+    { song: 'voice/puzzle/DiamondnoAceOp7-RyuuseinoHowl.MP3', framework: 'DiamondnoAceOp7-RyuuseinoHowl' },
+    { song: 'voice/puzzle/DiamondnoAceEd1-SeekDiamonds.MP3', framework: 'DiamondnoAceEd1-SeekDiamonds' },
+	{ song: 'voice/puzzle/DiamondnoAceEd2-Glory!!.MP3', framework: 'DiamondnoAceEd2-Glory!!' },
+    { song: 'voice/puzzle/DiamondnoAceEd3-Miraietsunage.MP3', framework: 'DiamondnoAceEd3-Miraietsunage' },
+    { song: 'voice/puzzle/DiamondnoAceEd4-CLOUDNINE.MP3', framework: 'DiamondnoAceEd4-CLOUDNINE' },
+    { song: 'voice/puzzle/DiamondnoAceEd5-PROMISEDFIELD.MP3', framework: 'DiamondnoAceEd5-PROMISEDFIELD' },
+	{ song: 'voice/puzzle/DiamondnoAceEd6-FINALVICTORY.MP3', framework: 'DiamondnoAceEd6-FINALVICTORY' },
+    { song: 'voice/puzzle/DiamondnoAceEd7-KIMERO!!.MP3', framework: 'DiamondnoAceEd7-KIMERO!!' },
+];
+
+const DetectiveConanSongs = [
+    { song: 'voice/puzzle/DetectiveConan.MP3', framework: 'DetectiveConan' },
+];
+
+// 初始化變數
 let currentSongIndex = 0;
 let audioElement = new Audio();
+let currentSongs = []; // 當前歌單
 let musicVolumeControl = document.getElementById("musicVolumeControl");
 let musicVolumeStatus = document.getElementById("musicVolumeStatus");
+const songSelector = document.getElementById("songSelector");
+
+// 動態更新歌曲選單
+function updateSongSelector(songs) {
+    songSelector.innerHTML = ""; // 清空選單
+    currentSongs = songs; // 更新當前歌單
+    songs.forEach((item, index) => {
+        const option = document.createElement("option");
+        option.value = index;
+        option.textContent = item.framework;
+        songSelector.appendChild(option);
+    });
+}
+
+// 更新選單中選中的歌曲
+function updateSelectedSongInSelector(index) {
+    songSelector.value = index; // 設置選單的值為當前播放的歌曲索引
+}
+
+// 初始化圖片選擇事件
+document.querySelectorAll('.selectable-image').forEach(image => {
+    image.addEventListener('click', () => {
+        const selectedImage = image.dataset.image;
+        if (selectedImage === "InuYasha") {
+            updateSongSelector(InuYashaSongs); // 切換到犬夜叉歌單
+        } else if (selectedImage === "AceofDiamond") {
+            updateSongSelector(DiamondnoAceSongs); // 切換到鑽石王牌歌單
+        } else if (selectedImage === "Konan") {
+            updateSongSelector(DetectiveConanSongs); // 切換到柯南歌單
+        } else {
+            console.warn("未找到對應的歌單");
+            return;
+        }
+        playRandomSong(); // 播放新歌單中的隨機歌曲
+    });
+});
 
 // 隨機播放歌曲
 function playRandomSong() {
-    currentSongIndex = Math.floor(Math.random() * InuYashaSongs.length);
-    const selectedSong = InuYashaSongs[currentSongIndex];
+    if (currentSongs.length === 0) return; // 如果沒有歌單，退出
+    currentSongIndex = Math.floor(Math.random() * currentSongs.length);
+    const selectedSong = currentSongs[currentSongIndex];
     if (!selectedSong.song) {
         console.error("No valid song selected.");
         return;
@@ -1044,6 +1112,7 @@ function playRandomSong() {
         console.error("Error playing audio:", error);
     });
     console.log(`Now playing: ${selectedSong.framework}`);
+    updateSelectedSongInSelector(currentSongIndex); // 更新選單
 }
 
 // 初始化播放按鈕
@@ -1058,45 +1127,45 @@ document.getElementById("pauseMusic").addEventListener("click", () => {
 
 // 音量控制
 musicVolumeControl.addEventListener("input", (event) => {
-    const volumeValue = parseFloat(event.target.value);  // 获取滑动条的值并转为浮动类型
-    if (!isNaN(volumeValue)) {  // 确保它是有效的数字
-        audioElement.volume = volumeValue;  // 更新音量
-        musicVolumeStatus.textContent = `音量: ${Math.round(volumeValue * 100)}%`;  // 更新显示音量百分比
+    const volumeValue = parseFloat(event.target.value);
+    if (!isNaN(volumeValue)) {
+        audioElement.volume = volumeValue;
+        musicVolumeStatus.textContent = `音量: ${Math.round(volumeValue * 100)}%`;
     }
-});
-
-// 填充歌曲選單
-const songSelector = document.getElementById("songSelector");
-
-InuYashaSongs.forEach((item, index) => {
-    const option = document.createElement("option");
-    option.value = index;
-    option.textContent = item.framework;
-    songSelector.appendChild(option);
 });
 
 // 處理歌曲選擇
 songSelector.addEventListener("change", (event) => {
-    currentSongIndex = event.target.value;
-    const selectedSong = InuYashaSongs[currentSongIndex];
+    currentSongIndex = parseInt(event.target.value);
+    const selectedSong = currentSongs[currentSongIndex];
+    if (!selectedSong.song) {
+        console.error("No valid song selected.");
+        return;
+    }
     audioElement.src = selectedSong.song;
-    audioElement.play();
+    audioElement.play().catch((error) => {
+        console.error("Error playing audio:", error);
+    });
     console.log(`Now playing: ${selectedSong.framework}`);
 });
 
+// 循環播放
 audioElement.addEventListener("ended", () => {
-    currentSongIndex = (currentSongIndex + 1) % InuYashaSongs.length; // 循環播放
-    const nextSong = InuYashaSongs[currentSongIndex];
+    currentSongIndex = (currentSongIndex + 1) % currentSongs.length;
+    const nextSong = currentSongs[currentSongIndex];
     audioElement.src = nextSong.song;
     audioElement.play();
     console.log(`Now playing: ${nextSong.framework}`);
+    updateSelectedSongInSelector(currentSongIndex); // 更新選單
 });
 
+// 播放錯誤處理
 audioElement.addEventListener("error", () => {
     console.error("Error loading audio file:", audioElement.src);
-    currentSongIndex = (currentSongIndex + 1) % InuYashaSongs.length; // 播放下一首
-    playRandomSong();
+    playRandomSong(); // 播放隨機歌曲
 });
+
+
 
 
 
@@ -1260,8 +1329,34 @@ function snapToGrid(piece) {
     const gridX = Math.round(x / (originalDimensions.width / gridSize)) * (originalDimensions.width / gridSize);
     const gridY = Math.round(y / (originalDimensions.height / gridSize)) * (originalDimensions.height / gridSize);
 
-    piece.style.left = `${gridX}px`;
-    piece.style.top = `${gridY}px`;
+    // 檢查是否與其他拼圖塊重疊
+    if (checkOverlap(piece, gridX, gridY)) { // 如果有重疊,則讓拼圖塊保持自由移動
+        piece.style.zIndex = '1';            // 將拼圖塊放到最上層
+    } else {
+        piece.style.left = `${gridX}px`;
+        piece.style.top  = `${gridY}px`;
+        piece.style.zIndex = '0';            // 將拼圖塊放到最下層
+    }
+}
+
+// 檢查拼圖塊是否重疊
+function checkOverlap(currentPiece, newX, newY) {
+    const pieces = document.querySelectorAll(".puzzle-piece");
+    const currentIndex = parseInt(currentPiece.dataset.index, 10) - 1;
+
+    for (let i = 0; i < pieces.length; i++) {
+        if (i !== currentIndex) {
+            const piece = pieces[i];
+            const pieceX = parseInt(piece.style.left, 10);
+            const pieceY = parseInt(piece.style.top, 10);
+
+            // 檢查是否有重疊
+            if (Math.abs(newX - pieceX) < (originalDimensions.width / Math.sqrt(piecesCount)) && Math.abs(newY - pieceY) < (originalDimensions.height / Math.sqrt(piecesCount)) ) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 // 完成拼圖檢查
@@ -1277,9 +1372,6 @@ function checkPuzzleCompletion() {
 
         const currentX = parseInt(piece.style.left, 10);
         const currentY = parseInt(piece.style.top, 10);
-
-        // 輸出當前與正確位置的對比
-        console.log(`Piece ${index + 1}: Current Position = (${currentX}, ${currentY}), Correct Position = (${correctX}, ${correctY})`);
 
         // 使用一個小的容忍範圍來判斷位置是否匹配
         const tolerance = 1; // 容忍範圍
