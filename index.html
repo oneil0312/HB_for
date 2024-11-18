@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+
 </head>
 <body>
 <div id="arcade-frame">
@@ -152,8 +153,8 @@
 		<button id="playMusic">播放音樂 🎵</button>
 		<button id="pauseMusic">暫停音樂 ⏸️</button>
 		<label for="musicVolumeControl">音樂音量控制</label>
-		<input id="musicVolumeControl" type="range" min="0" max="1" step="0.01" value="0.3" />
-		<span id="musicVolumeStatus">音量: 30%</span> <!-- 用於顯示音樂音量 -->
+		<input id="musicVolumeControl" type="range" min="0" max="1" step="0.01" value="0.2" />
+		<span id="musicVolumeStatus">音量: 20%</span> <!-- 用於顯示音樂音量 -->
 		<select id="songSelector">
 			<option value="" disabled selected>選擇歌曲</option>
 		</select>
@@ -504,54 +505,40 @@ let audio; // 聲音變數
 const volumeControl = document.getElementById('volumeControl'); // 獲取音量控制元素
 
 function flipCard() {
-    if (lockBoard) return; // 如果遊戲板被鎖定，則不允許點擊
-    if (this === firstCard) return;
+    if (lockBoard || this === firstCard) return;  // 如果遊戲板被鎖定，則不允許點擊
  
  this.classList.add('flipped');
  
  // 檢查是否點擊的是有音樂的卡片
     const imgElement = this.querySelector('.front-face');
  
- // 設定第一張卡片
- if (!hasFlippedCard) {
-  firstCard = this;
-  if (imgElement && imgElement.getAttribute('src').includes('music_img.jpg')) {
-   const selectedSong = selectedSongs.find(song => song.framework === this.dataset.framework);
-   if (selectedSong) {
-    audio = new Audio(selectedSong.song);    // 播放對應音樂
-    audio.volume = volumeControl.value;      // 使用音量控制條當前值
-    audio.play().catch(err => {
-     console.error('音樂播放錯誤:', err);  // 捕獲播放錯誤
-    });
+ if (imgElement && imgElement.getAttribute('src').includes('music_img.jpg')) {
+  if (hasFlippedCard) {           // 如果已有翻開的卡片，檢查並停止前一張音樂
+   const prevElement = firstCard.querySelector('.front-face');
+   if (prevElement && prevElement.getAttribute('src').includes('music_img.jpg')) {
+    audio.pause();          // 停止音樂
+    audio.currentTime = 0;  // 重置音樂到起始位置
    }
   }
-  
+  const selectedSong = selectedSongs.find(song => song.framework === this.dataset.framework);
+  if (selectedSong) {
+   audio = new Audio(selectedSong.song);    // 播放對應音樂
+   audio.volume = volumeControl.value;      // 使用音量控制條當前值
+   audio.play().catch(err => {console.error('音樂播放錯誤:', err);});
+  }
+ } 
+ 
+ // 設定第一張卡片
+ if (!hasFlippedCard) {
+  firstCard = this;  
   hasFlippedCard = true;
   return;
  }
  
  // 設定第二張卡片
  secondCard = this;
- 
- if (imgElement && imgElement.getAttribute('src').includes('music_img.jpg')) {
-  const img1_Element = firstCard.querySelector('.front-face');
-  if (img1_Element.getAttribute('src').includes('music_img.jpg')) {
-   audio.pause();          // 停止音樂
-   audio.currentTime = 0;  // 重置音樂到起始位置
-  }
-  
-  const selectedSong = selectedSongs.find(song => song.framework === this.dataset.framework);
-  if (selectedSong) {
-   audio = new Audio(selectedSong.song);    // 播放對應音樂
-   audio.volume = volumeControl.value;      // 使用音量控制條當前值
-   audio.play().catch(err => {
-    console.error('音樂播放錯誤:', err);  // 捕獲播放錯誤
-   });
-  }  
- }
- 
  lockBoard = true;
- setTimeout(checkForMatch, 500); // 增加延遲，讓翻開的卡片更明顯 
+ setTimeout(checkForMatch, 500); // 增加延遲，讓翻開的 卡片&音樂 更明顯 
 }
 
 
@@ -1062,6 +1049,10 @@ let currentSongs = []; // 當前歌單
 let musicVolumeControl = document.getElementById("musicVolumeControl");
 let musicVolumeStatus = document.getElementById("musicVolumeStatus");
 const songSelector = document.getElementById("songSelector");
+// 設定初始音量為30%
+audioElement.volume = 0.2;
+musicVolumeControl.value = 0.2;
+musicVolumeStatus.textContent = `音量: 20%`;
 
 // 動態更新歌曲選單
 function updateSongSelector(songs) {

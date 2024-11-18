@@ -38,6 +38,9 @@ section {
 }
 
 
+
+
+
 /* 標題樣式 */
 header h1 {
     margin: 20px 0;
@@ -61,51 +64,145 @@ header h1 {
 }
 
 
-/* 通用动画效果 */
+
+/* 基礎圖片樣式 */
 .animate {
     position: absolute;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    width: 230px; /* 假设每张图片的宽度为150px */
+    width: 230px;
     height: 230px;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    animation-iteration-count: infinite;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
 }
 
-/* 第1组：从左到右滚动，4秒 */
+/* 懸停效果 */
+.animate:hover {
+    transform: scale(1.1) translateZ(50px);
+    z-index: 100;
+    animation-play-state: paused;
+}
+
+/* 第1組：從左到右旋轉動畫 */
 .animate.group1 {
-    animation: scroll-right 4s linear infinite;
+    animation: scroll-right 8s linear infinite;
 }
 
-/* 第2组：从右到左滚动，4秒 */
+/* 第2組：從右到左旋轉動畫 */
 .animate.group2 {
-    animation: scroll-left 4s linear infinite;
+    animation: scroll-left 8s linear infinite;
 }
 
-/* 第3组：从左到右滚动，6秒 */
+/* 第3組：橫跨螢幕的動畫 */
 .animate.group3 {
-    animation: scroll-right 6s linear infinite;
+    animation: scroll-wave 12s linear infinite;
 }
 
-/* 定义从左到右滚动的动画 */
+/* 從左到右的動畫 */
 @keyframes scroll-right {
-    from {
-        left: -150px; /* 初始位置在屏幕外左边 */
-        transform: rotate(0deg);
+    0% {
+        left: -230px;
+        transform: rotateZ(0deg);
     }
-    to {
-        left: 100vw; /* 滚动到屏幕最右边外 */
-        transform: rotate(720deg);
+    50% {
+        transform: rotateZ(360deg);
+    }
+    100% {
+        left: calc(100vw + 230px);
+        transform: rotateZ(720deg);
     }
 }
 
-/* 定义从右到左滚动的动画 */
+/* 從右到左的動畫 */
 @keyframes scroll-left {
-    from {
-        right: -150px; /* 初始位置在屏幕外右边 */
-        transform: rotate(0deg);
+    0% {
+        right: -230px;
+        transform: rotateZ(0deg);
     }
-    to {
-        right: 100vw; /* 滚动到屏幕最左边外 */
-        transform: rotate(-1080deg);
+    50% {
+        transform: rotateZ(-360deg);
+    }
+    100% {
+        right: calc(100vw + 230px);
+        transform: rotateZ(-720deg);
+    }
+}
+
+/* 波浪動畫 */
+@keyframes scroll-wave {
+    0% {
+        left: -230px;
+        transform: translateY(0) rotateZ(0deg);
+    }
+    25% {
+        transform: translateY(-50px) rotateZ(180deg);
+    }
+    50% {
+        transform: translateY(0) rotateZ(360deg);
+    }
+    75% {
+        transform: translateY(50px) rotateZ(540deg);
+    }
+    100% {
+        left: calc(100vw + 230px);
+        transform: translateY(0) rotateZ(720deg);
+    }
+}
+
+/* 暫停狀態 */
+.paused .animate {
+    animation-play-state: paused;
+}
+
+/* 速度變化類別 */
+.speed-fast .animate.group1 { animation-duration: 4s; }
+.speed-fast .animate.group2 { animation-duration: 4s; }
+.speed-fast .animate.group3 { animation-duration: 6s; }
+
+.speed-slow .animate.group1 { animation-duration: 12s; }
+.speed-slow .animate.group2 { animation-duration: 12s; }
+.speed-slow .animate.group3 { animation-duration: 18s; }
+
+/* 控制按鈕 */
+.controls {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    gap: 10px;
+}
+
+.controls button {
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.controls button:hover {
+    transform: scale(1.1);
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+    .animate {
+        width: 180px;
+        height: 180px;
+    }
+
+    .controls {
+        flex-direction: column;
+        right: 10px;
+    }
+
+    .controls button {
+        padding: 6px 12px;
+        font-size: 0.9em;
     }
 }
 
@@ -198,18 +295,64 @@ header h1 {
     z-index: 9999;
 }
 
-/* 煙火樣式 */
-.firework {
+.firework-particle {
     position: absolute;
+    pointer-events: none;
     border-radius: 50%;
-    animation: explode 1s ease-out forwards;
-    background: linear-gradient(to top, rgba(255, 255, 255, 0.7), rgba(255, 0, 0, 0.8)); 
+    transform-origin: center;
+    filter: blur(0.5px); // 添加輕微模糊效果增加發光感
 }
 
-/* 煙火爆炸動畫 */
+@keyframes launch {
+    0% {
+        transform: translateY(100vh) scale(1.5);
+    }
+    100% {
+        transform: translateY(20vh) scale(2);
+    }
+}
+
 @keyframes explode {
-    0% { transform: scale(1); opacity: 1; }
-    100% { transform: scale(5); opacity: 0; }
+    0% {
+        transform: scale(2);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+@keyframes particle {
+    0% {
+        transform: translate(0, 0) scale(1.5);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--tx), var(--ty)) scale(0);
+        opacity: 0;
+    }
+}
+
+.trail {
+    position: absolute;
+    width: 8px; // 加大尾跡大小
+    height: 8px;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(1px);
+    animation: trail 0.8s ease-out forwards;
+}
+
+@keyframes trail {
+    0% {
+        opacity: 1;
+        transform: scale(1.5);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.2);
+    }
 }
 
 /* 名稱樣式 */
@@ -234,6 +377,32 @@ header h1 {
 .name:hover, .celebration:hover {
     transform: scale(1.1) rotate(7deg); /* 漫畫風的誇張旋轉效果 */
 }
+
+
+        #wish-button {
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #ff003c, #ff8800, #ffff00);
+            border: 2px solid #000; /* 黑色描边，仿漫画特效 */
+            border-radius: 25px;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 0 3px #000; /* 双重边框效果 */
+        }
+
+        #wish-button.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #wish-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
 
 /* 輸入區域樣式 */
 #input-section {
@@ -295,37 +464,65 @@ button:hover {
     margin: 30px 0;
 }
 
-.cake {
-    width: 50%;
-    max-width: 300px;
-    margin: 20px auto;
-    border: 6px solid #000;
-    box-shadow: 6px 6px 0 #000;
-}
+ .cake {
+            position: relative;
+            width: 50%;
+            max-width: 300px;
+            margin: 20px auto;
+            border: 6px solid var(--cake-border-color);
+            border-radius: 15px;
+            box-shadow: 
+                6px 6px 0 var(--cake-border-color),
+                0 0 20px var(--glow-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            z-index: 2;
+        }
 
-.candles {
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    top: 10%;
-    left: 50%;
-    transform: translateX(-50%);
-}
+        .cake:hover {
+            transform: scale(1.02) rotate(1deg);
+            box-shadow: 
+                8px 8px 0 var(--cake-border-color),
+                0 0 30px var(--glow-color);
+        }
 
-.candle {
-    width: auto;
-    height: 60px;
-    margin: 0 5px;
-    position: relative;
-    bottom: 60px;
-    transition: transform 0.3s;
-    border: 4px solid #000;
-    box-shadow: 4px 4px 0 #000;
-}
+       .candles {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+        }
 
-.candle:hover {
-    transform: scale(1.2) rotate(7deg);
-}
+        .candle {
+            width: auto;
+            height: 60px;
+            position: relative;
+            bottom: 60px;
+            border: 4px solid var(--cake-border-color);
+            border-radius: 8px;
+            box-shadow: 4px 4px 0 var(--cake-border-color);
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            cursor: pointer;
+        }
+
+       .candle:hover {
+            transform: scale(1.2) rotate(7deg);
+            box-shadow: 
+                6px 6px 0 var(--cake-border-color),
+                0 0 15px var(--glow-color);
+        }
+
+        .candle.lit {
+            animation: flicker 0.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes flicker {
+            0% { filter: brightness(100%) drop-shadow(0 0 10px var(--glow-color)); }
+            100% { filter: brightness(120%) drop-shadow(0 0 15px var(--glow-color)); }
+        }
 
 
 .hidden {

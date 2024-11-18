@@ -54,19 +54,19 @@
 			<img src="IMG/volleyball_bokuto.png" alt="滚动图片" class="animate" id="movingImage17">
 			<img src="IMG/volleyball_oikawa.png" alt="滚动图片" class="animate" id="movingImage18">			
 		</div>
-            <section id="cake-section">
-				<div id="sky-lantern-container"></div>
-                <img src="IMG/birthday_cake.jpg" alt="生日蛋糕" class="cake" />
-                <div class="candles">
-                    <img src="IMG/candle_unburn.png" alt="未點燃的蠟燭" class="candle" />
-                    <img src="IMG/candle_unburn.png" alt="未點燃的蠟燭" class="candle" />
-                    <img src="IMG/candle_unburn.png" alt="未點燃的蠟燭" class="candle" />
-                </div>				
-                <div class="wish-container"> 
-                    <button id="wish-button" class="hidden">許願</button>
-                    <div id="wish-message" class="hidden">請許下今年的心願</div>
-                </div>
-            </section>
+			 <section id="cake-section">
+					<div id="sky-lantern-container"></div>
+					<img src="IMG/birthday_cake.jpg" alt="生日蛋糕" class="cake" />
+					<div class="candles">
+						<img src="IMG/candle_unburn.png" alt="未點燃的蠟燭" class="candle" />
+						<img src="IMG/candle_unburn.png" alt="未點燃的蠟燭" class="candle" />
+						<img src="IMG/candle_unburn.png" alt="未點燃的蠟燭" class="candle" />
+					</div>
+					<div class="wish-container">
+						<button id="wish-button" class="hidden">許願</button>
+						<div id="wish-message" class="hidden">請許下今年的心願</div>
+					</div>
+				</section>
 
 
 			<section id="birthday-flower-section">
@@ -226,128 +226,226 @@ setInterval(() => {
 
 	
 	
-		const confirmButton = document.getElementById('confirm-button');
-		const hintInput = document.getElementById('hint-input');
-		const resultMessage = document.getElementById('result-message');
+	const confirmButton = document.getElementById('confirm-button');
+	const hintInput = document.getElementById('hint-input');
+	const resultMessage = document.getElementById('result-message');
 
-		confirmButton.addEventListener('click', function() {
-			const userInput = hintInput.value.trim().toLowerCase();
-			resultMessage.classList.remove('success', 'error', 'hidden'); // 重置狀態
+	confirmButton.addEventListener('click', function() {
+		const userInput = hintInput.value.trim().toLowerCase();
+		resultMessage.classList.remove('success', 'error', 'hidden'); // 重置狀態
 
-			if (userInput === 'regalo') {
-				resultMessage.textContent = '正確！請截圖兌換禮物或是掃QR碼';
-				resultMessage.classList.add('success'); // 顯示成功樣式
-				document.getElementById('qr-code').classList.remove('hidden'); // 顯示QR碼
-			} else {
-				resultMessage.textContent = '錯誤！請再試一次。';
-				resultMessage.classList.add('error'); // 顯示錯誤樣式
-				document.getElementById('qr-code').classList.add('hidden'); // 隱藏QR碼
+		if (userInput === 'regalo') {
+			resultMessage.textContent = '正確！請截圖兌換禮物或是掃QR碼';
+			resultMessage.classList.add('success'); // 顯示成功樣式
+			document.getElementById('qr-code').classList.remove('hidden'); // 顯示QR碼
+		} else {
+			resultMessage.textContent = '錯誤！請再試一次。';
+			resultMessage.classList.add('error'); // 顯示錯誤樣式
+			document.getElementById('qr-code').classList.add('hidden'); // 隱藏QR碼
 
-				// 錯誤時添加晃動效果
-				document.body.classList.add('shake');
-				setTimeout(() => document.body.classList.remove('shake'), 500); // 0.5秒後停止晃動
-			}
+			// 錯誤時添加晃動效果
+			document.body.classList.add('shake');
+			setTimeout(() => document.body.classList.remove('shake'), 500); // 0.5秒後停止晃動
+		}
 
-			// 重新觸發動畫
-			resultMessage.style.animation = 'none';
-			requestAnimationFrame(() => {
-				resultMessage.style.animation = ''; // 重啟動畫
-			});
-			hintInput.value = ''; // 清空輸入框
+		// 重新觸發動畫
+		resultMessage.style.animation = 'none';
+		requestAnimationFrame(() => {
+			resultMessage.style.animation = ''; // 重啟動畫
 		});
+		hintInput.value = ''; // 清空輸入框
+	});
 
-							
-		
-		
-		
+						
+	
+	
+	
 
-        let litCandles = 0; // 紀錄已點亮的蠟燭數量
-		
-		
-        // 使用事件委派，綁定到父元素
-        document.querySelector('.candles').addEventListener('mouseover', function(e) {
-            if (e.target.classList.contains('candle')) {
-                lightCandle(e.target);
-            }
+let litCandles = 0; // 记录已点亮的蜡烛数量
+
+// 使用事件委托，绑定到父元素
+document.querySelector('.candles').addEventListener('mouseover', function (e) {
+    if (e.target.classList.contains('candle')) {
+        lightCandle(e.target);
+    }
+});
+
+function lightCandle(candle) {
+    // 确保图片路径正确
+    if (candle.src.includes('candle_unburn.png')) {
+        candle.src = 'IMG/candle.png'; // 更换为点燃的蜡烛图片
+        litCandles++;
+
+        if (litCandles === 3) { // 当所有蜡烛点亮时，显示许愿按钮
+            const wishButton = document.getElementById('wish-button');
+            wishButton.classList.remove('hidden');
+            wishButton.classList.add('visible'); // 确保样式支持 visible 类
+
+            // 调整提示区域的位置
+            document.getElementById('input-section').style.marginTop = '50px';
+        }
+    }
+}
+
+// 许愿逻辑
+document.getElementById("wish-button").addEventListener("click", () => {
+    makeWish();
+    document.getElementById("fireworks-container").classList.remove("hidden");
+    createFireworks();
+    createSpeechBubble(); // 生成对话框
+});
+
+function makeWish() {
+    const wishMessage = document.getElementById('wish-message');
+    wishMessage.classList.remove('hidden');
+    wishMessage.classList.add('visible');
+
+    // 10秒后重置蜡烛和许愿按钮
+    setTimeout(() => {
+        document.querySelectorAll('.candle').forEach(candle => {
+            candle.src = 'IMG/candle_unburn.png'; // 重置为未点燃状态
+            candle.classList.remove('lit');
         });
+        litCandles = 0; // 重置计数
+        const wishButton = document.getElementById('wish-button');
+        wishButton.classList.add('hidden');
+        wishButton.classList.remove('visible');
+        wishMessage.classList.add('hidden');
+        wishMessage.classList.remove('visible');
+    }, 10000);
+}
 
-        function lightCandle(candle) {
-            if (candle.src.includes('candle_unburn.png')) {
-                candle.src = 'IMG/candle.png'; // 更換為點燃的蠟燭圖片
-                litCandles++;
-                if (litCandles === 3) { // 當所有蠟燭點亮時，顯示許願按鈕
-                    document.getElementById('wish-button').classList.remove('hidden');
-                    // 調整提示區域的位置
-                    document.getElementById('input-section').style.marginTop = '50px'; // 可以根據需要調整
-                }
-            }
+// 确保 extinguishCandles 函数正常工作
+function extinguishCandles() {
+    const candles = document.querySelectorAll('.candle');
+    candles.forEach(candle => {
+        candle.src = 'IMG/candle_unburn.png'; // 更换回未点燃的蜡烛图片
+    });
+
+    // 隐藏许愿按钮和消息，重置已点亮的蜡烛数量
+    document.getElementById('wish-button').classList.add('hidden');
+    document.getElementById('wish-message').classList.add('hidden');
+    litCandles = 0;
+    document.getElementById('input-section').style.marginTop = '0'; // 重置 margin
+}
+
+	
+		
+		
+
+
+function createFireworks() {
+    const container = document.getElementById("fireworks-container");
+    container.classList.remove("hidden");
+    
+    // 減少同時發射的數量但增加持續時間
+    for (let i = 0; i < 6; i++) {
+        setTimeout(() => {
+            launchFirework(container);
+        }, i * 500); // 增加發射間隔
+    }
+    
+    // 延長顯示時間
+    setTimeout(() => {
+        container.classList.add("hidden");
+    }, 12000);
+}
+
+function launchFirework(container) {
+    const startX = Math.random() * window.innerWidth;
+    const startY = window.innerHeight;
+    const targetX = startX + (Math.random() - 0.5) * 300; // 增加水平擴散範圍
+    const targetY = window.innerHeight * 0.2 + (Math.random() - 0.5) * 150; // 增加垂直擴散範圍
+    
+    const rocket = document.createElement("div");
+    rocket.className = "firework-particle";
+    rocket.style.left = `${startX}px`;
+    rocket.style.top = `${startY}px`;
+    rocket.style.width = "8px";  // 加大發射火箭大小
+    rocket.style.height = "8px";
+    rocket.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+    rocket.style.boxShadow = "0 0 12px 4px white"; // 增加發光效果
+    container.appendChild(rocket);
+    
+    createTrail(container, startX, startY, targetX, targetY);
+    
+    rocket.style.animation = "launch 1s ease-out forwards";
+    
+    setTimeout(() => {
+        rocket.remove();
+        createExplosion(container, targetX, targetY);
+    }, 1000);
+}
+		
+function createTrail(container, startX, startY, targetX, targetY) {
+    const duration = 1000; // 配合發射時間
+    const interval = 35; // 略微增加尾跡密度
+    const steps = duration / interval;
+    let step = 0;
+    
+    const trailInterval = setInterval(() => {
+        if (step >= steps) {
+            clearInterval(trailInterval);
+            return;
         }
+        
+        const progress = step / steps;
+        const x = startX + (targetX - startX) * progress;
+        const y = startY + (targetY - startY) * progress;
+        
+        const trail = document.createElement("div");
+        trail.className = "trail";
+        trail.style.left = `${x}px`;
+        trail.style.top = `${y}px`;
+        trail.style.backgroundColor = `hsla(${Math.random() * 360}, 100%, 70%, 0.7)`; // 提高透明度
+        trail.style.boxShadow = "0 0 8px 2px rgba(255,255,255,0.5)"; // 添加發光效果
+        container.appendChild(trail);
+        
+        setTimeout(() => trail.remove(), 800);
+        step++;
+    }, interval);
+}
 
-        document.getElementById("wish-button").addEventListener("click", () => {
-            makeWish();
-            document.getElementById("fireworks-container").classList.remove("hidden");
-            createFireworks();
-            createSpeechBubble(); // 生成對話框
+function createExplosion(container, x, y) {
+    const particleCount = 80; // 略微減少粒子數量但增加大小
+    const baseHue = Math.random() * 360;
+    
+    for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement("div");
+        particle.className = "firework-particle";
+        
+        const hue = (baseHue + Math.random() * 30 - 15) % 360;
+        const color = `hsl(${hue}, 100%, ${60 + Math.random() * 20}%)`; // 提高亮度
+        
+        // 加大粒子尺寸
+        const size = 6 + Math.random() * 8; // 範圍從 6px 到 14px
+        
+        particle.style.left = `${x}px`;
+        particle.style.top = `${y}px`;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.backgroundColor = color;
+        particle.style.boxShadow = `0 0 ${8 + Math.random() * 8}px ${color}`; // 加大發光範圍
+        
+        // 調整散射範圍
+        const angle = (Math.PI * 2 * i) / particleCount;
+        const velocity = 10 + Math.random() * 8; // 增加速度
+        const tx = Math.cos(angle) * velocity * (25 + Math.random() * 15);
+        const ty = Math.sin(angle) * velocity * (25 + Math.random() * 15);
+        
+        particle.style.setProperty('--tx', `${tx}rem`);
+        particle.style.setProperty('--ty', `${ty}rem`);
+        
+        // 延長動畫時間
+        particle.style.animation = `particle ${1.5 + Math.random() * 0.5}s ease-out forwards`;
+        
+        container.appendChild(particle);
+        
+        particle.addEventListener('animationend', () => {
+            particle.remove();
         });
-
-        function makeWish() {
-            // 點下許願按鈕後顯示訊息，並在10秒後熄滅蠟燭
-            document.getElementById('wish-message').classList.remove('hidden');
-            setTimeout(extinguishCandles, 10000); // 10秒後熄滅蠟燭
-        }
-
-        function extinguishCandles() {
-            const candles = document.querySelectorAll('.candle');
-            candles.forEach(candle => {
-                candle.src = 'IMG/candle_unburn.png'; // 更換回未點燃的蠟燭圖片
-            });
-            // 隱藏許願按鈕和訊息，重置已點亮的蠟燭數量
-            document.getElementById('wish-button').classList.add('hidden');
-            document.getElementById('wish-message').classList.add('hidden');
-            litCandles = 0;
-            document.getElementById('input-section').style.marginTop = '0'; // 重置 margin
-        }
-
-        function createFireworks() {
-            const container = document.getElementById("fireworks-container");
-
-            // 煙火效果生成
-            for (let i = 0; i < 30; i++) { // 可以調整煙火的顆數
-                const firework = document.createElement("div");
-                firework.classList.add("firework");
-
-                // 隨機位置
-                const x = Math.random() * window.innerWidth;
-                const y = Math.random() * window.innerHeight;
-
-                // 隨機顏色和大小
-                const size = Math.random() * 20 + 10; // 大小範圍：10px 到 30px
-                const color = `hsl(${Math.random() * 360}, 100%, 50%)`;
-                
-                firework.style.left = `${x}px`;
-                firework.style.top = `${y}px`;
-                firework.style.width = `${size}px`;
-                firework.style.height = `${size}px`;
-                firework.style.backgroundColor = color;
-                
-                container.appendChild(firework);
-
-                // 動畫時間隨機化
-                firework.style.animationDuration = `${Math.random() * 1 + 0.5}s`; // 時間範圍：0.5s 到 1.5s
-
-                // 動畫結束後移除元素
-                firework.addEventListener("animationend", () => {
-                    firework.remove();
-                });
-            }
-
-            // 5 秒後隱藏煙火容器
-            setTimeout(() => {
-                container.classList.add("hidden");
-            }, 2000);
-        }
-		
-		
+    }
+}
 		
 const card = document.getElementById('card');
 
