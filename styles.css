@@ -18,6 +18,7 @@ body {
   text-align: center;
   margin: 0;
   padding: 0;
+  
 }
 
 
@@ -1487,6 +1488,167 @@ button:disabled {
     outline: none; /* 取消焦点框 */
     box-shadow: 0 0 10px rgba(216, 20, 90, 0.7); /* 聚焦时增加阴影 */
 }
+
+
+
+
+/*
+#game-container {
+	position: relative;
+	width: 80px;
+	height: 60px;
+	background-color: transparent; 
+}
+#backpack {
+	position: fixed;
+	right: 30px;
+	bottom: 30px;
+	width: 100px;
+	height: 100px;
+	background-image: url('IMG/backpack.png');
+	background-size: cover;
+	cursor: pointer;
+	transition: transform 0.3s;
+}
+#backpack:hover {
+	transform: scale(1.1);
+}
+#backpack-modal {
+	display: none;
+	position: fixed;
+	right: 120px;
+	bottom: 30px;
+	width: 300px;
+	background-color: white;
+	border: 2px solid #333;
+	padding: 20px;
+	box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.puzzle-slot {
+	width: 100px;
+	height: 100px;
+	border: 2px dashed #999;
+	margin: 10px;
+	display: inline-block;
+	background-size: cover;
+	background-position: center;
+}
+
+#puzzle-complete-area {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none; /* 初始隱藏 */
+ /*   justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.5); /* 背景遮罩效果 */
+    flex-direction: column; /* 顯示內容排列為縱向 */
+}
+
+#final-puzzle-container {
+    display: flex; /* 使用 flex 排版 */
+    justify-content: center;
+    align-items: center;
+    gap: 40px; /* 增加圖片和文字之間的間距 */
+    max-width: 90%;
+    position: relative; /* 讓圖片和文字定位於容器內 */
+}
+
+
+#final-puzzle {
+    display: none; /* 初始隱藏 */
+    width: 700px;
+    height: auto;
+    max-width: 120%;
+    max-height: 120%;
+    object-fit: contain;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* 顯示投影效果 */
+    animation: fadeIn 1s; /* 顯示時的淡入動畫 */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+.close-btn {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	width: 30px;
+	height: 30px;
+	background-color: red;
+	color: white;
+	border: none;
+	border-radius: 50%;
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-weight: bold;
+	z-index: 1001;
+}
+
+h3 {
+    font-family: 'Press Start 2P', cursive; /* 使用遊戲字體 */
+    font-size: 1.5rem; /* 字體大小可根據需求調整 */
+    color: #fff; /* 字體顏色 */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* 模擬遊戲字體的陰影效果 */
+    margin: 0; /* 去除默認 margin */
+    padding: 10px; /* 增加內部間距 */
+    background-color: #000; /* 黑色背景增強效果 */
+    border: 3px solid #00ffcc; /* 增加霓虹效果邊框 */
+    border-radius: 10px; /* 圓角邊框 */
+    text-align: center; /* 居中 */
+}
+
+
+#story-text-container {
+    display: none; /* 初始隱藏 */
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.2rem;
+    color: white;
+    text-align: left;
+    white-space: nowrap;
+    max-width: 500px; /* 設定最大寬度 */
+    flex: 1; /* 讓文字佔據剩餘空間 */
+    height: 200px; /* 設定文字區域的最大高度 */
+    overflow: hidden; /* 防止文字溢出 */
+}
+
+#story-text {
+    overflow: hidden;
+    width: 0;
+    border-right: 2px solid white; /* 模擬打字機效果 */
+    white-space: nowrap;
+    animation: typing 5s steps(50) 1s forwards, blink-caret 0.75s step-end infinite;
+}
+
+/* 打字機效果動畫 */
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+/* 光標閃爍動畫 */
+@keyframes blink-caret {
+    50% {
+        border-color: transparent;
+    }
+}
+
 
 
 

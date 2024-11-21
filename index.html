@@ -174,6 +174,35 @@
 
 
 
+<!--<div id="game-container">        
+        <div id="backpack" onclick="toggleBackpack()"></div>
+        
+        <div id="backpack-modal">
+            <h3>我的背包</h3>
+            <div id="puzzle-slots">
+                <div class="puzzle-slot" data-index="0" onclick="usePuzzlePiece(0)"></div>
+                <div class="puzzle-slot" data-index="1" onclick="usePuzzlePiece(1)"></div>
+                <div class="puzzle-slot" data-index="2" onclick="usePuzzlePiece(2)"></div>
+                <div class="puzzle-slot" data-index="3" onclick="usePuzzlePiece(3)"></div>
+            </div>
+        </div>
+ 
+
+		<div id="puzzle-complete-area">
+			<button class="close-btn" onclick="closePuzzleArea()">X</button>
+			<div id="final-puzzle-container">
+				<img id="final-puzzle" src="IMG/yorushika_4picture.png" alt="完整拼圖">
+				<div id="story-text-container">
+					<p id="story-text">這是一段隱藏的故事文字，會以打字機效果顯示出來。</p>
+				</div>
+			</div>
+		</div>
+
+
+</div> --!>
+
+
+
 <div style="text-align: center;">
   <a href="HB_for_avery.html">
     <img id="birthday-image" src="IMG/door.jpg" alt="Birthday Image" style="display: none; width: 300px; height: auto;">
@@ -302,16 +331,17 @@ function padZero(num) {
 var countdownInterval = setInterval(updateCountdown, 1000);
 
 // 更新點擊計數並顯示對話框
-document.getElementById("count-button").addEventListener("click", function() {
-  clickCount++;
-  document.getElementById("click-count").textContent = clickCount;
-
-  if (clickCount >= 100) {
-    alert("恭喜你離生日又更近一點了!");
-    clickCount = 0; // 重新歸零
-    document.getElementById("click-count").textContent = clickCount; // 更新顯示
-  }
-});
+        document.getElementById("count-button").addEventListener("click", function() {
+            clickCount++;
+            document.getElementById("click-count").textContent = clickCount;
+            if (clickCount >= 100) {
+                alert("恭喜你離生日又更近一點了!");
+                // 自動收集第一塊拼圖
+                collectPuzzlePiece(0);
+                clickCount = 0; // 重新歸零
+                document.getElementById("click-count").textContent = clickCount; // 更新顯示
+            }
+        });
 
 function showCatAnimation() {
   var catImage = document.createElement('img');
@@ -1433,6 +1463,98 @@ initializePuzzle();
 
 
 
+/*		function closePuzzleArea() {
+			const puzzleCompleteArea = document.getElementById('puzzle-complete-area');
+			const closeButton = document.querySelector('.close-btn');
+			const finalPuzzle = document.getElementById('final-puzzle');
+			const storyTextContainer = document.getElementById('story-text-container');
+
+			// 隱藏拼圖完成區域
+			puzzleCompleteArea.style.display = 'none';
+
+			// 顯示關閉按鈕
+			closeButton.style.display = 'block';
+			finalPuzzle.style.display = 'none'; // 隱藏拼圖
+			storyTextContainer.style.display = 'none'; // 隱藏故事文字
+		}
+
+function showFinalPuzzle() {
+    const puzzleCompleteArea = document.getElementById('puzzle-complete-area');
+    const finalPuzzle = document.getElementById('final-puzzle');
+    const storyTextContainer = document.getElementById('story-text-container');
+
+    // 顯示拼圖完成區域並啟用 Flex 屬性
+    puzzleCompleteArea.style.display = 'flex';
+
+    // 顯示拼圖圖片
+    finalPuzzle.style.display = 'block';
+    finalPuzzle.style.animation = 'fadeIn 1s'; // 動畫效果
+
+    // 顯示隱藏的故事文字並執行打字機效果
+    storyTextContainer.style.display = 'block';
+    const storyText = document.getElementById('story-text');
+    storyText.style.width = '0'; // 重置為隱藏狀態
+
+    // 設定一個延遲顯示文字，防止與其他元素同時顯示
+    setTimeout(() => {
+        storyText.style.width = '100%'; // 啟動打字機效果
+    }, 1000); // 延遲 1 秒後顯示文字
+}
+
+
+    const puzzlePieces = [
+            'IMG/yorushika_4picture-1.png',
+            'IMG/yorushika_4picture-2.png', 
+            'IMG/yorushika_4picture-3.png', 
+            'IMG/yorushika_4picture-4.png'
+        ];
+
+        const collectedPuzzles = [false, false, false, false];
+        let backpackOpen = false;
+
+        function toggleBackpack() {
+            const backpackModal = document.getElementById('backpack-modal');
+            backpackOpen = !backpackOpen;
+            backpackModal.style.display = backpackOpen ? 'block' : 'none';
+        }
+
+        function collectPuzzlePiece(index) {
+            if (!collectedPuzzles[index]) {
+                collectedPuzzles[index] = true;
+                const slot = document.querySelector(`.puzzle-slot[data-index="${index}"]`);
+                slot.style.backgroundImage = `url('${puzzlePieces[index]}')`;
+                
+                // 檢查是否完成所有拼圖
+                if (collectedPuzzles.every(piece => piece)) {
+                    alert('恭喜你收集了所有拼圖碎片！');
+                }
+            }
+        }
+
+        function usePuzzlePiece(index) {
+            // 只有當所有拼圖都已收集時才能合併
+            if (collectedPuzzles.every(piece => piece)) {
+                const puzzleCompleteArea = document.getElementById('puzzle-complete-area');
+                const finalPuzzle = document.getElementById('final-puzzle');
+                puzzleCompleteArea.style.display = 'block';
+                finalPuzzle.style.display = 'block';
+
+                // 可以加入一些動畫效果
+                finalPuzzle.style.animation = 'fadeIn 1s';
+            } else {
+                alert('請先收集所有拼圖碎片！');
+            }
+        }
+
+        // 模擬收集拼圖的範例函數（在實際遊戲中，這些會由遊戲邏輯觸發）
+        function simulateCollectPuzzle() {
+            for (let i = 0; i < 4; i++) {
+                setTimeout(() => collectPuzzlePiece(i), i * 1000);
+            }
+        }
+
+        // 開發測試用
+        window.onload = simulateCollectPuzzle;*/
 
 
 
