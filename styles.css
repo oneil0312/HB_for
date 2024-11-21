@@ -251,27 +251,76 @@ body {
   box-shadow: 0 4px 8px rgba(255, 204, 0, 0.5); /* 陰影效果 */
 }
 
-/* 字體和圖片樣式 */
+/* 遊戲關卡卡片高級樣式 */
+.level-card {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
 .level-card h2 {
-  font-family: 'Press Start 2P', cursive; /* 使用像素字體 */
-  font-size: 1.2em;
-  margin: 10px 0;
-  color: #fff; /* 白色字體 */
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1.5em;
+  margin: 15px 0;
+  color: #39ff14; /* 螢光綠 */
+  text-shadow: 
+    0 0 10px #39ff14,
+    2px 2px 4px rgba(57, 255, 20, 0.5);
+  letter-spacing: 2px;
+  padding: 5px 10px;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-left: 5px solid #39ff14;
 }
 
 .level-card img {
   width: 100%;
-  border: 3px solid #ffcc00; /* 圖片外框 */
-  margin-bottom: 10px;
+  max-height: 250px;
+  object-fit: cover;
+  border: 3px solid #ffcc00; /* 金色邊框 */
+  border-radius: 15px;
+  margin-bottom: 15px;
+  box-shadow: 
+    0 0 15px rgba(255, 204, 0, 0.5),
+    inset 0 0 10px rgba(255, 204, 0, 0.3);
+  transition: transform 0.3s ease;
 }
 
-/* 倒計時字體樣式 */
+.level-card:hover img {
+  transform: scale(1.05);
+  box-shadow: 
+    0 0 20px rgba(255, 204, 0, 0.7),
+    inset 0 0 15px rgba(255, 204, 0, 0.5);
+}
+
+/* 遊戲倒計時動態字體特效 */
 #level1-countdown,
 #level2-countdown,
 #level3-countdown {
-  font-family: 'Press Start 2P', cursive; /* 同樣使用像素風格字體 */
-  font-size: 1.2em; /* 調整字體大小 */
-  color: #ffcc00; /* 黃色字體 */
+  position: relative;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1.5em;
+  color: #ffcc00; /* 黃金色 */
+  text-shadow: 
+    0 0 10px #ffcc00,  /* 發光效果 */
+    2px 2px 4px rgba(255, 204, 0, 0.5);
+  letter-spacing: 3px; /* 增加字符間距 */
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.7);
+  border: 2px solid #ffcc00;
+  border-radius: 10px;
+  animation: 
+    countdown-pulse 1s infinite alternate,
+    countdown-flicker 0.1s infinite alternate;
+}
+
+@keyframes countdown-pulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.05); }
+}
+
+@keyframes countdown-flicker {
+  0% { opacity: 1; }
+  50% { opacity: 0.8; }
+  100% { opacity: 1; }
 }
 
 /* 響應式設計 */
@@ -367,26 +416,126 @@ body {
   100% { left: 100%; }
 }
 
+/* 遊戲風格標題特效 */
 h1 {
-  font-size: 2.5rem; /* 增加字體大小 */
+  position: relative;
+  font-size: 3rem; /* 更大的字體 */
   color: #fff; /* 白色字體 */
   text-align: center; /* 置中 */
-  font-family: 'Georgia', serif; /* 使用優雅的字體 */
-  padding: 15px; /* 增加內邊距 */
-  border: 5px dashed #ff4081; /* 使用虛線邊框 */
-  border-radius: 15px; /* 增加圓角 */
-  background-color: rgba(255, 64, 129, 0.7); /* 半透明背景 */
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.5); /* 添加陰影 */
-  animation: bounce 1s ease-in-out infinite; /* 設置彈跳動畫 */
+  font-family: 'Press Start 2P', cursive; /* 像素遊戲字體 */
+  padding: 20px 30px; /* 增加內邊距 */
+  border: 5px solid #00ff41; /* 螢光綠像素邊框 */
+  border-radius: 25px; /* 更誇張的圓角 */
+  background-color: rgba(0, 0, 0, 0.8); /* 深色半透明背景 */
+  box-shadow: 
+    0 0 10px #00ff41,  /* 螢光邊緣效果 */
+    0 0 20px #00ff41,  /* 多層螢光陰影 */
+    inset 0 0 15px #00ff41; /* 內部螢光 */
+  text-shadow: 
+    2px 2px 4px #00ff41,  /* 文字螢光效果 */
+    -2px -2px 4px #00ff41;
+  animation: pixel-bounce 0.5s infinite alternate, 
+             glitch-text 2s infinite alternate;
+  overflow: hidden;
+}
+
+/* 像素彈跳動畫 */
+@keyframes pixel-bounce {
+  0% { transform: translateY(0) skew(0deg); }
+  100% { 
+    transform: translateY(-10px) skew(-5deg); 
+  }
+}
+
+/* 故障文字效果 */
+@keyframes glitch-text {
+  0% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+  5% { clip-path: polygon(0 10%, 100% 0, 100% 100%, 0 90%); }
+  10% { clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 90%); }
+  15% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+}
+
+/* 像素風格 hover 效果 */
+h1:hover {
+  transform: scale(1.05);
+  border-color: #ff00ff; /* 變換邊框顏色 */
+  text-shadow: 
+    3px 3px 6px #ff00ff,
+    -3px -3px 6px #00ff41;
+}
+
+/* 響應式設計 */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 2rem;
+    padding: 15px 20px;
+  }
 }
 
 
 
-/* 彈跳效果優化 */
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+/* 遊戲風格按鈕特效 */
+.warning-btn {
+  position: relative;
+  display: inline-block;
+  padding: 15px 30px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1rem;
+  color: #39ff14; /* 更亮的螢光綠 */
+  background-color: rgba(15, 15, 15, 0.9); /* 更深的背景 */
+  border: 3px solid #39ff14; /* 螢光綠邊框 */
+  border-radius: 15px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 0 10px #39ff14,
+    0 0 20px rgba(57, 255, 20, 0.5);
 }
+
+.warning-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 
+    0 0 15px #ff6b6b, /* 珊瑚紅色 */
+    0 0 25px rgba(255, 107, 107, 0.5);
+  border-color: #ff6b6b;
+}
+
+.warning-btn::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    transparent,
+    #39ff14,
+    transparent
+  );
+  transform: rotate(45deg);
+  animation: glitch-effect 2s infinite;
+  opacity: 0.1;
+}
+
+.warning-btn:active {
+  transform: scale(0.95);
+  box-shadow: 
+    0 0 5px #39ff14,
+    inset 0 0 10px #39ff14;
+}
+
+@keyframes glitch-effect {
+  0% { transform: rotate(45deg) translateX(0); }
+  100% { transform: rotate(45deg) translateX(100%); }
+}
+
+#click-count {
+  color: #ff6b6b; /* 與 hover 顏色呼應 */
+  margin-left: 10px;
+  font-weight: bold;
+}
+
 
 
 /* 整體遊戲區域風格 */
@@ -553,31 +702,61 @@ h1 {
 
 /* 重新開始遊戲按鈕 */
 .restart-btn {
-    display: block; /* 塊級元素 */
-    margin: 20px auto; /* 上下距離為20px，左右自動置中 */
-    font-family: 'Press Start 2P', cursive; /* 像素風格字體 */
-    font-size: 1.2rem; /* 字體大小稍微增大 */
-    background: linear-gradient(145deg, #ff6f61, #ff3b30); /* 漸變紅色背景 */
-    color: #fff; /* 白色字體 */
-    border: none; /* 無邊框 */
-    padding: 15px 30px; /* 內邊距增加 */
-    border-radius: 30px; /* 圓形按鈕 */
-    cursor: pointer; /* 鼠標樣式 */
-    text-transform: uppercase; /* 大寫 */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); /* 陰影 */
-    transition: all 0.3s; /* 過渡效果 */
-    outline: none; /* 無焦點邊框 */
+    display: block;
+    margin: 20px auto;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.2rem;
+    background: linear-gradient(145deg, #ff6f61, #ff3b30);
+    color: #fff;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    padding: 15px 30px;
+    border-radius: 40px;
+    cursor: pointer;
+    text-transform: uppercase;
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.4),
+        inset 0 2px 5px rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 1px;
+}
+
+.restart-btn::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.1), 
+        transparent
+    );
+    transform: rotate(-45deg);
+    transition: all 0.3s ease;
 }
 
 .restart-btn:hover {
-    background: linear-gradient(145deg, #ff3b30, #ff6f61); /* 懸停時反轉顏色 */
-    transform: scale(1.05); /* 懸停時稍微放大 */
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7); /* 增加陰影 */
+    background: linear-gradient(145deg, #ff3b30, #ff6f61);
+    transform: scale(1.05);
+    box-shadow: 
+        0 12px 30px rgba(0, 0, 0, 0.6),
+        inset 0 2px 8px rgba(255, 255, 255, 0.3);
+}
+
+.restart-btn:hover::before {
+    transform: rotate(-45deg) translateX(100%);
 }
 
 .restart-btn:active {
-    transform: scale(0.95); /* 點擊時縮小 */
-    box-shadow: inset 0 5px 10px rgba(0, 0, 0, 0.5); /* 內凹陰影效果 */
+    transform: scale(0.95);
+    box-shadow: 
+        inset 0 5px 15px rgba(0, 0, 0, 0.5),
+        0 2px 5px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(145deg, #ff5a4d, #ff2a1f);
 }
 
 
@@ -666,32 +845,7 @@ h1 {
 
 
 
-/* 設定還原按鈕的樣式 */
-.reset-button {
-    position: fixed;
-    bottom: 20px;  /* 距離底部20px */
-    left: 50%;
-    transform: translateX(-50%); /* 水平居中 */
-    padding: 10px 20px;
-    font-size: 18px;
-    background-color: #b0a0e2;  /* 淺紫色背景 */
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s, box-shadow 0.3s;
-    z-index: 9999;  /* 保證按鈕位於最上層 */
-}
 
-.reset-button:hover {
-    background-color: #a08cc1;  /* 鼠標懸停時顏色變深 */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.reset-button:focus {
-    outline: none;  /* 點擊時去除焦點邊框 */
-}
 
 
 
@@ -728,70 +882,149 @@ h1 {
 .score-display {
     font-family: 'Press Start 2P', cursive;
     font-size: 1.5rem;
-    color: #00ff00; /* 綠色字體，經典遊戲UI配色 */
+    color: #00ff00;
     margin: 15px 0;
-    padding: 5px;
-    background: rgba(0, 0, 0, 0.7); /* 背景透明黑色 */
-    border: 2px solid #ffcc00; /* 黃色邊框 */
-    border-radius: 5px;
+    padding: 10px 15px;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(20, 20, 20, 0.9));
+    border: 2px solid #ffcc00;
+    border-radius: 15px;
     display: inline-block;
+    box-shadow: 
+        0 4px 10px rgba(255, 204, 0, 0.3),
+        inset 0 2px 5px rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.score-display::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.1), 
+        transparent
+    );
+    transform: rotate(-45deg);
+    animation: glitch-effect 3s infinite alternate;
 }
 
 #score {
-    text-align: center; /* 分數文字置中 */
-    font-size: 1.5rem; /* 增加字體大小 */
-    margin-top: 15px; /* 上方距離 */
-    color: #ff6f61; /* 明亮的珊瑚色 */
-    font-family: 'Noto Sans', sans-serif; /* 使用現代的無襯線字體 */
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* 加入陰影效果 */
-    transition: color 0.3s, transform 0.3s; /* 增加過渡效果 */
+    text-align: center;
+    font-size: 2rem;
+    margin-top: 15px;
+    color: #ff6f61;
+    font-family: 'Orbitron', 'Noto Sans', sans-serif;
+    text-shadow: 
+        1px 1px 2px rgba(0, 0, 0, 0.2),
+        0 0 10px rgba(255, 111, 97, 0.4);
+    transition: all 0.3s ease;
+    letter-spacing: 2px;
+    position: relative;
+}
+
+#score::after {
+    content: attr(data-score);
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #00ff00;
+    z-index: -1;
+    opacity: 0.3;
+    transform: scale(1.05);
+    filter: blur(10px);
 }
 
 #score:hover {
-    color: #ffcc00; /* 懸停時的顏色 */
-    transform: scale(1.1); /* 懸停時放大效果 */
+    color: #ffcc00;
+    transform: scale(1.1) rotate(2deg);
+    text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.3),
+        0 0 15px rgba(255, 204, 0, 0.6);
+}
+
+@keyframes glitch-effect {
+    0%, 100% { transform: rotate(-45deg) translate(0, 0); }
+    25% { transform: rotate(-45deg) translate(-5px, 5px); }
+    50% { transform: rotate(-45deg) translate(5px, -5px); }
+    75% { transform: rotate(-45deg) translate(-3px, 3px); }
 }
 
 
 /* 音量控制條風格 */
 #volumeControl {
-    width: 80%;
-    margin-top: 10px;
+    width: 90%;
+    margin-top: 15px;
     appearance: none;
-    background: #ffcc00; /* 黃色進度條 */
-    height: 8px;
-    border-radius: 5px;
+    background: linear-gradient(90deg, #ffcc00, #ff9900);
+    height: 10px;
+    border-radius: 15px;
     outline: none;
-    box-shadow: 0 0 10px rgba(255, 204, 0, 0.7);
+    box-shadow: 
+        0 4px 10px rgba(255, 204, 0, 0.4),
+        inset 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
 }
 
 /* 音量控制條的滑塊設置 */
 #volumeControl::-webkit-slider-thumb {
     appearance: none;
-    width: 20px;
-    height: 20px;
-    background: #ff0000; /* 紅色滑塊 */
+    width: 25px;
+    height: 25px;
+    background: radial-gradient(circle at 30% 30%, #ff3333, #ff0000);
     border-radius: 50%;
     cursor: pointer;
+    box-shadow: 
+        0 4px 10px rgba(255, 0, 0, 0.3),
+        inset -2px -2px 5px rgba(255, 255, 255, 0.2);
+    border: 3px solid white;
+    transition: all 0.3s ease;
 }
 
-/* 當滑鼠懸停或點擊滑塊時，改變透明度 */
+/* 滑塊懸停效果 */
 #volumeControl:hover {
     opacity: 1;
+    height: 12px;
 }
 
+#volumeControl:hover::-webkit-slider-thumb {
+    transform: scale(1.2);
+    box-shadow: 
+        0 6px 15px rgba(255, 0, 0, 0.4),
+        inset -3px -3px 7px rgba(255, 255, 255, 0.3);
+}
+
+/* 滑塊點擊時的效果 */
 #volumeControl:active::-webkit-slider-thumb {
-    background: #45a049;       /* 滑塊按下時的顏色變化 */
+    background: radial-gradient(circle at 30% 30%, #45a049, #2e8b57);
+    transform: scale(0.9);
+    box-shadow: 
+        0 2px 5px rgba(69, 160, 73, 0.5),
+        inset -1px -1px 3px rgba(255, 255, 255, 0.2);
 }
 
-/* 美化音量標籤的字體 */
+/* 美化音量標籤 */
 label[for="volumeControl"] {
-    font-family: 'Arial', sans-serif;  /* 設定字體樣式 */
-    font-size: 18px;                   /* 調整字體大小 */
-    font-weight: bold;                 /* 設定字體粗細 */
-    color: #4CAF50;                    /* 設定字體顏色 */
-    margin-right: 10px;                /* 字體與滑動條的距離 */
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* 添加淡淡的陰影 */
+    font-family: 'Montserrat', 'Arial', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #4CAF50;
+    margin-right: 15px;
+    text-shadow: 
+        1px 1px 2px rgba(0, 0, 0, 0.1),
+        2px 2px 4px rgba(76, 175, 80, 0.2);
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+}
+
+/* 懸停時標籤效果 */
+label[for="volumeControl"]:hover {
+    color: #45a049;
+    transform: scale(1.05);
 }
 
 #hint-message {
