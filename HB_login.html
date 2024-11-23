@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>網站登入系統</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="logincss.css">
+</head>
+<body>
+    <div class="background-animation"></div>
+    <div class="login-container">
+        <h2>歡迎登入</h2>
+        <div id="error-message" class="error-message"></div>
+        <div class="input-group">
+            <label for="username">使用者名稱</label>
+            <input type="text" id="username" placeholder="輸入使用者名稱" autocomplete="username">
+            <i class="fas fa-user"></i>
+        </div>
+        <div class="input-group">
+            <label for="password">密碼</label>
+            <input type="password" id="password" placeholder="輸入密碼" autocomplete="current-password">
+            <i class="fas fa-eye password-toggle" id="passwordToggle"></i>
+        </div>
+        <button class="btn" onclick="login()">
+            登入
+            <span class="loading" id="loading"></span>
+        </button>
+    </div>
+
+    <script>
+        // 密碼顯示切換
+        const passwordToggle = document.getElementById('passwordToggle');
+        const passwordInput = document.getElementById('password');
+
+        passwordToggle.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+
+        // 登入功能
+        function login() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const errorMessage = document.getElementById('error-message');
+            const loading = document.getElementById('loading');
+            const loginButton = document.querySelector('.btn');
+            
+            // 驗證輸入
+            if (!username || !password) {
+                showError('請填寫所有欄位');
+                return;
+            }
+
+            // 顯示載入動畫
+            loading.style.display = 'inline-block';
+            loginButton.disabled = true;
+            
+            // 模擬API請求延遲
+            setTimeout(() => {
+                const correctUsername = 'Avery';
+                const correctPassword = 'JingTong';
+
+                // 檢查用戶名是否完全相同（區分大小寫）
+                if (username === correctUsername && password === correctPassword) {
+                    errorMessage.style.color = '#4CAF50';
+                    showError('登入成功！正在跳轉...');
+                    
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1500);
+                } else {
+                    // 檢查是否是大小寫問題
+                    if (username.toLowerCase() === correctUsername.toLowerCase() && 
+                        password !== correctPassword) {
+                        // 用戶名大小寫正確，密碼錯誤
+                        showError('密碼錯誤，請重新輸入！');
+                    } else if (username.toLowerCase() === correctUsername.toLowerCase() && 
+                             password.toLowerCase() === correctPassword.toLowerCase()) {
+                        // 密碼僅大小寫錯誤
+                        showError('密碼大小寫錯誤，請檢查大小寫後重新輸入！');
+                    } else if (username !== correctUsername && 
+                             username.toLowerCase() === correctUsername.toLowerCase()) {
+                        // 用戶名僅大小寫錯誤
+                        showError('使用者名稱大小寫錯誤，請檢查大小寫後重新輸入！');
+                    } else {
+                        // 其他錯誤情況
+                        showError('使用者名稱或密碼錯誤，請重新輸入！');
+                    }
+                }
+                
+                loading.style.display = 'none';
+                loginButton.disabled = false;
+            }, 1000);
+        }
+
+        function showError(message) {
+            const errorMessage = document.getElementById('error-message');
+            errorMessage.innerText = message;
+            errorMessage.classList.add('show');
+            
+            if (message.includes('成功')) {
+                errorMessage.style.color = '#4CAF50';
+            } else {
+                errorMessage.style.color = '#ff4444';
+            }
+
+            // 新增抖動效果
+            if (!message.includes('成功')) {
+                errorMessage.classList.add('shake');
+                setTimeout(() => {
+                    errorMessage.classList.remove('shake');
+                }, 500);
+            }
+        }
+
+        // 鍵盤事件監聽
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                login();
+            }
+        });
+
+        // 輸入框聚焦效果
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
