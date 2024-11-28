@@ -1,9 +1,10 @@
 /* 設置整體樣式 */
 
 :root {
-  --main-color: #ff4081;
-  --bg-color: #f3f4f6;
-  --text-color: #555;
+  --main-color: #ff6b6b; /* 柔和的韓漫粉色 */
+  --bg-color: #f9f9fc; /* 淡淡的背景色 */
+  --text-color: #444; /* 柔和的字體顏色 */
+  --shadow-color: rgba(0, 0, 0, 0.1); /* 柔和的陰影顏色 */
 }
 
 .digit-value {
@@ -12,48 +13,43 @@
 
 /* 主要背景設置 */
 body {
-  font-family: 'Press Start 2P', Arial, sans-serif;
-  background-color: #000; /* 深色背景讓復古街機風格更突出 */
-  color: #fff;
+  font-family: 'Nanum Gothic', 'Arial', sans-serif; /* 韓漫常見的字體 */
+  background-color: var(--bg-color);
+  color: var(--text-color);
   text-align: center;
   margin: 0;
   padding: 0;
-  
 }
-
-
-
-
 
 /* 外框設計 */
 #countdown {
   width: 90%;
-  max-width: 1600px;
+  max-width: 1200px;
   margin: 50px auto;
-  padding: 20px;
-  border: 10px solid #ff003c; /* 粗線條邊框，模擬街機機台邊框 */
-  border-radius: 15px;
-  box-shadow: 0 0 20px rgba(255, 0, 60, 0.7), 0 0 30px rgba(255, 0, 60, 0.5); /* 外部發光效果 */
-  background-color: #222; /* 深色背景讓內容更突出 */
+  padding: 30px;
+  border: 8px solid var(--main-color); /* 柔和的邊框顏色 */
+  border-radius: 25px; /* 圓滑的外框 */
+  box-shadow: 0 8px 20px var(--shadow-color); /* 柔和的陰影 */
+  background-color: #fff; /* 白色背景 */
 }
 
 /* 顯示區塊樣式 */
 .digit {
   display: inline-block;
-  margin: 10px;
-  font-size: 2.5rem;
+  margin: 15px;
+  font-size: 2.2rem;
 }
 
 .digit-label {
   display: block;
-  font-size: 1.2rem;
-  color: #a3a3a3;
+  font-size: 1rem;
+  color: #666; /* 柔和的灰色字體 */
 }
 
 .digit-value {
-  font-size: 3.5rem;
-  color: #ffdf00; /* 黃色字體，模擬街機燈光效果 */
-  text-shadow: 2px 2px 0 #ff003c, -2px -2px 0 #003cff; /* 濃烈的陰影效果 */
+  font-size: 3rem;
+  color: var(--main-color); /* 柔和的粉色主題字體 */
+  text-shadow: 0 2px 4px var(--shadow-color); /* 漫畫式柔和陰影 */
 }
 
 /* 日曆樣式 */
@@ -66,17 +62,20 @@ body {
 }
 
 .sagittarius-image {
-  width: 300px;
+  width: 250px;
   height: auto;
-  filter: brightness(1.0) contrast(1.2); /* 增強亮度與對比 */
-  margin: 0 5px;
+  filter: brightness(1.1) contrast(1.1); /* 柔和處理亮度與對比 */
+  margin: 0 10px;
+  border: 2px solid var(--main-color); /* 淡色描邊 */
+  border-radius: 15px; /* 圓滑的圖片外框 */
+  box-shadow: 0 4px 10px var(--shadow-color); /* 圖片陰影 */
 }
 
 /* 紅色圈圈樣式 */
 .date-circle {
   position: absolute;
   top: 56.5%;
-  left: 36.7%;
+  left: 32.7%;
   transform: translate(-50%, -50%);
   width: 40px;
   height: 40px;
@@ -228,100 +227,147 @@ body {
   display: flex;
   justify-content: center; /* 卡片居中顯示 */
   gap: 30px; /* 卡片間距 */
-  padding: 20px; /* 類似的上下間距 */
+  padding: 20px;
   flex-wrap: wrap; /* 允許卡片在小螢幕上換行 */
   margin: 0 auto; /* 自動左右邊距以確保居中 */
-  max-width: 1000px; /* 可選，設置最大寬度以避免過於擁擠 */
+  max-width: 1200px; /* 擴大最大寬度 */
+  background: linear-gradient(180deg, #fff9f5, #ffe4e1); /* 柔和漸層背景 */
+  border-radius: 20px; /* 整體圓角框架 */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* 整體陰影 */
 }
 
 /* 卡片樣式 */
 .level-card {
-  background-color: #333; /* 卡片背景顏色 */
-  border: 5px solid #ffcc00; /* 粗框 */
-  border-radius: 5px; /* 圓角 */
+  background: linear-gradient(145deg, #ffe7dc, #fffaf3); /* 柔和的韓漫色調漸層 */
+  border: 3px dashed #ff9aa2; /* 虛線邊框，增加俏皮感 */
+  border-radius: 15px; /* 圓角 */
   text-align: center;
   cursor: pointer;
   padding: 20px;
-  width: 220px; /* 卡片寬度 */
-  transition: transform 0.2s, box-shadow 0.2s; /* 鼠標效果 */
+  width: 250px; /* 增大卡片尺寸 */
+  transition: transform 0.4s ease, box-shadow 0.4s ease; /* 動態過渡更柔和 */
+  position: relative; /* 為光圈效果準備 */
+  box-shadow: 
+    0 5px 15px rgba(0, 0, 0, 0.1), 
+    inset 0 0 10px rgba(255, 220, 220, 0.3); /* 外部和內部柔和陰影 */
 }
 
 .level-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 8px rgba(255, 204, 0, 0.5); /* 陰影效果 */
+  transform: translateY(-15px) scale(1.1); /* 放大和浮動效果 */
+  box-shadow: 
+    0 10px 25px rgba(255, 153, 162, 0.5), 
+    inset 0 0 20px rgba(255, 204, 204, 0.5); /* 增強光暈 */
 }
 
-/* 遊戲關卡卡片高級樣式 */
-.level-card {
-  position: relative;
-  transition: all 0.3s ease;
-}
-
+/* 標題樣式 */
 .level-card h2 {
-  font-family: 'Press Start 2P', cursive;
-  font-size: 1.5em;
+  font-family: 'Comic Sans MS', cursive; /* 模仿韓漫俏皮風格 */
+  font-size: 1.6em;
   margin: 15px 0;
-  color: #39ff14; /* 螢光綠 */
+  color: #ff6f61; /* 明亮的韓漫紅 */
   text-shadow: 
-    0 0 10px #39ff14,
-    2px 2px 4px rgba(57, 255, 20, 0.5);
+    0 0 8px #ff9aa2, 
+    2px 2px 6px rgba(255, 105, 97, 0.6); /* 柔和發光效果 */
   letter-spacing: 2px;
-  padding: 5px 10px;
-  background-color: rgba(0, 0, 0, 0.7);
-  border-left: 5px solid #39ff14;
+  padding: 10px;
+  background: rgba(255, 230, 230, 0.7); /* 半透明背景 */
+  border-radius: 10px; /* 柔和圓角 */
 }
 
+/* 卡片圖片樣式 */
 .level-card img {
   width: 100%;
-  max-height: 250px;
-  object-fit: cover;
-  border: 3px solid #ffcc00; /* 金色邊框 */
-  border-radius: 15px;
+  max-height: 220px;
+  object-fit: cover; /* 保持圖片比例 */
+  border: 3px solid #ffcad4; /* 柔和色彩邊框 */
+  border-radius: 12px; /* 圓角 */
   margin-bottom: 15px;
   box-shadow: 
-    0 0 15px rgba(255, 204, 0, 0.5),
-    inset 0 0 10px rgba(255, 204, 0, 0.3);
-  transition: transform 0.3s ease;
+    0 0 15px rgba(255, 182, 193, 0.5), 
+    inset 0 0 8px rgba(255, 204, 204, 0.3); /* 柔和內外光暈 */
+  transition: transform 0.4s ease, box-shadow 0.4s ease; /* 更柔和的過渡 */
 }
 
 .level-card:hover img {
-  transform: scale(1.05);
+  transform: scale(1.1); /* 放大效果 */
   box-shadow: 
-    0 0 20px rgba(255, 204, 0, 0.7),
-    inset 0 0 15px rgba(255, 204, 0, 0.5);
+    0 0 25px rgba(255, 153, 162, 0.7), 
+    inset 0 0 15px rgba(255, 204, 204, 0.5); /* 增強光暈 */
 }
+
+/* 動態光圈效果 */
+.level-card::before {
+  content: '';
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  right: -15px;
+  bottom: -15px;
+  background: radial-gradient(circle, rgba(255, 220, 220, 0.4), transparent);
+  border-radius: 20px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.level-card:hover::before {
+  opacity: 1; /* 鼠標懸停時顯示光圈 */
+}
+
+/* 卡片標題和動態效果 */
+.level-card h2:hover {
+  animation: korean-flicker 1.5s infinite;
+}
+
+@keyframes korean-flicker {
+  0%, 100% { text-shadow: 0 0 10px #ff9aa2, 2px 2px 8px rgba(255, 105, 97, 0.6); }
+  50% { text-shadow: 0 0 15px #ff6f61, 4px 4px 12px rgba(255, 120, 100, 0.8); }
+}
+
+
 
 /* 遊戲倒計時動態字體特效 */
 #level1-countdown,
 #level2-countdown,
 #level3-countdown {
   position: relative;
-  font-family: 'Press Start 2P', cursive;
-  font-size: 1.5em;
-  color: #ffcc00; /* 黃金色 */
+  font-family: 'Comic Sans MS', cursive; /* 更加俏皮的韓漫風格字體 */
+  font-size: 2em; /* 增大字體 */
+  color: #ff6f61; /* 韓漫風格的溫暖紅色 */
   text-shadow: 
-    0 0 10px #ffcc00,  /* 發光效果 */
-    2px 2px 4px rgba(255, 204, 0, 0.5);
-  letter-spacing: 3px; /* 增加字符間距 */
-  padding: 10px;
-  background-color: rgba(0, 0, 0, 0.7);
-  border: 2px solid #ffcc00;
-  border-radius: 10px;
+    0 0 8px rgba(255, 105, 97, 0.6),  /* 柔和的發光效果 */
+    2px 2px 8px rgba(255, 153, 153, 0.5); /* 增強光暈 */
+  letter-spacing: 2px; /* 增加字符間距 */
+  padding: 12px;
+  background-color: rgba(255, 255, 255, 0.6); /* 半透明背景 */
+  border: 3px solid #ff9aa2; /* 略為粉嫩的邊框 */
+  border-radius: 15px; /* 更圓潤的邊角 */
   animation: 
     countdown-pulse 1s infinite alternate,
-    countdown-flicker 0.1s infinite alternate;
+    countdown-flicker 0.15s infinite alternate,
+    countdown-glow 2s infinite alternate; /* 增加光暈效果 */
 }
 
+/* 輕微縮放效果 */
 @keyframes countdown-pulse {
   0% { transform: scale(1); }
-  100% { transform: scale(1.05); }
+  100% { transform: scale(1.1); }
 }
 
+/* 輕微閃爍效果 */
 @keyframes countdown-flicker {
   0% { opacity: 1; }
-  50% { opacity: 0.8; }
+  50% { opacity: 0.7; }
   100% { opacity: 1; }
 }
+
+/* 光暈擴展效果 */
+@keyframes countdown-glow {
+  0% { text-shadow: 0 0 10px rgba(255, 153, 153, 0.6), 2px 2px 12px rgba(255, 204, 204, 0.8); }
+  50% { text-shadow: 0 0 20px rgba(255, 105, 97, 0.8), 4px 4px 20px rgba(255, 204, 204, 0.9); }
+  100% { text-shadow: 0 0 10px rgba(255, 153, 153, 0.6), 2px 2px 12px rgba(255, 204, 204, 0.8); }
+}
+
 
 /* 響應式設計 */
 @media (max-width: 768px) {
@@ -375,15 +421,17 @@ body {
 
 /* 隱藏/顯示遊戲區域 */
 .game-area {
-    background-color: #1a1a1a; /* 深灰背景 */
-    color: #e0e0e0; /* 淺灰文字 */
-    font-family: 'Press Start 2P', cursive; /* 像素風格字體 */
-    padding: 20px; /* 內邊距 */
-    border-radius: 15px; /* 圓角 */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7); /* 陰影 */
-    max-width: 600px; /* 最大寬度 */
+    background: linear-gradient(145deg, #ffccf1, #ff99cc); /* 粉色漸層背景 */
+    color: #ff6f61; /* 溫暖的紅色文字 */
+    font-family: 'Comic Sans MS', cursive; /* 更具韓漫感的可愛字體 */
+    padding: 25px; /* 更寬的內邊距 */
+    border-radius: 20px; /* 更圓潤的邊角 */
+    box-shadow: 0 8px 20px rgba(255, 105, 97, 0.4), 0 0 15px rgba(255, 204, 204, 0.5); /* 粉色柔和陰影 */
+    max-width: 700px; /* 增加最大寬度 */
     margin: auto; /* 自動居中 */
 }
+
+
 
 
 
@@ -416,53 +464,70 @@ body {
   100% { left: 100%; }
 }
 
-/* 遊戲風格標題特效 */
+/* 韓漫風格標題特效 */
 h1 {
   position: relative;
-  font-size: 3rem; /* 更大的字體 */
-  color: #fff; /* 白色字體 */
+  font-size: 3rem; /* 更醒目的字體大小 */
+  color: #ff6b6b; /* 柔和的粉紅色調 */
   text-align: center; /* 置中 */
-  font-family: 'Press Start 2P', cursive; /* 像素遊戲字體 */
+  font-family: 'Nanum Gothic', 'Arial', sans-serif; /* 韓漫常見字體 */
   padding: 20px 30px; /* 增加內邊距 */
-  border: 5px solid #00ff41; /* 螢光綠像素邊框 */
-  border-radius: 25px; /* 更誇張的圓角 */
-  background-color: rgba(0, 0, 0, 0.8); /* 深色半透明背景 */
+  border: 4px solid rgba(255, 107, 107, 0.8); /* 柔和的粉紅描邊 */
+  border-radius: 20px; /* 更柔和的圓角 */
+  background: linear-gradient(135deg, #fff3f3, #ffe6e6); /* 韓漫常見漸層背景 */
   box-shadow: 
-    0 0 10px #00ff41,  /* 螢光邊緣效果 */
-    0 0 20px #00ff41,  /* 多層螢光陰影 */
-    inset 0 0 15px #00ff41; /* 內部螢光 */
+    0 8px 12px rgba(255, 107, 107, 0.3), /* 柔和的外部陰影 */
+    inset 0 4px 8px rgba(255, 107, 107, 0.2); /* 柔和的內部光暈 */
   text-shadow: 
-    2px 2px 4px #00ff41,  /* 文字螢光效果 */
-    -2px -2px 4px #00ff41;
-  animation: pixel-bounce 0.5s infinite alternate, 
-             glitch-text 2s infinite alternate;
+    2px 2px 6px rgba(255, 183, 107, 0.8), /* 柔和的橙色陰影 */
+    -2px -2px 4px rgba(255, 245, 230, 0.9), /* 柔和的奶白光暈 */
+    0 0 10px rgba(255, 183, 107, 0.6); /* 外擴柔光效果 */
+  animation: gentle-bounce 1.2s infinite alternate ease-in-out, 
+             soft-glow 3s infinite alternate ease-in-out;
   overflow: hidden;
+  transition: transform 0.3s, border-color 0.3s, text-shadow 0.3s;
 }
 
-/* 像素彈跳動畫 */
-@keyframes pixel-bounce {
-  0% { transform: translateY(0) skew(0deg); }
+/* 柔和彈跳動畫 */
+@keyframes gentle-bounce {
+  0% { transform: translateY(0); }
   100% { 
-    transform: translateY(-10px) skew(-5deg); 
+    transform: translateY(-6px); /* 輕微的上下移動 */
+  }
+}
+
+/* 柔光閃爍動畫 */
+@keyframes soft-glow {
+  0% { 
+    box-shadow: 
+      0 8px 12px rgba(255, 107, 107, 0.3),
+      inset 0 4px 8px rgba(255, 107, 107, 0.3);
+  }
+  100% { 
+    box-shadow: 
+      0 10px 16px rgba(255, 107, 107, 0.5),
+      inset 0 5px 10px rgba(255, 107, 107, 0.4);
   }
 }
 
 /* 故障文字效果 */
 @keyframes glitch-text {
   0% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
-  5% { clip-path: polygon(0 10%, 100% 0, 100% 100%, 0 90%); }
-  10% { clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 90%); }
+  5% { clip-path: polygon(0 15%, 100% 5%, 100% 95%, 0 85%); }
+  10% { clip-path: polygon(0 0, 100% 10%, 100% 90%, 0 80%); }
   15% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
 }
 
 /* 像素風格 hover 效果 */
 h1:hover {
-  transform: scale(1.05);
-  border-color: #ff00ff; /* 變換邊框顏色 */
+  transform: scale(1.08);
+  border-color: #ff80c0; /* 較柔和的粉紫色描邊 */
   text-shadow: 
-    3px 3px 6px #ff00ff,
-    -3px -3px 6px #00ff41;
+    3px 3px 8px #ff80c0,
+    -3px -3px 6px #ffd1e1,
+    0 0 12px #ff80c0; /* hover 時更強的光暈效果 */
 }
+
 
 /* 響應式設計 */
 @media (max-width: 600px) {
@@ -474,31 +539,32 @@ h1:hover {
 
 
 
-/* 遊戲風格按鈕特效 */
+/* 韓漫風格按鈕特效 */
 .warning-btn {
   position: relative;
   display: inline-block;
   padding: 15px 30px;
-  font-family: 'Press Start 2P', cursive;
+  font-family: 'Nanum Gothic', 'Arial', sans-serif; /* 韓漫常見字體 */
   font-size: 1rem;
-  color: #39ff14; /* 更亮的螢光綠 */
-  background-color: rgba(15, 15, 15, 0.9); /* 更深的背景 */
-  border: 3px solid #39ff14; /* 螢光綠邊框 */
-  border-radius: 15px;
+  color: #ff6b6b; /* 柔和的粉紅色文字 */
+  background-color: rgba(255, 245, 230, 0.9); /* 柔和奶白背景 */
+  border: 3px solid #ff6b6b; /* 粉紅色邊框 */
+  border-radius: 20px; /* 柔和的圓角 */
   cursor: pointer;
   overflow: hidden;
   transition: all 0.3s ease;
   box-shadow: 
-    0 0 10px #39ff14,
-    0 0 20px rgba(57, 255, 20, 0.5);
+    0 4px 8px rgba(255, 107, 107, 0.3), /* 外部陰影 */
+    inset 0 2px 4px rgba(255, 107, 107, 0.2); /* 內部光暈 */
 }
 
 .warning-btn:hover {
-  transform: scale(1.05);
+  transform: scale(1.08); /* 輕微放大效果 */
   box-shadow: 
-    0 0 15px #ff6b6b, /* 珊瑚紅色 */
-    0 0 25px rgba(255, 107, 107, 0.5);
-  border-color: #ff6b6b;
+    0 8px 16px rgba(255, 183, 107, 0.5), /* 柔和橙色外部光暈 */
+    inset 0 4px 8px rgba(255, 183, 107, 0.3); /* 內部光暈 */
+  border-color: #ff80c0; /* 粉紫色邊框 */
+  color: #ff80c0; /* 文字顏色呼應 hover 邊框 */
 }
 
 .warning-btn::before {
@@ -509,122 +575,133 @@ h1:hover {
   width: 200%;
   height: 200%;
   background: linear-gradient(
-    transparent,
-    #39ff14,
-    transparent
+    to right, 
+    rgba(255, 107, 107, 0.1),
+    rgba(255, 183, 107, 0.4),
+    rgba(255, 107, 107, 0.1)
   );
   transform: rotate(45deg);
-  animation: glitch-effect 2s infinite;
-  opacity: 0.1;
+  animation: soft-glow-effect 3s infinite linear;
+  opacity: 0.2;
+  z-index: 1;
 }
 
 .warning-btn:active {
-  transform: scale(0.95);
+  transform: scale(0.96); /* 輕微縮小效果 */
   box-shadow: 
-    0 0 5px #39ff14,
-    inset 0 0 10px #39ff14;
+    inset 0 2px 4px rgba(255, 107, 107, 0.8), /* 強調按下效果 */
+    0 0 6px rgba(255, 107, 107, 0.6);
 }
 
-@keyframes glitch-effect {
+/* 柔光掃過動畫 */
+@keyframes soft-glow-effect {
   0% { transform: rotate(45deg) translateX(0); }
   100% { transform: rotate(45deg) translateX(100%); }
 }
 
+/* 點擊計數顯示樣式 */
 #click-count {
-  color: #ff6b6b; /* 與 hover 顏色呼應 */
+  color: #ff80c0; /* 粉紫色文字 */
   margin-left: 10px;
   font-weight: bold;
+  font-family: 'Nanum Gothic', 'Arial', sans-serif; /* 與按鈕一致的字體 */
 }
+
 
 
 
 /* 整體遊戲區域風格 */
 #game1 {
-    background: linear-gradient(135deg, #222, #333); /* 深色漸層背景 */
-    border: 10px solid #ffcc00; /* 黃色邊框 */
-    border-radius: 20px; /* 圓角 */
-    box-shadow: 0 0 40px rgba(255, 204, 0, 0.7), 0 0 20px rgba(255, 0, 0, 0.5); /* 霓虹燈效果 */
-    padding: 40px; /* 增加內邊距以擴大整體空間 */
-    max-width: 900px; /* 增加最大寬度 */
+    background: linear-gradient(135deg, #ffe6e6, #fff); /* 柔和漸層背景 */
+    border: 8px solid #ff6b6b; /* 柔和粉紅邊框 */
+    border-radius: 25px; /* 更柔和的圓角 */
+    box-shadow: 
+        0 4px 10px rgba(255, 107, 107, 0.4), /* 外部陰影 */
+        inset 0 2px 6px rgba(255, 183, 107, 0.2); /* 內部光暈 */
+    padding: 40px; /* 增加內邊距 */
+    max-width: 900px; /* 最大寬度 */
     margin: 40px auto; /* 置中顯示 */
     text-align: center;
 }
 
-
-
-/* 街機風格的標題 */
+/* 韓漫風格的標題 */
 .game-title-modern {
-    font-family: 'Press Start 2P', cursive; /* 像素字體 */
-    font-size: 1.5rem;
-    color: #ff0000; /* 紅色文字，模仿遊戲標題 */
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8); /* 文字陰影強化效果 */
-    padding: 10px;
-    background: rgba(0, 0, 0, 0.8); /* 背景半透明，增加立體感 */
-    border: 3px solid #00ff00; /* 綠色邊框 */
-    border-radius: 10px;
+    font-family: 'Nanum Gothic', 'Arial', sans-serif; /* 韓漫常用字體 */
+    font-size: 1.8rem;
+    color: #ff6b6b; /* 柔和粉紅色 */
+    text-shadow: 
+        2px 2px 6px rgba(255, 107, 107, 0.4), /* 粉紅陰影 */
+        -1px -1px 2px rgba(255, 183, 107, 0.3); /* 橙色光暈 */
+    padding: 12px 20px;
+    background: rgba(255, 245, 230, 0.9); /* 奶白色半透明背景 */
+    border: 3px solid #ff80c0; /* 粉紫色邊框 */
+    border-radius: 15px; /* 圓潤邊框 */
     display: inline-block;
-}
-
-
-@keyframes flicker-strong {
-    0% { opacity: 1; }
-    50% { opacity: 0.4; }
-    100% { opacity: 1; }
-}
-
-@keyframes flicker-weak {
-    0% { opacity: 1; }
-    50% { opacity: 0.8; }
-    100% { opacity: 1; }
+    position: relative;
+    overflow: hidden;
+    animation: gentle-glow 2.5s infinite alternate;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* 懸停效果：放大 */
 .game-title-modern:hover {
-    transform: scale(1.05);
+    transform: scale(1.05); /* 輕微放大 */
+    box-shadow: 
+        0 6px 12px rgba(255, 183, 107, 0.5), /* 更亮的外部光暈 */
+        inset 0 3px 8px rgba(255, 107, 107, 0.3); /* 內部陰影 */
 }
 
-/* 突出顯示的文字樣式 */
+/* 強調文字樣式 */
 .game-title-modern span {
-    color: #ff0000; /* 紅色 */
-    text-shadow: 3px 3px 4px rgba(0, 0, 0, 0.9); /* 強陰影 */
-    font-size: 2.5rem;
-    animation: pulse 2s infinite;
+    font-size: 2rem; /* 較大的文字尺寸 */
+    color: #ff80c0; /* 粉紫色文字 */
+    text-shadow: 
+        2px 2px 4px rgba(255, 107, 107, 0.4), /* 粉紅陰影 */
+        0 0 8px rgba(255, 183, 107, 0.5); /* 橙色光暈 */
+    position: relative;
+    z-index: 2;
+    animation: gentle-bounce 1.5s infinite alternate ease-in-out;
 }
 
-/* 脈衝動畫的優化 */
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
+/* 柔光掃過的動畫 */
+@keyframes gentle-glow {
+    0% { box-shadow: 0 4px 10px rgba(255, 107, 107, 0.4); }
+    100% { box-shadow: 0 8px 16px rgba(255, 183, 107, 0.5); }
 }
 
-/* CRT效果優化 */
+/* 輕微彈跳動畫 */
+@keyframes gentle-bounce {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-5px); }
+}
+
+/* 背景線條效果 */
 .game-title-modern::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(255, 255, 255, 0.05),
-    rgba(255, 255, 255, 0.05) 1px,
-    transparent 1px,
-    transparent 2px
-  );
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0.2;
-  will-change: opacity;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(255, 183, 107, 0.1),
+        rgba(255, 183, 107, 0.1) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    z-index: 1;
+    opacity: 0.1; /* 柔和效果 */
+    pointer-events: none;
+    animation: scan-lines 3s infinite linear;
 }
 
-.game-title-modern span {
-  position: relative;
-  z-index: 2;
-  animation: pulse 2s infinite;
-  will-change: transform;
+/* 背景線條掃描動畫 */
+@keyframes scan-lines {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(100%); }
 }
+
 
 
 
@@ -639,24 +716,26 @@ h1:hover {
 .memory-game {
     display: grid;
     grid-template-columns: repeat(4, 1fr); /* 4列卡片布局 */
-    gap: 20px; /* 增加卡片之間的距離 */
+    gap: 25px; /* 增加卡片之間的距離 */
     padding: 20px;
-    background-color: #444; /* 深色背景 */
-    border-radius: 15px;
-    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.7); /* 內部陰影 */
-    margin-bottom: 20px; /* 增加卡片區域底部的距離 */
+    background-color: #f3f3f3; /* 淺灰色背景 */
+    border-radius: 20px; /* 圓角邊框 */
+    box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.3), 0 10px 15px rgba(255, 182, 193, 0.6); /* 內外陰影 */
+    margin-bottom: 30px; /* 增加卡片區域底部的距離 */
 }
 
 /* 設定卡片的初始狀態 */
 .memory-card {
-  width: 150px; /* 設定卡片寬度 */
-  height: 200px; /* 設定卡片高度 */
+  width: 160px; /* 設定卡片寬度 */
+  height: 220px; /* 設定卡片高度 */
   margin: 15px; /* 增加邊距，確保卡片之間不會重疊 */
   position: relative; /* 設定為相對定位 */
   transform-style: preserve-3d; /* 確保3D效果 */
-  transition: transform 0.5s; /* 翻轉過渡效果 */
+  transition: transform 0.6s ease, box-shadow 0.3s ease; /* 翻轉過渡效果和陰影變化 */
   cursor: pointer; /* 游標變為手型 */
-  border: 1px solid #ccc; /* 可視化邊框 */
+  border: 2px solid #ff6fa1; /* 柔和的粉紅邊框 */
+  border-radius: 20px; /* 更加圓潤的邊角 */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* 卡片的陰影效果 */
 }
 
 
@@ -880,22 +959,23 @@ h1:hover {
 
 /* 分數顯示風格 */
 .score-display {
-    font-family: 'Press Start 2P', cursive;
-    font-size: 1.5rem;
-    color: #00ff00;
+    font-family: 'Comic Sans MS', cursive; /* 更可愛的韓漫風格字體 */
+    font-size: 1.6rem;
+    color: #ff85c0; /* 粉紅色 */
     margin: 15px 0;
-    padding: 10px 15px;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(20, 20, 20, 0.9));
-    border: 2px solid #ffcc00;
-    border-radius: 15px;
+    padding: 15px 20px;
+    background: linear-gradient(135deg, rgba(255, 204, 255, 0.7), rgba(255, 182, 193, 0.7)); /* 粉色漸層 */
+    border: 2px solid #ff6fa1; /* 柔和的粉紅邊框 */
+    border-radius: 20px;
     display: inline-block;
     box-shadow: 
-        0 4px 10px rgba(255, 204, 0, 0.3),
-        inset 0 2px 5px rgba(255, 255, 255, 0.1);
+        0 8px 20px rgba(255, 111, 97, 0.2),
+        inset 0 3px 5px rgba(255, 255, 255, 0.15); /* 輕柔陰影 */
     position: relative;
     overflow: hidden;
 }
 
+/* 光暈動畫 */
 .score-display::before {
     content: '';
     position: absolute;
@@ -903,27 +983,29 @@ h1:hover {
     left: -50%;
     width: 200%;
     height: 200%;
-    background: linear-gradient(
-        45deg, 
-        transparent, 
-        rgba(255, 255, 255, 0.1), 
-        transparent
-    );
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent);
     transform: rotate(-45deg);
-    animation: glitch-effect 3s infinite alternate;
+    animation: glow-effect 3s infinite alternate;
 }
 
+/* 光暈動畫 */
+@keyframes glow-effect {
+    0%, 100% { transform: rotate(-45deg) translate(0, 0); }
+    50% { transform: rotate(-45deg) translate(5px, -5px); }
+}
+
+/* 顯示分數的樣式 */
 #score {
     text-align: center;
-    font-size: 2rem;
+    font-size: 2.5rem;
     margin-top: 15px;
-    color: #ff6f61;
-    font-family: 'Orbitron', 'Noto Sans', sans-serif;
+    color: #ff6fa1; /* 柔和的粉紅色 */
+    font-family: 'Poppins', 'Noto Sans', sans-serif; /* 可愛且圓潤的字體 */
     text-shadow: 
-        1px 1px 2px rgba(0, 0, 0, 0.2),
+        1px 1px 2px rgba(0, 0, 0, 0.3),
         0 0 10px rgba(255, 111, 97, 0.4);
     transition: all 0.3s ease;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
     position: relative;
 }
 
@@ -932,27 +1014,22 @@ h1:hover {
     position: absolute;
     top: 0;
     left: 0;
-    color: #00ff00;
+    color: #ff85c0; /* 粉紅色 */
     z-index: -1;
     opacity: 0.3;
     transform: scale(1.05);
     filter: blur(10px);
 }
 
+/* 分數顯示效果 */
 #score:hover {
-    color: #ffcc00;
-    transform: scale(1.1) rotate(2deg);
+    color: #ffcc00; /* 黃金色 */
+    transform: scale(1.1) rotate(3deg);
     text-shadow: 
-        2px 2px 4px rgba(0, 0, 0, 0.3),
-        0 0 15px rgba(255, 204, 0, 0.6);
+        2px 2px 5px rgba(0, 0, 0, 0.3),
+        0 0 12px rgba(255, 204, 0, 0.6);
 }
 
-@keyframes glitch-effect {
-    0%, 100% { transform: rotate(-45deg) translate(0, 0); }
-    25% { transform: rotate(-45deg) translate(-5px, 5px); }
-    50% { transform: rotate(-45deg) translate(5px, -5px); }
-    75% { transform: rotate(-45deg) translate(-3px, 3px); }
-}
 
 
 /* 音量控制條風格 */
