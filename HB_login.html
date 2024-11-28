@@ -70,43 +70,40 @@
             loading.style.display = 'inline-block';
             loginButton.disabled = true;
             
-            // 模擬API請求延遲
-            setTimeout(() => {
-                const correctUsername = 'Avery';
-                const correctPassword = 'JingTong';
+             // 模擬API請求延遲
+			setTimeout(() => {
+				const users = [
+					{ username: 'Avery', password: 'JingTong', redirect: 'index.html' },
+					{ username: 'jessica', password: '1223', redirect: 'index_jessica.html' },
+				];
 
-                // 檢查用戶名是否完全相同（區分大小寫）
-                if (username === correctUsername && password === correctPassword) {
-                    errorMessage.style.color = '#4CAF50';
-                    showError('登入成功！正在跳轉...');
-                    
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 1500);
-                } else {
-                    // 檢查是否是大小寫問題
-                    if (username.toLowerCase() === correctUsername.toLowerCase() && 
-                        password !== correctPassword) {
-                        // 用戶名大小寫正確，密碼錯誤
-                        showError('密碼錯誤，請重新輸入！');
-                    } else if (username.toLowerCase() === correctUsername.toLowerCase() && 
-                             password.toLowerCase() === correctPassword.toLowerCase()) {
-                        // 密碼僅大小寫錯誤
-                        showError('密碼大小寫錯誤，請檢查大小寫後重新輸入！');
-                    } else if (username !== correctUsername && 
-                             username.toLowerCase() === correctUsername.toLowerCase()) {
-                        // 用戶名僅大小寫錯誤
-                        showError('使用者名稱大小寫錯誤，請檢查大小寫後重新輸入！');
-                    } else {
-                        // 其他錯誤情況
-                        showError('使用者名稱或密碼錯誤，請重新輸入！');
-                    }
-                }
-                
-                loading.style.display = 'none';
-                loginButton.disabled = false;
-            }, 1000);
-        }
+				const user = users.find(u => u.username === username && u.password === password);
+
+				if (user) {
+					errorMessage.style.color = '#4CAF50';
+					showError('登入成功！正在跳轉...');
+					
+					setTimeout(() => {
+						window.location.href = user.redirect;
+					}, 1500);
+				} else {
+					// 錯誤處理
+					const usernameMatch = users.find(u => u.username.toLowerCase() === username.toLowerCase());
+					if (usernameMatch) {
+						if (usernameMatch.password !== password) {
+							showError('密碼錯誤，請重新輸入！');
+						} else if (usernameMatch.password.toLowerCase() === password.toLowerCase()) {
+							showError('密碼大小寫錯誤，請檢查大小寫後重新輸入！');
+						}
+					} else {
+						showError('使用者名稱或密碼錯誤，請重新輸入！');
+					}
+				}
+
+				loading.style.display = 'none';
+				loginButton.disabled = false;
+			}, 1000);
+		}
 
         function showError(message) {
             const errorMessage = document.getElementById('error-message');

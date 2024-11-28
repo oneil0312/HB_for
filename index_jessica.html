@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Jessica!</title>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #a15fbf;
+            --secondary-color: #ffbbff;
+            --background-gradient-start: #f5d1ff;
+            --background-gradient-end: #d0bfff;
+            --text-color: #333;
+            --white-translucent: rgba(255, 255, 255, 0.8);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background: linear-gradient(135deg, var(--background-gradient-start), var(--background-gradient-end));
+            color: var(--text-color);
+            text-align: center;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-shadow: 2px 2px var(--secondary-color);
+            margin-top: 50px;
+            font-size: 2rem;
+        }
+
+        .ditto {
+            width: 150px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .birthday-message {
+            font-size: 1.2em;
+            margin: 20px auto;
+            width: 80%;
+            color: var(--text-color);
+            background: var(--white-translucent);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            min-height: 100px;
+            white-space: pre-wrap;
+        }
+
+        .button-container {
+            margin-top: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            font-size: 1em;
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #ff99ff;
+            transform: scale(1.1);
+        }
+
+        .card-pack-section {
+            margin-top: 30px;
+            text-align: center;
+            display: none;
+        }
+
+        .card-packs {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .card-pack {
+            display: inline-block;
+            margin: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card-pack img {
+            width: 100px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-pack:hover {
+            transform: scale(1.1);
+        }
+
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 90%;
+            max-height: 80%;
+            overflow-y: auto;
+        }
+
+        .card {
+            width: 200px;
+            height: 280px;
+            background-color: white;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            opacity: 0;
+            transform: scale(0.5) rotateY(180deg);
+            transition: all 0.8s ease;
+        }
+
+        .card.revealed {
+            opacity: 1;
+            transform: scale(1) rotateY(0);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        }
+
+        .card img {
+            max-width: 80%;
+            max-height: 70%;
+            object-fit: contain;
+        }
+
+        .card .card-name {
+            margin-top: 10px;
+            font-size: 0.8em;
+        }
+
+        .pack-opening-animation {
+            position: relative;
+            animation: pack-open 1s ease-in-out;
+        }
+
+        @keyframes pack-open {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2) rotate(10deg); }
+            100% { transform: scale(0); }
+        }
+
+        .bubble {
+            position: fixed;
+            border-radius: 50%;
+            background-color: rgba(255, 211, 255, 0.5);
+            animation: float 5s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { 
+                transform: translateY(-100vh) rotate(360deg);
+                left: var(--bubble-x);
+            }
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .birthday-message {
+                font-size: 1em;
+                width: 95%;
+            }
+
+            .card {
+                width: 150px;
+                height: 210px;
+            }
+
+            .card-name {
+                font-size: 0.7em;
+            }
+        }
+		.volume-control {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 10px;
+			font-size: 1.2em;
+			margin-top: 20px;
+			color: var(--primary-color);
+			text-shadow: 2px 2px var(--secondary-color);
+		}
+
+		.volume-control label {
+			font-family: 'Press Start 2P', cursive;
+			background-color: rgba(255, 255, 255, 0.6);
+			border-radius: 15px;
+			padding: 5px 15px;
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+		}
+
+		.volume-control input[type="range"] {
+			width: 200px;
+			height: 12px;
+			background: #fff;
+			border-radius: 5px;
+			-webkit-appearance: none;
+			appearance: none;
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+		}
+
+		.volume-control input[type="range"]::-webkit-slider-thumb {
+			width: 25px;
+			height: 25px;
+			background: url('https://img.icons8.com/color/48/000000/pokeball.png') no-repeat center;
+			background-size: contain;
+			border-radius: 50%;
+			border: none;
+			-webkit-appearance: none;
+			cursor: pointer;
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+		}
+
+		.volume-control input[type="range"]::-moz-range-thumb {
+			width: 25px;
+			height: 25px;
+			background: url('https://img.icons8.com/color/48/000000/pokeball.png') no-repeat center;
+			background-size: contain;
+			border-radius: 50%;
+			border: none;
+			cursor: pointer;
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+		}
+
+		.volume-control input[type="range"]:focus {
+			outline: none;
+		}
+
+		.volume-control input[type="range"]::-webkit-slider-runnable-track {
+			height: 12px;
+			border-radius: 5px;
+			background: linear-gradient(to right, #ffbbff, #a15fbf);
+		}
+
+		.volume-control input[type="range"]::-moz-range-track {
+			height: 12px;
+			border-radius: 5px;
+			background: linear-gradient(to right, #ffbbff, #a15fbf);
+		}
+			
+		footer {
+			margin-top: 50px;
+			padding: 10px;
+			background-color: var(--primary-color);
+			color: white;
+			font-size: 1em;
+			text-align: center;
+			border-radius: 10px;
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+		}
+    </style>
+</head>
+<body>
+<!-- Option 1: Add muted attribute to bypass autoplay restrictions -->
+		<audio id="background-music" loop>
+			<source src="voice/jessica/PokemonIhooseYou!.mp3" type="audio/mp3">
+			Your browser does not support the audio element.
+		</audio>		
+    <div class="container">
+        <h1>Happy Birthday, Jessica!</h1>
+		<img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/132.png" alt="Ditto" class="ditto" loading="lazy">
+		<img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/132.png" alt="Ditto" class="ditto" loading="lazy">
+        <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/132.png" alt="Ditto" class="ditto" loading="lazy">
+        <p class="birthday-message" id="message"></p>
+        <div class="button-container">
+            <button class="btn" id="show-cards-button">Click Here for Your Surprise!</button>
+        </div>
+
+        <div class="card-pack-section" id="card-pack-section">
+            <h3>Choose a card pack to open!</h3>
+            <div class="card-packs">
+                <div class="card-pack" id="mon-pack" data-pack-type="mon">
+                    <img src="IMG/jessica/ptcgpocket_pack_mon.png" alt="Mon Pack" loading="lazy">
+                </div>
+                <div class="card-pack" id="pikachu-pack" data-pack-type="pikachu">
+                    <img src="IMG/jessica/ptcgpocket_pack_pikachu.png" alt="Pikachu Pack" loading="lazy">
+                </div>
+                <div class="card-pack" id="charizard-pack" data-pack-type="charizard">
+                    <img src="IMG/jessica/ptcgpocket_pack_charizard.png" alt="Charizard Pack" loading="lazy">
+                </div>
+            </div>
+        </div>
+		<div class="volume-control">
+			<label for="volume-slider">🔊 Music Volume</label>
+			<input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.1">
+		</div>
+
+        <div id="overlay">
+            <div id="card-container"></div>
+        </div>
+    </div>
+	
+	<footer>
+    <p>© 2024 歐尼歐寶可夢中心版權所有</p>
+	</footer>
+
+    <script>
+        // Optimize memory usage by moving card data outside of the global scope
+        const POKEMON_CARDS = {
+            mon: [
+                { name: 'Mewtwo EX', image: 'IMG/jessica/ptcg_pocket_moncrown.jpg' },
+                { name: 'Mewtwo EX', image: 'IMG/jessica/ptcg_pocket_mon_2stars.jpg' },
+                { name: 'Mewtwo EX', image: 'IMG/jessica/ptcg_pocket_mon_3stars.jpg' },
+                { name: 'Mewtwo EX', image: 'IMG/jessica/ptcgpocket_pack_monex.png' },                
+            ],
+            pikachu: [
+                { name: 'Pikachu', image: 'IMG/jessica/ptcgpocket_pack_pikachu_normal.png' },
+                { name: 'Pikachu', image: 'IMG/jessica/ptcgpocket_pack_pikachu_sp.png' },
+                { name: 'Pikachu EX', image: 'IMG/jessica/ptcg_pocket_pikachucrown.jpg' },
+                { name: 'Pikachu EX', image: 'IMG/jessica/ptcg_pocket_pikachu_3stars.jpg' },
+                { name: 'Pikachu EX', image: 'IMG/jessica/ptcg_pocket_pikachu.jpg' }
+            ],
+            charizard: [
+                { name: 'Charizard EX', image: 'IMG/jessica/ptcg_pocket_Charizard_3stars.jpg' },
+                { name: 'Charizard EX', image: 'IMG/jessica/ptcg_pocket_Charizardcrown.jpg' },
+                { name: 'Charizard EX', image: 'IMG/jessica/ptcg_pocket_Charizard_2stars.jpg' },
+                { name: 'Charizard EX', image: 'IMG/jessica/ptcgpocket_pack_charizard.jpg' },               
+            ]
+        };
+
+        class BirthdaySurprise {
+            constructor() {
+                this.messageElement = document.getElementById('message');
+                this.showCardsButton = document.getElementById('show-cards-button');
+                this.cardPackSection = document.getElementById('card-pack-section');
+                this.overlay = document.getElementById('overlay');
+                this.cardContainer = document.getElementById('card-container');
+
+                this.message = `"Wishing you a day full of adventure and surprises! 
+May this year bring you joy, success, 
+and lots of Pokémon special cards!!"`;
+
+                this.init();
+            }
+
+            init() {
+                this.typeMessage();
+                this.addEventListeners();
+                this.createBubbles();
+            }
+
+            typeMessage() {
+                let charIndex = 0;
+                const typeNextChar = () => {
+                    if (charIndex < this.message.length) {
+                        this.messageElement.textContent += this.message[charIndex];
+                        charIndex++;
+                        setTimeout(typeNextChar, 50);
+                    }
+                };
+                typeNextChar();
+            }
+
+            addEventListeners() {
+                this.showCardsButton.addEventListener('click', this.showCardPacks.bind(this));
+                this.overlay.addEventListener('click', this.closeOverlay.bind(this));
+                
+                const cardPacks = document.querySelectorAll('.card-pack');
+                cardPacks.forEach(pack => {
+                    pack.addEventListener('click', (event) => {
+                        const packType = event.currentTarget.dataset.packType;
+                        this.openPack(packType);
+                    });
+                });
+            }
+
+            showCardPacks(event) {
+                event.preventDefault();
+                this.cardPackSection.style.display = 'block';
+                this.showCardsButton.style.display = 'none';
+            }
+
+			openPack(packType) {
+				// Clear previous cards
+				this.cardContainer.innerHTML = '';
+
+				// Randomly draw 5 cards
+				const cardsInPack = POKEMON_CARDS[packType];
+				const selectedCards = this.getRandomCards(cardsInPack, 5);
+
+				// Show pack opening animation
+				const packElement = document.getElementById(`${packType}-pack`);
+				packElement.classList.add('pack-opening-animation');
+
+				// Show cards after 1 second
+				setTimeout(() => {
+					packElement.classList.remove('pack-opening-animation');
+					this.overlay.style.display = 'flex';
+
+					selectedCards.forEach((card, index) => {
+						const cardElement = document.createElement('div');
+						cardElement.classList.add('card');
+						cardElement.innerHTML = `
+							<img src="${card.image}" alt="${card.name}" loading="lazy">
+							<div class="card-name">${card.name}</div>
+						`;
+
+						// Reveal each card with delay
+						setTimeout(() => {
+							cardElement.classList.add('revealed');
+						}, index * 200);
+
+						this.cardContainer.appendChild(cardElement);
+					});
+				}, 1000);
+			}
+
+           // Ensure exactly 5 cards are selected, repeating if necessary
+			getRandomCards(cards, count) {
+				const shuffled = [...cards];
+				const selected = [];
+
+				for (let i = 0; i < count; i++) {
+					selected.push(shuffled[i % shuffled.length]);  // Repeat cards if necessary
+				}
+
+				return selected;
+			}
+
+            closeOverlay(event) {
+                if (event.target === this.overlay) {
+                    this.overlay.style.display = 'none';
+                }
+            }
+
+            createBubbles() {
+                const bubbleContainer = document.body;
+                const bubbleCount = 10;
+
+                for (let i = 0; i < bubbleCount; i++) {
+                    const bubble = document.createElement('div');
+                    bubble.classList.add('bubble');
+                    
+                    // Random size between 10px and 50px
+                    const size = Math.random() * 40 + 10;
+                    bubble.style.width = `${size}px`;
+                    bubble.style.height = `${size}px`;
+                    
+                    // Random horizontal position
+                    bubble.style.left = `${Math.random() * 100}%`;
+                    
+                    // Stagger animation delays
+                    bubble.style.animationDelay = `${Math.random() * 5}s`;
+                    
+                    // Set custom property for horizontal movement
+                    bubble.style.setProperty('--bubble-x', `${Math.random() * 100}%`);
+
+                    bubbleContainer.appendChild(bubble);
+                }
+            }
+        }
+
+        // Initialize the birthday surprise when the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', () => {
+				new BirthdaySurprise();
+			});
+			
+			
+				document.addEventListener('DOMContentLoaded', function() {
+			var audio = document.getElementById('background-music');
+			var volumeSlider = document.getElementById('volume-slider');
+			
+			// Set initial volume to 10%
+			audio.volume = 0.1;
+			volumeSlider.value = 0.1;
+
+			// Add volume slider event listener
+			volumeSlider.addEventListener('input', function() {
+				audio.volume = this.value;
+			});
+			
+			// Existing autoplay logic
+			audio.play().catch(function(error) {
+				document.body.addEventListener('click', function() {
+					audio.play();
+					this.removeEventListener('click', arguments.callee);
+				});
+			});
+		});
+		
+		
+		document.addEventListener('DOMContentLoaded', function() {
+			var audio = document.getElementById('background-music');
+			
+			// 嘗試自動播放
+			audio.play().catch(function(error) {
+				// 如果自動播放失敗，提供一個互動方式
+				document.body.addEventListener('click', function() {
+					audio.play();
+					// 移除點擊事件監聽器，避免重複觸發
+					this.removeEventListener('click', arguments.callee);
+				});
+			});
+		});
+    </script>
