@@ -33,7 +33,7 @@
              // 模擬API請求延遲
 		setTimeout(() => {
 			const users = [
-				{ username: 'Avery', password: 'JingTong', redirect: 'index.html' },
+				{ username: 'Avery', password: '1208', redirect: 'index.html' },
 				{ username: 'jessica', password: '1223', redirect: 'index_2023.html' },
 			];
 
