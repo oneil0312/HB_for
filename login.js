@@ -34,7 +34,7 @@
 		setTimeout(() => {
 			const users = [
 				{ username: 'Avery', password: 'JingTong', redirect: 'index.html' },
-				{ username: 'jessica', password: '1223', redirect: 'index_jessica.html' },
+				{ username: 'jessica', password: '1223', redirect: 'index_2023.html' },
 			];
 
 			const user = users.find(u => u.username === username && u.password === password);
