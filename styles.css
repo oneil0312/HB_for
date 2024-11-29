@@ -726,8 +726,8 @@ h1:hover {
 
 /* 設定卡片的初始狀態 */
 .memory-card {
-  width: 160px; /* 設定卡片寬度 */
-  height: 220px; /* 設定卡片高度 */
+  width: 140px; /* 設定卡片寬度 */
+  height: 200px; /* 設定卡片高度 */
   margin: 15px; /* 增加邊距，確保卡片之間不會重疊 */
   position: relative; /* 設定為相對定位 */
   transform-style: preserve-3d; /* 確保3D效果 */
