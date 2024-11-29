@@ -68,24 +68,6 @@
 					</div>
 				</section>
 
-
-			<section id="birthday-flower-section">
-				<div id="card-container" class="card-container">
-					<div id="card" class="card">
-						<div class="card-back">
-							<p>生日花</p>
-							<img src="IMG/talocard.png" alt="卡背" class="card-image-back">
-						</div>
-						<div class="card-front">
-							<p>每個人出生那天</p>
-							<p>都有一朵花為他盛開</p>
-							<img src="IMG/1208card.png" alt="卡正" class="card-image-front">                                 
-						</div>
-					</div>
-				</div>
-			</section>
-
-
             <section id="input-section">
                 <label for="hint-input">請輸入前幾天收集到的提示：</label>
                 <input type="text" id="hint-input" placeholder="輸入提示字" aria-label="提示字輸入框">
@@ -121,11 +103,10 @@ const allImages = [
 let images = []; // 当前的图片组
 const occupiedPositionsGroup = [
     new Set(), // 第一组的占位
-    new Set(), // 第二组的占位
-    new Set()  // 第三组的占位
+    new Set()  // 第二组的占位
 ];
 
-// 随机选择六张图片的函数
+// 随机选择四张图片的函数
 function getRandomImages(images, num) {
     const selectedImages = [];
     const imageSet = new Set();
@@ -139,7 +120,8 @@ function getRandomImages(images, num) {
 
 // 更新显示的图片
 function updateDisplayedImages() {
-    const selectedImages = getRandomImages(allImages, 6);
+    // 随机选择四张图片
+    const selectedImages = getRandomImages(allImages, 4);
     selectedImages.forEach(imageId => {
         const image = document.getElementById(imageId);
         if (image) image.style.display = 'block'; // 显示选中的图片
@@ -154,8 +136,7 @@ function updateDisplayedImages() {
 
     images = [ // 使用全局变量
         [selectedImages[0], selectedImages[1]], // 第一组
-        [selectedImages[2], selectedImages[3]], // 第二组
-        [selectedImages[4], selectedImages[5]]  // 第三组
+        [selectedImages[2], selectedImages[3]]  // 第二组
     ];
 
     images.forEach((imageGroup, index) => {
@@ -206,14 +187,13 @@ updateDisplayedImages(); // 生成初始的图像组并更新位置
 
 // 定时器更新位置
 setInterval(() => {
-    // 更新第一组和第二组的位置
+    // 更新第一组的位置
     updateImagePositions(images[0], occupiedPositionsGroup[0]); // 更新第一组
-    updateImagePositions(images[1], occupiedPositionsGroup[1]); // 更新第二组
 }, 4000); // 4000 毫秒 = 4 秒
 
 setInterval(() => {
-    // 更新第三组的位置
-    updateImagePositions(images[2], occupiedPositionsGroup[2]); // 更新第三组
+    // 更新第二组的位置
+    updateImagePositions(images[1], occupiedPositionsGroup[1]); // 更新第二组
 }, 6000); // 6000 毫秒 = 6 秒
 
 // 每隔 12 秒更新显示的六张图片

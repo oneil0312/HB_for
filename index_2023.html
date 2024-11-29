@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>雨潔生日倒數計時器</title>
+  <link rel="stylesheet" href="styles_2023.css">  
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="main-content">
+  <h1>Jessica 生日倒數計時器</h1>
+  
+  <!-- 倒數計時 -->
+  <div id="countdown">
+    <div>
+      <span>天:</span> <span id="days">00</span>
+    </div>
+    <div>
+      <span>時:</span> <span id="hours">00</span>
+    </div>
+    <div>
+      <span>分:</span> <span id="minutes">00</span>
+    </div>
+    <div>
+      <span>秒:</span> <span id="seconds">00</span>
+    </div>
+  </div>
+  
+  <!-- 動畫效果 -->
+  <div id="confetti" style="display: none;"></div>
+  
+  <!-- 遊戲區域 -->
+  <div id="game-section">
+    <h2>生日小遊戲</h2>
+		<button id="game-button">開始遊戲</button>
+		<div id="game-board" class="game-board"></div>
+		<div id="score">分數: 0</div>
+		<div id="hint" style="display:none;">
+		  提示: <span id="hint-word"></span>
+		</div>
+
+  <!-- 提示區域 -->
+  <div id="hint" style="display: none;">
+    <p>今天的提示字是: <span id="hint-word">XX</span></p>
+    <p>快去解鎖生日禮物吧！🎁</p>
+  </div>
+
+  <footer>
+    <p>© 歐尼歐版權大概吧</p>
+  </footer>
+</div>
+
+<script>
+  // 倒數計時功能
+    const birthday = new Date('2023-12-23T00:00:00'); // Jessica 的生日
+    
+    function updateCountdown() {
+        const now = new Date();
+        const diff = birthday - now;
+        
+        if (diff <= 0) {
+            document.getElementById('countdown').innerHTML = '<p style="color:#3B4CCA;">生日快樂！🎉🎂</p>';
+            showConfetti();
+            return;
+        }
+        
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+        
+        document.getElementById('days').textContent = days.toString().padStart(2, '0');
+        document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+        document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+        document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+    }
+    
+    // 初始化倒數
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+     // 彩帶效果
+    function showConfetti() {
+        const confetti = document.getElementById('confetti');
+        confetti.style.display = 'block';
+        
+        // 寶可夢色系
+        const pokemonColors = ['#FF0000', '#FFFF00', '#3B4CCA', '#EE8130', '#4CAF50', '#9C27B0'];
+        
+        // 創建100個彩帶
+        let confettiHtml = '';
+        for (let i = 0; i < 100; i++) {
+            const color = pokemonColors[Math.floor(Math.random() * pokemonColors.length)];
+            const left = Math.random() * 100;
+            const delay = Math.random() * 5;
+            
+            confettiHtml += `
+                <div class="confetti" style="
+                    background-color: ${color};
+                    left: ${left}%;
+                    animation-delay: ${delay}s;
+                "></div>
+            `;
+        }
+        
+        confetti.innerHTML = confettiHtml;
+        
+        // 5秒後移除彩帶
+        setTimeout(() => {
+            confetti.style.display = 'none';
+        }, 5000);
+    }
+
+class PokemonMemoryGame {
+  constructor(images) {
+    // Game configuration
+    this.images = images;
+    this.cards = [];
+    this.flippedCards = [];
+    this.matchedPairs = 0;
+    this.score = 0;
+    this.gameBoard = null;
+    this.scoreDisplay = null;
+    this.hintElement = null;
+    this.startButton = null;
+
+    // Bind methods to maintain correct context
+    this.flipCard = this.flipCard.bind(this);
+    this.startGame = this.startGame.bind(this);
+    this.checkMatch = this.checkMatch.bind(this);
+  }
+
+  // Initialize game elements and event listeners
+  init() {
+    this.gameBoard = document.getElementById("game-board");
+    this.scoreDisplay = document.getElementById('score');
+    this.hintElement = document.getElementById('hint');
+    this.startButton = document.getElementById('game-button');
+
+    if (!this.gameBoard || !this.scoreDisplay || !this.hintElement || !this.startButton) {
+      console.error('One or more required game elements are missing');
+      return false;
+    }
+
+    this.startButton.addEventListener('click', this.startGame);
+    return true;
+  }
+
+  // Generate and shuffle cards
+  generateCards() {
+    // Create paired cards and shuffle
+    this.cards = [...this.images, ...this.images]
+      .sort(() => Math.random() - 0.5);
+
+    // Clear previous game state
+    this.gameBoard.innerHTML = '';
+    this.flippedCards = [];
+    this.matchedPairs = 0;
+    this.score = 0;
+    this.scoreDisplay.textContent = `分數: ${this.score}`;
+    this.hintElement.style.display = 'none';
+
+    // Create card elements
+    this.cards.forEach((src, index) => {
+      const card = this.createCardElement(src, index);
+      this.gameBoard.appendChild(card);
+    });
+  }
+
+  // Create individual card element
+  createCardElement(src, index) {
+    const card = document.createElement("div");
+    card.classList.add("card");
+    card.dataset.index = index;
+
+    const front = document.createElement("div");
+    front.classList.add("front");
+
+    const back = document.createElement("div");
+    back.classList.add("back");
+    back.style.backgroundImage = `url('${src}')`;
+
+    card.appendChild(front);
+    card.appendChild(back);
+    card.addEventListener("click", () => this.flipCard(card, src));
+
+    return card;
+  }
+
+  // Card flipping logic
+  flipCard(card, src) {
+    // Comprehensive logic to prevent card flipping
+    if (
+      this.flippedCards.length === 2 ||  // Two cards already flipped
+      card.classList.contains("matched") ||  // Card is already matched
+      card.classList.contains("flipped")  // Card is already flipped
+    ) {
+      return;
+    }
+
+    // Block all other cards from being clicked while checking match
+    if (this.flippedCards.length === 1) {
+      this.gameBoard.classList.add('no-click');
+    }
+
+    card.classList.add("flipped");
+    this.flippedCards.push({ card, src });
+
+    // If two cards are flipped, check for a match
+    if (this.flippedCards.length === 2) {
+      setTimeout(() => this.checkMatch(), 800);
+    }
+  }
+
+  // Check if flipped cards match
+  checkMatch() {
+    const [first, second] = this.flippedCards;
+
+    if (first.src === second.src) {
+      // Matched pair
+      first.card.classList.add("matched");
+      second.card.classList.add("matched");
+      
+      this.matchedPairs++;
+      this.score++;
+      this.scoreDisplay.textContent = `分數: ${this.score}`;
+
+      // Check if all pairs are matched
+      if (this.matchedPairs === this.images.length) {
+        setTimeout(() => {
+          this.hintElement.style.display = "block";
+          document.getElementById('hint-word').textContent = '錢包';
+        }, 500);
+      }
+    } else {
+      // No match - flip cards back
+      first.card.classList.remove("flipped");
+      second.card.classList.remove("flipped");
+    }
+
+    // Reset and re-enable card clicking
+    this.gameBoard.classList.remove('no-click');
+    this.flippedCards = [];
+  }
+
+  // Start the game
+  startGame() {
+    this.generateCards();
+    this.startButton.style.display = 'none';
+  }
+}
+
+// Usage
+document.addEventListener('DOMContentLoaded', () => {
+  const pokemonImages = [
+    "https://assets.pokemon.com/assets/cms2/img/pokedex/full/001.png", // Bulbasaur
+    "https://assets.pokemon.com/assets/cms2/img/pokedex/full/004.png", // Charmander
+    "https://assets.pokemon.com/assets/cms2/img/pokedex/full/007.png", // Squirtle
+    "https://assets.pokemon.com/assets/cms2/img/pokedex/full/025.png", // Pikachu
+    "https://assets.pokemon.com/assets/cms2/img/pokedex/full/039.png", // Jigglypuff
+    "https://assets.pokemon.com/assets/cms2/img/pokedex/full/052.png", // Meowth
+    "https://assets.pokemon.com/assets/cms2/img/pokedex/full/133.png", // Eevee
+    "https://assets.pokemon.com/assets/cms2/img/pokedex/full/150.png", // Mewtwo
+  ];
+
+  const game = new PokemonMemoryGame(pokemonImages);
+  
+  // Initialize the game
+  if (game.init()) {
+    console.log('Pokémon Memory Game initialized successfully');
+  }
+});
+</script>
+</body>
+</html>
